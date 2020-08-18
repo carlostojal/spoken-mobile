@@ -4,16 +4,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
-import * as Updates from "expo-updates";
-import { ApolloProvider, useQuery } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import Login from "./src/Components/Screens/Login";
 import Feed from "./src/Components/Screens/Feed";
 
 import queries from "./src/queries";
-
 import getClient from "./src/apollo_config";
-import AsyncStorage from "@react-native-community/async-storage";
 
 export default function App() {
 
@@ -21,24 +19,11 @@ export default function App() {
   const [client, setClient] = useState(null);
   const [initialRouteName, setInitialRouteName] = useState("Login");
 
-  // const [refreshToken, { data }] = useQuery(queries.REFRESH_TOKEN);
-
   // async function to load resources on splash screen
   const getResouces = () => {
     return new Promise(async (resolve, reject) => {
       try {
         require("./src/i18n_config");
-      
-        try {
-          const update = await Updates.checkForUpdateAsync();
-          if (update.isAvailable) {
-            await Updates.fetchUpdateAsync();
-            // ... notify user of update ...
-            await Updates.reloadAsync();
-          }
-        } catch (e) {
-          reject(e);
-        }
       
         const my_client = await getClient()
         setClient(my_client);
