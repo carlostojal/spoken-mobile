@@ -1,0 +1,14 @@
+{
+  "translation": {
+    "screens": {
+      "login": {
+        "labels": {
+          "login": "Username ou email",
+          "password": "Palavra-passe",
+          "not_registered": "Não tens conta? Inscreve-te",
+          "login_btn": "Login"
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "spokennetwork-mobile",
+    "name": "SpokenNetwork",
     "slug": "spokennetwork-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,6 +21,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "graphqlURL": "http://192.168.1.66:4000"
     }
   }
 }

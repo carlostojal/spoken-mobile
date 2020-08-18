@@ -1,0 +1,51 @@
+import React, { useState } from "react";
+import { View, ScrollView, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import { useTranslation } from "react-i18next";
+
+import global_styles from "../../global_styles";
+import styles from "./styles";
+
+export default function Login() {
+
+  const [login, setLogin] = useState(null);
+  const [password, setPassword] = useState(null);
+
+  const { t } = useTranslation();
+
+  return (
+    <View>
+      <ScrollView contentContainerStyle={[global_styles.container, { alignItems: "center" }]}>
+        <View style={styles.area}>
+          <TextInput
+            style={styles.input}
+            onChangeText={text => setLogin(text)}
+            placeholder={t("screens.login.labels.login")}
+            placeholderTextColor="gray"
+            autoCompleteType="username"
+          />
+          <TextInput
+            style={styles.input}
+            secureTextEntry={true}
+            onChangeText={text => setPassword(text)}
+            placeholder={t("screens.login.labels.password")}
+            placeholderTextColor="gray"
+            autoCompleteType="password"
+          />
+        </View>
+        <View style={styles.area}>
+          <View style={styles.not_registered}>
+            <Text>{t("screens.login.labels.not_registered_1")}</Text>
+            <TouchableOpacity>
+              <Text style={styles.register}>{t("screens.login.labels.not_registered_2")}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.area}>
+          <TouchableOpacity>
+            <Text>Login</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
+  );
+};

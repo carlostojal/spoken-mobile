@@ -1,21 +1,46 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { AppLoading } from "expo";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+
+import Login from "./src/Components/Screens/Login";
 
 export default function App() {
+
+  const [isReady, setIsReady] = useState(false);
+
+  const Stack = createStackNavigator();
+
+  let [fontsLoaded] = useFonts({
+    Inter_900Black,
+  });
+
+  if(!isReady || !fontsLoaded) {
+    return (
+      <AppLoading
+        startAsync={getResouces}
+        onFinish={() => setIsReady(true)}
+        onError={console.warn}
+      />
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false
+        }}
+      >
+        <Stack.Screen name="Login" component={Login} options={{
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS
+        }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const getResouces = () => {
+  require("./src/i18n_config");
+}
