@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, ScrollView, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, ScrollView, Image, Text, TextInput, TouchableOpacity, Vibration } from "react-native";
 import { useLazyQuery } from "@apollo/client";
 import AsyncStorage from '@react-native-community/async-storage'; 
 import { useTranslation } from "react-i18next";
@@ -9,10 +9,12 @@ import styles from "./styles";
 
 import queries from "./queries";
 
-export default function Login() {
+export default function Login({ navigation }) {
 
   const [login, setLogin] = useState(null);
   const [password, setPassword] = useState(null);
+  const [navigated, setNavigated] = useState(false);
+  const [shouldVibrate, setShouldVibrate] = useState(false);
 
   const { t } = useTranslation();
 
@@ -23,12 +25,21 @@ export default function Login() {
     }
   });
 
-  console.log(queries.GET_TOKEN);
   console.log(data);
-  console.log("error: " + error);
 
-  if(data && data.getToken) {
-    AsyncStorage.setItem("token", data.getToken);
+  if(data) {
+    if(data.getToken) {
+      AsyncStorage.setItem("token", data.getToken);
+      if(!navigated) {
+        navigation.replace("Main");
+        setNavigated(true);
+      }
+    } else {
+      if(shouldVibrate) {
+        Vibration.vibrate(100);
+        setShouldVibrate(false);
+      }
+    }
   }
 
   return (
@@ -60,7 +71,10 @@ export default function Login() {
           </View>
         </View>
         <View style={styles.area}>
-          <TouchableOpacity onPress={() => doLogin()}>
+          <TouchableOpacity onPress={() => {
+            setShouldVibrate(true);
+            doLogin();
+          }}>
             <Text>Login</Text>
           </TouchableOpacity>
         </View>
