@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { View, ScrollView, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import { useLazyQuery } from "@apollo/client";
+import AsyncStorage from '@react-native-community/async-storage'; 
 import { useTranslation } from "react-i18next";
 
 import global_styles from "../../global_styles";
 import styles from "./styles";
+
+import queries from "./queries";
 
 export default function Login() {
 
@@ -11,6 +15,21 @@ export default function Login() {
   const [password, setPassword] = useState(null);
 
   const { t } = useTranslation();
+
+  const [doLogin, { loading, data, error }] = useLazyQuery(queries.GET_TOKEN, {
+    variables: {
+      username: login,
+      password: password
+    }
+  });
+
+  console.log(queries.GET_TOKEN);
+  console.log(data);
+  console.log("error: " + error);
+
+  if(data && data.getToken) {
+    AsyncStorage.setItem("token", data.getToken);
+  }
 
   return (
     <View>
@@ -41,7 +60,7 @@ export default function Login() {
           </View>
         </View>
         <View style={styles.area}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => doLogin()}>
             <Text>Login</Text>
           </TouchableOpacity>
         </View>

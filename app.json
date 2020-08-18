@@ -22,11 +22,12 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
-      "graphqlURL": "http://192.168.1.66:4000"
-    },
     "android": {
       "package": "com.spokennetwork"
+    },
+    "extra": {
+      "GRAPHQL_URL": "http://192.168.1.66:4000",
+      "WEBSOCKET_URL": "ws://192.168.1.66:4000"
     }
   }
 }
