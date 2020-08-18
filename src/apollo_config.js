@@ -9,7 +9,7 @@ import Constants from 'expo-constants';
 export default async () => {
 
   /*
-  let token = await AsyncStorage.getItem("token");
+  let token = await AsyncStorage.getItem("access_token");
   console.log("using token: " + token);
   if(!token)
     token = "";*/
@@ -25,7 +25,7 @@ export default async () => {
 
   const authLink = setContext(async (_, { headers }) => {
     // console.log(prevContext);
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem("access_token");
     return {
       headers: {
         ...headers,
@@ -41,7 +41,7 @@ export default async () => {
       reconnect: true,
       lazy: true,
       connectionParams: () => ({
-        authToken: async () => { return await AsyncStorage.getItem("token") ? await AsyncStorage.getItem("token") : ""}
+        authToken: async () => { return await AsyncStorage.getItem("access_token") ? await AsyncStorage.getItem("access_token") : ""}
       }),
     }
   });
