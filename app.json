@@ -24,6 +24,9 @@
     },
     "extra": {
       "graphqlURL": "http://192.168.1.66:4000"
+    },
+    "android": {
+      "package": "com.spokennetwork"
     }
   }
 }

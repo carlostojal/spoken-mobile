@@ -3,6 +3,7 @@ import { AppLoading } from "expo";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+import * as Updates from "expo-updates";
 
 import Login from "./src/Components/Screens/Login";
 
@@ -41,6 +42,17 @@ export default function App() {
   );
 }
 
-const getResouces = () => {
+const getResouces = async () => {
   require("./src/i18n_config");
+
+  try {
+    const update = await Updates.checkForUpdateAsync();
+    if (update.isAvailable) {
+      await Updates.fetchUpdateAsync();
+      // ... notify user of update ...
+      await Updates.reloadAsync();
+    }
+  } catch (e) {
+    // handle or log error
+  }
 }
