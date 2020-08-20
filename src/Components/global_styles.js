@@ -1,9 +1,10 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
+import Constants from "expo-constants";
 
 export default StyleSheet.create({
   container: {
     padding: 2,
-    paddingTop: Platform.OS == "android" ? 25 : 10,
+    paddingTop: Constants.statusBarHeight,
     fontFamily: "Inter_900Black",
   }
 })
