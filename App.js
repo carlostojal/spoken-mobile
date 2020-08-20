@@ -3,7 +3,7 @@ import { AppLoading } from "expo";
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
-import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+import { useFonts, Inter_400Regular } from '@expo-google-fonts/inter';
 import { ApolloProvider } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
 
@@ -62,7 +62,7 @@ export default function App() {
 
   // load fonts
   let [fontsLoaded] = useFonts({
-    Inter_900Black,
+    Inter_400Regular,
   });
 
   if(!isReady || !fontsLoaded) {

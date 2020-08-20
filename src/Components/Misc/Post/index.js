@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, Dimensions } from "react-native";
+import { View, Image } from "react-native";
+
+import CustomText from "../CustomText";
 
 import postDateFormat from "../../../helpers/postDateFormat";
 import styles from "./styles";
@@ -10,15 +12,19 @@ export default function Post(props) {
     width: null,
     height: null
   });
-
   const [imageDimensionsSet, setImageDimensionsSet] = useState(false);
 
   const [optionsIconDimensions, setOptionsIconDimensions] = useState({
     width: null,
     height: null
   });
-
   const [optionsIconDimensionsSet, setOptionsIconDimensionsSet] = useState(false);
+
+  const [footerIconsDimensions, setFooterIconsDimensions] = useState({
+    width: null,
+    height: null
+  });
+  const [footerIconsDimensionsSet, setFooterIconsDimensionsSet] = useState(false);
 
   const dateFormatResult = postDateFormat(parseInt(props.data.time));
 
@@ -56,19 +62,39 @@ export default function Post(props) {
     }
   }
 
+  const getFooterDimensions = (e) => {
+    if(!footerIconsDimensionsSet) {
+      const { nativeEvent } = e;
+      const icon = require("../../../../assets/icons/icons8-heart-50.png");
+      const source = Image.resolveAssetSource(icon);
+      const scale = nativeEvent.layout.height / source.height;
+      const dimensions = {
+        width: (source.width * scale) - 15,
+        height: (source.height * scale) - 15
+      }
+      setFooterIconsDimensionsSet(true);
+      setFooterIconsDimensions(dimensions);
+    }
+  }
+
   return (
     <View style={styles.container} onLayout={getPostDimensions}>
       <View style={styles.header} onLayout={getHeaderDimensions}>
-        <Text style={styles.username}>{`@${props.data.poster.username}`}</Text>
+        <CustomText style={styles.username}>{`@${props.data.poster.username}`}</CustomText>
         <View style={styles.time_options}>
-          <Text>{dateFormatResult.value + dateFormatResult.unit}</Text>
+          <CustomText>{dateFormatResult.value + dateFormatResult.unit}</CustomText>
           <Image source={require("../../../../assets/icons/icons8-menu-vertical-24.png")} style={{ marginLeft: 5, width: optionsIconDimensions.width, height: optionsIconDimensions.height }} />
         </View>
       </View>
       { props.data.media_url &&
         <Image source={{uri: props.data.media_url}} style={{ width: imageDimensions.width, height: imageDimensions.height, marginBottom: 15 }} />
       }
-      <Text style={styles.content}>{props.data.text}</Text>
+      <CustomText style={styles.content}>{props.data.text}</CustomText>
+      <View style={styles.footer} onLayout={getFooterDimensions}>
+        <Image source={require("../../../../assets/icons/icons8-heart-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+        <Image source={require("../../../../assets/icons/icons8-send-comment-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+        <Image source={require("../../../../assets/icons/icons8-share-3-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+      </View>
     </View>
   );
 }

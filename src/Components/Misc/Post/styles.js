@@ -27,5 +27,13 @@ export default StyleSheet.create({
     padding: 15,
     paddingTop: 0,
     fontSize: 15
+  },
+
+  footer: {
+    height: 40,
+    flexDirection: "row",
+    padding: 15,
+    paddingTop: 0,
+    justifyContent: "flex-end"
   }
 });
