@@ -5,10 +5,27 @@ export default StyleSheet.create({
   container: {
     borderColor: "#c7c7c7",
     borderWidth: 1,
-    borderBottomWidth: 2,
-    borderEndWidth: 2,
-    padding: 15,
     marginBottom: 20
-  }
+  },
 
+  header: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 15
+  },
+
+  username: {
+    fontWeight: "bold"
+  },
+
+  time_options: {
+    flexDirection: "row"
+  },
+
+  content: {
+    padding: 15,
+    paddingTop: 0,
+    fontSize: 15
+  }
 });

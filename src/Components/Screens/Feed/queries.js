@@ -5,6 +5,7 @@ export default queries = {
     query getUserFeed($page: Int!, $perPage: Int!) {
       getUserFeed(page: $page, perPage: $perPage) {
         id
+        time
         poster {
           name
           surname

@@ -28,7 +28,10 @@
     "extra": {
       "GRAPHQL_URL": "http://192.168.1.66:4000",
       "WEBSOCKET_URL": "ws://192.168.1.66:4000",
-      "POSTS_PER_PAGE": 5
+      "EXPRESS_URL": "http://192.168.1.66:8080",
+      "MEDIA_ENDPOINT": "media",
+      "UPLOAD_ENDPOINT": "upload",
+      "POSTS_PER_PAGE": 10
     }
   }
 }

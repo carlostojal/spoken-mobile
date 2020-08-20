@@ -20,7 +20,6 @@ export default class Feed extends Component {
   }
 
   getData = async () => {
-    console.log("get data");
     const client = await getClient();
     client.query({
       query: queries.GET_FEED,
@@ -29,8 +28,6 @@ export default class Feed extends Component {
         perPage: Constants.manifest.extra.POSTS_PER_PAGE
       }
     }).then((result) => {
-      console.log("got data");
-      console.log(result);
       this.setState({ isLoading: false, feed: this.state.feed.concat(result.data.getUserFeed) });
     }).catch((error) => {
       console.log(error);
@@ -38,11 +35,11 @@ export default class Feed extends Component {
   }
 
   handleLoadMore = () => {
-    console.log("load more");
     this.setState({ currentPage: this.state.currentPage + 1, isLoading: true }, this.getData);
   }
 
   renderItem = ({ item }) => {
+    // return null;
     return <Post data={item} />
   }
 
