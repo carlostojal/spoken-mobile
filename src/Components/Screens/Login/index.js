@@ -25,15 +25,16 @@ export default function Login({ navigation }) {
     }
   });
 
-  console.log(data);
-
   if(data) {
     if(data.getToken) {
-      AsyncStorage.setItem("token", data.getToken);
-      if(!navigated) {
-        navigation.replace("Main");
-        setNavigated(true);
-      }
+      AsyncStorage.setItem("access_token", data.getToken).then(() => {
+        if(!navigated) {
+          navigation.replace("Main");
+          setNavigated(true);
+        }
+      }).catch((e) => {
+        console.log(e);
+      });
     } else {
       if(shouldVibrate) {
         Vibration.vibrate(100);

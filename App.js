@@ -3,6 +3,7 @@ import { AppLoading } from "expo";
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
+import * as Updates from 'expo-updates';
 import { useFonts, Inter_400Regular } from '@expo-google-fonts/inter';
 import { ApolloProvider } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -32,6 +33,16 @@ export default function App() {
         const data = await my_client.query({
           query: queries.REFRESH_TOKEN
         });
+
+        if(!__DEV__) { // do updates in the splash screen while not in dev mode
+          const update = await Updates.checkForUpdateAsync();
+
+          if (update.isAvailable) {
+            await Updates.fetchUpdateAsync();
+            // ... notify user of update ...
+            await Updates.reloadAsync();
+          }
+        }
 
         // if could refresh token, means the session is active, so skip login
         if(data && data.data) {

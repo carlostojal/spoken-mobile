@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, FlatList, RefreshControl, ActivityIndicator } from "react-native";
+import { View, FlatList, RefreshControl, ActivityIndicator, Text } from "react-native";
 import Constants from "expo-constants";
 import Post from "../../Misc/Post";
 
@@ -13,7 +13,7 @@ export default class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      feed: [],
+      feed: null,
       currentPage: 1,
       isLoading: false
     }
@@ -28,7 +28,12 @@ export default class Feed extends Component {
         perPage: Constants.manifest.extra.POSTS_PER_PAGE
       }
     }).then((result) => {
-      this.setState({ isLoading: false, feed: this.state.feed.concat(result.data.getUserFeed) });
+      let res = this.state.feed;
+      if(res == null)
+        res = result.data.getUserFeed;
+      else
+        res = res.concat(result.data.getUserFeed);
+      this.setState({ isLoading: false, feed: res });
     }).catch((error) => {
       console.log(error);
     });
@@ -39,14 +44,13 @@ export default class Feed extends Component {
   }
 
   renderItem = ({ item }) => {
-    // return null;
     return <Post data={item} />
   }
 
   renderFooter = () => {
     return (
       this.state.isLoading ? 
-      <View>
+      <View style={styles.footer}>
         <ActivityIndicator size="large" />
       </View> : null
     );
@@ -57,26 +61,22 @@ export default class Feed extends Component {
   }
   
   render() {
+    // console.log(this.state.feed);
     return (
       <View style={global_styles.container}>
-        { !this.state.feed &&
-          <ActivityIndicator size="large" />
-        }
-        { this.state.feed &&
-          <FlatList
-            style={global_styles.container}
-            data={this.state.feed}
-            renderItem={this.renderItem}
-            onEndReached={this.handleLoadMore}
-            ListFooterComponent={this.renderFooter}
-            keyExtractor={item => item.id}
-            refreshControl={
-              <RefreshControl refreshing={this.state.isLoading && this.state.currentPage == 1} onRefresh={() => {
-                this.setState({ feed: [], currentPage: 1 }, this.getData);
-              }}/>
-            }
-          />
-        }
+        <FlatList
+          style={global_styles.container}
+          data={this.state.feed}
+          renderItem={this.renderItem}
+          onEndReached={this.handleLoadMore}
+          ListFooterComponent={this.renderFooter}
+          keyExtractor={item => item.id}
+          refreshControl={
+            <RefreshControl refreshing={this.state.isLoading && this.state.currentPage == 1} onRefresh={() => {
+              this.setState({ feed: null, currentPage: 1 }, this.getData);
+            }}/>
+          }
+        />
       </View>
     );
   }
