@@ -34,16 +34,6 @@ export default function App() {
           query: queries.REFRESH_TOKEN
         });
 
-        if(!__DEV__) { // do updates in the splash screen while not in dev mode
-          const update = await Updates.checkForUpdateAsync();
-
-          if (update.isAvailable) {
-            await Updates.fetchUpdateAsync();
-            // ... notify user of update ...
-            await Updates.reloadAsync();
-          }
-        }
-
         // if could refresh token, means the session is active, so skip login
         if(data && data.data) {
           if(data.data.refreshToken) {

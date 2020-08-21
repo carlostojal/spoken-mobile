@@ -5,8 +5,14 @@
         "labels": {
           "login": "Username ou email",
           "password": "Palavra-passe",
-          "not_registered": "Não tens conta? Inscreve-te",
+          "not_registered_1": "Não tens conta?",
+          "not_registered_2": "Inscreve-te",
           "login_btn": "Login"
+        }
+      },
+      "feed": {
+        "labels": {
+          "no_posts": "Nenhuma publicação para mostrar."
         }
       }
     }

@@ -1,83 +1,91 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { View, FlatList, RefreshControl, ActivityIndicator, Text } from "react-native";
 import Constants from "expo-constants";
+import { useTranslation } from "react-i18next";
+
 import Post from "../../Misc/Post";
+import CustomText from "../../Misc/CustomText";
 
 import global_styles from "../../global_styles";
 import styles from "./styles";
 import queries from "./queries";
 import getClient from "../../../apollo_config";
 
-export default class Feed extends Component {
+export default function Feed(props) {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      feed: null,
-      currentPage: 1,
-      isLoading: false
-    }
-  }
+  const [data, setData] = useState({
+    feed: null,
+    currentPage: 1,
+    isLoading: true
+  });
 
-  getData = async () => {
+  useEffect(() => {
+    if(data.isLoading)
+      getData();
+  });
+
+  const getData = async () => {
     const client = await getClient();
     client.query({
       query: queries.GET_FEED,
       variables: {
-        page: this.state.currentPage,
+        page: data.currentPage,
         perPage: Constants.manifest.extra.POSTS_PER_PAGE
       }
     }).then((result) => {
-      let res = this.state.feed;
+      let res = data.feed;
       if(res == null)
         res = result.data.getUserFeed;
       else
         res = res.concat(result.data.getUserFeed);
-      this.setState({ isLoading: false, feed: res });
+      setData({ currentPage: data.currentPage, isLoading: false, feed: res });
     }).catch((error) => {
       console.log(error);
     });
   }
 
-  handleLoadMore = () => {
-    this.setState({ currentPage: this.state.currentPage + 1, isLoading: true }, this.getData);
+  const handleLoadMore = () => {
+    setData({ currentPage: data.currentPage + 1, isLoading: true, feed: data.feed });
   }
 
-  renderItem = ({ item }) => {
+  const renderItem = ({ item }) => {
     return <Post data={item} />
   }
 
-  renderFooter = () => {
+  const renderFooter = () => {
     return (
-      this.state.isLoading ? 
+      data.isLoading && 
       <View style={styles.footer}>
         <ActivityIndicator size="large" />
-      </View> : null
-    );
-  }
-
-  componentDidMount() {
-    this.setState({ isLoading: true }, this.getData);
-  }
-  
-  render() {
-    // console.log(this.state.feed);
-    return (
-      <View style={global_styles.container}>
-        <FlatList
-          style={global_styles.container}
-          data={this.state.feed}
-          renderItem={this.renderItem}
-          onEndReached={this.handleLoadMore}
-          ListFooterComponent={this.renderFooter}
-          keyExtractor={item => item.id}
-          refreshControl={
-            <RefreshControl refreshing={this.state.isLoading && this.state.currentPage == 1} onRefresh={() => {
-              this.setState({ feed: null, currentPage: 1 }, this.getData);
-            }}/>
-          }
-        />
       </View>
     );
   }
+
+  const { t } = useTranslation();
+
+  return (
+    <View style={global_styles.container}>
+      { !data.feed && data.isLoading &&
+        <ActivityIndicator size="large" />
+      }
+      { data.feed && data.feed.length > 0 &&
+        <FlatList
+          style={global_styles.container}
+          data={data.feed}
+          renderItem={renderItem}
+          onEndReached={handleLoadMore}
+          ListFooterComponent={renderFooter}
+          keyExtractor={item => item.id}
+          refreshControl={
+            <RefreshControl refreshing={data.isLoading && data.currentPage == 1} onRefresh={() => {
+              setData({ currentPage: 1, isLoading: true, feed: null });
+            }}/>
+          }
+        />
+      }
+      { (!data.feed || data.feed.length == 0) && !data.isLoading &&
+        <CustomText>{t("screens.feed.labels.no_posts")}</CustomText>
+      }
+    </View>
+  );
 }

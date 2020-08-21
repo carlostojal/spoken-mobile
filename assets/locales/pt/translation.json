@@ -9,6 +9,11 @@
           "not_registered_2": "Inscreve-te",
           "login_btn": "Login"
         }
+      },
+      "feed": {
+        "labels": {
+          "no_posts": "Nenhuma publicação para mostrar."
+        }
       }
     }
   }
