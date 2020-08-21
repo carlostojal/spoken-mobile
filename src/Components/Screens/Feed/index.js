@@ -59,19 +59,24 @@ export default class Feed extends Component {
   render() {
     return (
       <View style={global_styles.container}>
-        <FlatList
-          style={global_styles.container}
-          data={this.state.feed}
-          renderItem={this.renderItem}
-          onEndReached={this.handleLoadMore}
-          ListFooterComponent={this.renderFooter}
-          keyExtractor={item => item.id}
-          refreshControl={
-            <RefreshControl refreshing={this.state.isLoading && this.state.currentPage == 1} onRefresh={() => {
-              this.setState({ feed: [], currentPage: 1 }, this.getData);
-            }}/>
-          }
-        />
+        { !this.state.feed &&
+          <ActivityIndicator size="large" />
+        }
+        { this.state.feed &&
+          <FlatList
+            style={global_styles.container}
+            data={this.state.feed}
+            renderItem={this.renderItem}
+            onEndReached={this.handleLoadMore}
+            ListFooterComponent={this.renderFooter}
+            keyExtractor={item => item.id}
+            refreshControl={
+              <RefreshControl refreshing={this.state.isLoading && this.state.currentPage == 1} onRefresh={() => {
+                this.setState({ feed: [], currentPage: 1 }, this.getData);
+              }}/>
+            }
+          />
+        }
       </View>
     );
   }
