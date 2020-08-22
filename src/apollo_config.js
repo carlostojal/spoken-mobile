@@ -15,7 +15,7 @@ export default async () => {
     token = "";*/
 
   const httpLink = new HttpLink({
-    uri: Constants.manifest.extra.GRAPHQL_URL,
+    uri: `http://${Constants.manifest.extra.APOLLO_ADDRESS}:${Constants.manifest.extra.APOLLO_PORT}`,
     credentials: "include",
     onError: ({ graphQLErrors, networkError, operation, forward }) => {
       console.log("================")
@@ -24,7 +24,6 @@ export default async () => {
   });
 
   const authLink = setContext(async (_, { headers }) => {
-    // console.log(prevContext);
     const token = await AsyncStorage.getItem("access_token");
     return {
       headers: {
@@ -35,7 +34,7 @@ export default async () => {
   });
 
   const wsLink = new WebSocketLink({
-    uri: Constants.manifest.extra.WEBSOCKET_URL,
+    uri: `ws://${Constants.manifest.extra.APOLLO_ADDRESS}:${Constants.manifest.extra.APOLLO_PORT}`,
     credentials: "include",
     options: {
       reconnect: true,

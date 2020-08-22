@@ -79,6 +79,9 @@ export default function Post(props) {
 
   return (
     <View style={styles.container} onLayout={getPostDimensions}>
+      { props.data.media_url &&
+        <Image source={{uri: props.data.media_url}} style={{ width: imageDimensions.width, height: imageDimensions.height, marginBottom: 15 }} />
+      }
       <View style={styles.header} onLayout={getHeaderDimensions}>
         <CustomText style={styles.username}>{`@${props.data.poster.username}`}</CustomText>
         <View style={styles.time_options}>
@@ -86,9 +89,6 @@ export default function Post(props) {
           <Image source={require("../../../../assets/icons/icons8-menu-vertical-24.png")} style={{ marginLeft: 5, width: optionsIconDimensions.width, height: optionsIconDimensions.height }} />
         </View>
       </View>
-      { props.data.media_url &&
-        <Image source={{uri: props.data.media_url}} style={{ width: imageDimensions.width, height: imageDimensions.height, marginBottom: 15 }} />
-      }
       <CustomText style={styles.content}>{props.data.text}</CustomText>
       <View style={styles.footer} onLayout={getFooterDimensions}>
         <Image source={require("../../../../assets/icons/icons8-heart-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />

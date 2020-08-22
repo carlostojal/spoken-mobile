@@ -5,7 +5,9 @@ export default StyleSheet.create({
   container: {
     borderColor: "#c7c7c7",
     borderWidth: 1,
-    marginBottom: 20
+    borderRadius: 30,
+    marginBottom: 20,
+    overflow: "hidden"
   },
 
   header: {
