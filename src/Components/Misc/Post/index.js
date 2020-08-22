@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Image } from "react-native";
+import { View, Image, Dimensions, ActivityIndicator } from "react-native";
 
 import CustomText from "../CustomText";
 
@@ -25,6 +25,8 @@ export default function Post(props) {
     height: null
   });
   const [footerIconsDimensionsSet, setFooterIconsDimensionsSet] = useState(false);
+
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const dateFormatResult = postDateFormat(parseInt(props.data.time));
 
@@ -80,7 +82,10 @@ export default function Post(props) {
   return (
     <View style={styles.container} onLayout={getPostDimensions}>
       { props.data.media_url &&
-        <Image source={{uri: props.data.media_url}} style={{ width: imageDimensions.width, height: imageDimensions.height }} />
+        <Image source={{uri: props.data.media_url}} style={{ width: imageDimensions.width, height: imageDimensions.height }} onLoadEnd={() => setImageLoaded(true)} />
+      }
+      { props.data.media_url && !imageLoaded &&
+        <View style={styles.loading_image} />
       }
       <View style={styles.header} onLayout={getHeaderDimensions}>
         <CustomText style={styles.username}>{`@${props.data.poster.username}`}</CustomText>

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 export default StyleSheet.create({
 
@@ -29,6 +29,15 @@ export default StyleSheet.create({
     padding: 15,
     paddingTop: 0,
     fontSize: 15
+  },
+
+  loading_image: {
+    width: Dimensions.get("screen").width,
+    height: Dimensions.get("screen").width,
+    backgroundColor: "gray",
+    flex: 1,
+    alignItems: "center",
+    alignContent: "center"
   },
 
   footer: {
