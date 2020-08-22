@@ -80,7 +80,7 @@ export default function Post(props) {
   return (
     <View style={styles.container} onLayout={getPostDimensions}>
       { props.data.media_url &&
-        <Image source={{uri: props.data.media_url}} style={{ width: imageDimensions.width, height: imageDimensions.height, marginBottom: 15 }} />
+        <Image source={{uri: props.data.media_url}} style={{ width: imageDimensions.width, height: imageDimensions.height }} />
       }
       <View style={styles.header} onLayout={getHeaderDimensions}>
         <CustomText style={styles.username}>{`@${props.data.poster.username}`}</CustomText>
