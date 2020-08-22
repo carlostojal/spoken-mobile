@@ -3,6 +3,7 @@ import { View, FlatList, RefreshControl, ActivityIndicator, Text } from "react-n
 import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 
+import Header from "../../Misc/Header";
 import Post from "../../Misc/Post";
 import CustomText from "../../Misc/CustomText";
 
@@ -11,7 +12,7 @@ import styles from "./styles";
 import queries from "./queries";
 import getClient from "../../../apollo_config";
 
-export default function Feed() {
+export default function Feed(props) {
 
   const [data, setData] = useState({
     feed: null,
@@ -56,6 +57,14 @@ export default function Feed() {
     );
   }
 
+  const renderHeader = () => {
+    return (
+      <View>
+        <Header navigation={props.navigation} homeScroller={props.homeScroller} />
+      </View>
+    );
+  }
+
   const renderFooter = () => {
     return (
       <View style={styles.footer}>
@@ -80,6 +89,7 @@ export default function Feed() {
         data={data.feed}
         renderItem={renderItem}
         onEndReached={handleLoadMore}
+        ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         ItemSeparatorComponent={renderSeparator}
         keyExtractor={item => item.id}
