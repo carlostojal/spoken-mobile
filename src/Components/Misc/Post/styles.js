@@ -3,10 +3,10 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
 
   container: {
+    margin: 4,
     borderColor: "#c7c7c7",
     borderWidth: 1,
-    borderRadius: 30,
-    marginBottom: 20,
+    borderRadius: 20,
     overflow: "hidden"
   },
 

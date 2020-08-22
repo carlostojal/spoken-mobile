@@ -9,7 +9,7 @@ import { ApolloProvider } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import Login from "./src/Components/Screens/Login";
-import Feed from "./src/Components/Screens/Feed";
+import Home from "./src/Components/Screens/Home";
 
 import queries from "./src/queries";
 import getClient from "./src/apollo_config";
@@ -53,8 +53,8 @@ export default function App() {
 
   const Main = () => {
     return (
-      <Drawer.Navigator initialRouteName="Feed">
-        <Drawer.Screen name="Feed" component={Feed} />
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={Home} />
       </Drawer.Navigator>
     );
   }

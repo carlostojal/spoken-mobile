@@ -11,13 +11,15 @@ import styles from "./styles";
 import queries from "./queries";
 import getClient from "../../../apollo_config";
 
-export default function Feed(props) {
+export default function Feed() {
 
   const [data, setData] = useState({
     feed: null,
     currentPage: 1,
     isLoading: true
   });
+
+  const [offsets, setOffsets] = useState([400]);
 
   useEffect(() => {
     if(data.isLoading)
@@ -49,40 +51,44 @@ export default function Feed(props) {
   }
 
   const renderItem = ({ item }) => {
-    return <Post data={item} />
+    return ( 
+      <Post data={item} />
+    );
   }
 
   const renderFooter = () => {
     return (
-      data.isLoading && 
       <View style={styles.footer}>
-        <ActivityIndicator size="large" />
+        {
+          data.isLoading &&  <ActivityIndicator size="small" />
+        }
       </View>
     );
+  }
+
+  const renderSeparator = () => {
+    return <View style={{height: 20}} />
   }
 
   const { t } = useTranslation();
 
   return (
     <View style={global_styles.container}>
-      { !data.feed && data.isLoading &&
-        <ActivityIndicator size="large" />
-      }
-      { data.feed && data.feed.length > 0 &&
-        <FlatList
-          style={global_styles.container}
-          data={data.feed}
-          renderItem={renderItem}
-          onEndReached={handleLoadMore}
-          ListFooterComponent={renderFooter}
-          keyExtractor={item => item.id}
-          refreshControl={
-            <RefreshControl refreshing={data.isLoading && data.currentPage == 1} onRefresh={() => {
-              setData({ currentPage: 1, isLoading: true, feed: null });
-            }}/>
-          }
-        />
-      }
+      <FlatList
+        decelerationRate="normal"
+        style={global_styles.container}
+        data={data.feed}
+        renderItem={renderItem}
+        onEndReached={handleLoadMore}
+        ListFooterComponent={renderFooter}
+        ItemSeparatorComponent={renderSeparator}
+        keyExtractor={item => item.id}
+        refreshControl={
+          <RefreshControl refreshing={data.isLoading && data.currentPage == 1} onRefresh={() => {
+            setData({ currentPage: 1, isLoading: true, feed: null });
+          }}/>
+        }
+      />
       { (!data.feed || data.feed.length == 0) && !data.isLoading &&
         <CustomText>{t("screens.feed.labels.no_posts")}</CustomText>
       }
