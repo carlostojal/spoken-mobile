@@ -7,7 +7,6 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     height: 50,
     padding: 5,
-    marginBottom: 10,
     backgroundColor: "white",
     opacity: 0.9,
     alignItems: "center"

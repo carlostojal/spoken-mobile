@@ -3,7 +3,8 @@ import Constants from "expo-constants";
 
 export default StyleSheet.create({
   container: {
-    marginTop: Platform.OS == "android" ? 10 : 0,
-    width: Dimensions.get("screen").width
+    marginTop: Platform.OS == "android" ? 25 : 0,
+    width: Dimensions.get("screen").width,
+    backgroundColor: "white"
   }
 })

@@ -59,9 +59,7 @@ export default function Feed(props) {
 
   const renderHeader = () => {
     return (
-      <View>
-        <Header navigation={props.navigation} homeScroller={props.homeScroller} />
-      </View>
+      <Header navigation={props.navigation} homeScroller={props.homeScroller} />
     );
   }
 
@@ -69,7 +67,7 @@ export default function Feed(props) {
     return (
       <View style={styles.footer}>
         {
-          data.isLoading &&  <ActivityIndicator size="small" />
+          data.isLoading && data.feed && data.feed.langth > 0 &&  <ActivityIndicator size="small" />
         }
       </View>
     );
@@ -85,7 +83,6 @@ export default function Feed(props) {
     <View style={global_styles.container}>
       <FlatList
         decelerationRate="normal"
-        style={global_styles.container}
         data={data.feed}
         renderItem={renderItem}
         onEndReached={handleLoadMore}
