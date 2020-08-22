@@ -92,6 +92,7 @@ export default function Feed(props) {
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         ItemSeparatorComponent={renderSeparator}
+        stickyHeaderIndices={[0]}
         keyExtractor={item => item.id}
         refreshControl={
           <RefreshControl refreshing={data.isLoading && data.currentPage == 1} onRefresh={() => {

@@ -5,9 +5,12 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    height: 40,
+    height: 50,
     padding: 5,
-    marginBottom: 10
+    marginBottom: 10,
+    backgroundColor: "white",
+    opacity: 0.9,
+    alignItems: "center"
   },
 
   right: {
