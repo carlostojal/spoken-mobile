@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, RefreshControl, ActivityIndicator, Text } from "react-native";
+import { View, FlatList, RefreshControl, ActivityIndicator } from "react-native";
 import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 
@@ -19,8 +19,6 @@ export default function Feed(props) {
     currentPage: 1,
     isLoading: true
   });
-
-  const [offsets, setOffsets] = useState([400]);
 
   useEffect(() => {
     if(data.isLoading)

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
+import { useMutation } from "@apollo/client";
 import CommentIcon from "../../../../assets/icons/comment1.svg";
 
 import CustomText from "../CustomText";
 
 import postDateFormat from "../../../helpers/postDateFormat";
 import styles from "./styles";
+import queries from "./queries";
 
 export default function Post(props) {
 
@@ -28,6 +30,19 @@ export default function Post(props) {
   const [footerIconsDimensionsSet, setFooterIconsDimensionsSet] = useState(false);
 
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  const [userReacted, setUserReacted] = useState(props.data.user_reacted);
+
+  const [reactPost, { data: reactData, loading: reactLoading, error: reactError }] = useMutation(queries.REACT_POST, {
+    variables: {
+      id: props.data.id
+    }
+  });
+
+  useEffect(() => {
+    if(reactError)
+      setUserReacted(!userReacted);
+  }, [reactData]);
 
   const dateFormatResult = postDateFormat(parseInt(props.data.time));
 
@@ -80,6 +95,11 @@ export default function Post(props) {
     }
   }
 
+  const onReact = () => {
+    reactPost();
+    setUserReacted(!userReacted);
+  }
+
   return (
     <View style={styles.container} onLayout={getPostDimensions}>
       { props.data.media_url &&
@@ -97,8 +117,13 @@ export default function Post(props) {
       </View>
       <CustomText style={styles.content}>{props.data.text}</CustomText>
       <View style={styles.footer} onLayout={getFooterDimensions}>
-        <TouchableOpacity>
-          <Image source={require("../../../../assets/icons/icons8-heart-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+        <TouchableOpacity onPress={onReact}>
+          { !userReacted &&
+            <Image source={require("../../../../assets/icons/icons8-heart-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+          }
+          { userReacted &&
+            <Image source={require("../../../../assets/icons/icons8-heart-active1-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+          }
         </TouchableOpacity>
         <TouchableOpacity>
           <CommentIcon width={footerIconsDimensions.width} height={footerIconsDimensions.height} style={styles.footer_icon} />
