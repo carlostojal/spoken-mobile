@@ -122,7 +122,7 @@ export default function Post(props) {
             <Image source={require("../../../../assets/icons/icons8-heart-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
           }
           { userReacted &&
-            <Image source={require("../../../../assets/icons/icons8-heart-active1-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+            <Image source={require("../../../../assets/icons/icons8-heart-active-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
           }
         </TouchableOpacity>
         <TouchableOpacity>
