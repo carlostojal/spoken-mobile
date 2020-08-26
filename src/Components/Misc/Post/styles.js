@@ -41,7 +41,7 @@ export default StyleSheet.create({
   },
 
   footer: {
-    height: 40,
+    height: 45,
     flexDirection: "row",
     padding: 15,
     paddingTop: 0,

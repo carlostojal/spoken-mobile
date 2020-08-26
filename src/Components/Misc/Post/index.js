@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
-import CommentIcon from "../../../../assets/icons/comment.svg";
+import CommentIcon from "../../../../assets/icons/comment1.svg";
 
 import CustomText from "../CustomText";
 
