@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { View, Image, Dimensions, ActivityIndicator } from "react-native";
+import React, { useState } from "react";
+import { View, Image, TouchableOpacity } from "react-native";
+import CommentIcon from "../../../../assets/icons/comment.svg";
 
 import CustomText from "../CustomText";
 
@@ -96,9 +97,15 @@ export default function Post(props) {
       </View>
       <CustomText style={styles.content}>{props.data.text}</CustomText>
       <View style={styles.footer} onLayout={getFooterDimensions}>
-        <Image source={require("../../../../assets/icons/icons8-heart-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
-        <Image source={require("../../../../assets/icons/icons8-send-comment-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
-        <Image source={require("../../../../assets/icons/icons8-share-3-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+        <TouchableOpacity>
+          <Image source={require("../../../../assets/icons/icons8-heart-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <CommentIcon width={footerIconsDimensions.width} height={footerIconsDimensions.height} style={styles.footer_icon} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image source={require("../../../../assets/icons/icons8-share-3-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+        </TouchableOpacity>
       </View>
     </View>
   );

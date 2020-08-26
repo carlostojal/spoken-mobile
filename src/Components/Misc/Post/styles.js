@@ -46,5 +46,9 @@ export default StyleSheet.create({
     padding: 15,
     paddingTop: 0,
     justifyContent: "flex-end"
+  },
+
+  footer_icon: {
+    marginRight: 10
   }
 });

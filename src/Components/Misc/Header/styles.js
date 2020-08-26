@@ -14,5 +14,9 @@ export default StyleSheet.create({
 
   right: {
     flexDirection: "row"
+  },
+
+  header_icon: {
+    marginLeft: 10
   }
 });

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Image, TouchableWithoutFeedback } from "react-native";
+import MessageIcon from "../../../../assets/icons/message.svg";
 
 import styles from "./styles";
 
@@ -32,7 +33,7 @@ export default function Header(props) {
       <View style={[styles.right]}>
         <Image source={require("../../../../assets/icons/icons8-add-image-100.png")} style={{width: iconsDimensions.width, height: iconsDimensions.height}}/>
         <TouchableWithoutFeedback onPress={() => props.homeScroller.scrollToEnd({ animated: true })} >
-          <Image source={require("../../../../assets/icons/icons8-envelope-100.png")} style={{width: iconsDimensions.width, height: iconsDimensions.height, marginLeft: 10}}/>
+          <MessageIcon width={iconsDimensions.width} height={iconsDimensions.height} style={styles.header_icon} />
         </TouchableWithoutFeedback>
       </View>
     </View>
