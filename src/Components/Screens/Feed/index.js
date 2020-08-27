@@ -51,17 +51,8 @@ export default function Feed(props) {
   }
 
   const renderItem = ({ item }) => {
-
-    const onPostPress = () => {
-      props.navigation.navigate("PostView", {
-        post: item
-      });
-    }
-
     return (
-      <TouchableOpacity onPress={onPostPress}>
-        <Post data={item} renderComments={false} />
-      </TouchableOpacity>
+      <Post data={item} />
     );
   }
 

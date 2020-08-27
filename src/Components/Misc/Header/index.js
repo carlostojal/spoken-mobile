@@ -25,39 +25,18 @@ export default function Header(props) {
     }
   }
 
-  const onGoHome = () => {
-    props.navigation.navigate("Home");
-  }
-
   return  (
     <View style={styles.container} onLayout={getHeaderDimensions}>
       <TouchableWithoutFeedback onPress={() => props.navigation.openDrawer()} >
         <Image source={require("../../../../assets/icons/icons8-menu-30.png")} style={{width: iconsDimensions.width, height: iconsDimensions.height}}/>
       </TouchableWithoutFeedback>
       <View style={[styles.right]}>
-        {
-          // home header
-        }
-        { props.type == "Home" &&
-          <>
-            <TouchableWithoutFeedback>
-              <Image source={require("../../../../assets/icons/icons8-add-image-100.png")} style={{width: iconsDimensions.width, height: iconsDimensions.height}}/>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={() => props.homeScroller.scrollToEnd({ animated: true })} >
-              <MessageIcon width={iconsDimensions.width} height={iconsDimensions.height} style={styles.header_icon} />
-            </TouchableWithoutFeedback>
-          </>
-        }
-        {
-          // post view header
-        }
-        { props.type == "PostView" &&
-          <>
-            <TouchableWithoutFeedback onPress={onGoHome}>
-              <Image source={require("../../../../assets/icons/icons8-home-500.png")} style={{width: iconsDimensions.width, height: iconsDimensions.height}}/>
-            </TouchableWithoutFeedback>
-          </>
-        }
+        <TouchableWithoutFeedback>
+          <Image source={require("../../../../assets/icons/icons8-add-image-100.png")} style={{width: iconsDimensions.width, height: iconsDimensions.height}}/>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => props.homeScroller.scrollToEnd({ animated: true })} >
+          <MessageIcon width={iconsDimensions.width} height={iconsDimensions.height} style={styles.header_icon} />
+        </TouchableWithoutFeedback>
       </View>
     </View>
   );

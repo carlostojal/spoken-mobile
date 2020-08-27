@@ -34,6 +34,8 @@ export default function Post(props) {
 
   const [userReacted, setUserReacted] = useState(props.userReacted || props.data.user_reacted);
 
+  const [shouldRenderComments, setShouldRenderComments] = useState(false);
+
   const [reactPost, { data: reactData, loading: reactLoading, error: reactError }] = useMutation(queries.REACT_POST, {
     variables: {
       id: props.data.id
@@ -102,6 +104,10 @@ export default function Post(props) {
     );
   }
 
+  const onPostPress = () => {
+    setShouldRenderComments(!shouldRenderComments);
+  }
+
   const onReact = () => {
     reactPost();
     setUserReacted(!userReacted);
@@ -109,57 +115,59 @@ export default function Post(props) {
 
   return (
     <View style={styles.container} onLayout={getPostDimensions}>
-      {
-        // image
-      }
-      { props.data.media_url &&
-        <Image source={{uri: props.data.media_url}} style={{ width: imageDimensions.width, height: imageDimensions.height }} onLoadEnd={() => setImageLoaded(true)} />
-      }
-      { props.data.media_url && !imageLoaded &&
-        <View style={styles.loading_image} />
-      }
-      {
-        // header
-      }
-      <View style={styles.header} onLayout={getHeaderDimensions}>
-        <CustomText style={styles.username}>{`@${props.data.poster.username}`}</CustomText>
-        <View style={styles.time_options}>
-          <CustomText>{dateFormatResult.value + dateFormatResult.unit}</CustomText>
-          <Image source={require("../../../../assets/icons/icons8-menu-vertical-24.png")} style={{ marginLeft: 5, width: optionsIconDimensions.width, height: optionsIconDimensions.height }} />
+      <TouchableOpacity onPress={onPostPress}>
+        {
+          // image
+        }
+        { props.data.media_url &&
+          <Image source={{uri: props.data.media_url}} style={{ width: imageDimensions.width, height: imageDimensions.height }} onLoadEnd={() => setImageLoaded(true)} />
+        }
+        { props.data.media_url && !imageLoaded &&
+          <View style={styles.loading_image} />
+        }
+        {
+          // header
+        }
+        <View style={styles.header} onLayout={getHeaderDimensions}>
+          <CustomText style={styles.username}>{`@${props.data.poster.username}`}</CustomText>
+          <View style={styles.time_options}>
+            <CustomText>{dateFormatResult.value + dateFormatResult.unit}</CustomText>
+            <Image source={require("../../../../assets/icons/icons8-menu-vertical-24.png")} style={{ marginLeft: 5, width: optionsIconDimensions.width, height: optionsIconDimensions.height }} />
+          </View>
         </View>
-      </View>
-      {
-        // content
-      }
-      <CustomText style={styles.content}>{props.data.text}</CustomText>
-      {
-        // footer
-      }
-      <View style={styles.footer} onLayout={getFooterDimensions}>
-        <TouchableOpacity onPress={onReact}>
-          { !userReacted &&
-            <Image source={require("../../../../assets/icons/icons8-heart-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
-          }
-          { userReacted &&
-            <Image source={require("../../../../assets/icons/icons8-heart-active1-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
-          }
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <CommentIcon width={footerIconsDimensions.width} height={footerIconsDimensions.height} style={styles.footer_icon} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image source={require("../../../../assets/icons/icons8-share-3-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
-        </TouchableOpacity>
-      </View>
-      {
-        // comments
-      }
-      { props.renderComments &&
-        <FlatList 
-          data={props.data.comments}
-          renderItem={renderComment}
-        />
-      }
+        {
+          // content
+        }
+        <CustomText style={styles.content}>{props.data.text}</CustomText>
+        {
+          // footer
+        }
+        <View style={styles.footer} onLayout={getFooterDimensions}>
+          <TouchableOpacity onPress={onReact}>
+            { !userReacted &&
+              <Image source={require("../../../../assets/icons/icons8-heart-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+            }
+            { userReacted &&
+              <Image source={require("../../../../assets/icons/icons8-heart-active1-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+            }
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <CommentIcon width={footerIconsDimensions.width} height={footerIconsDimensions.height} style={styles.footer_icon} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image source={require("../../../../assets/icons/icons8-share-3-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
+          </TouchableOpacity>
+        </View>
+        {
+          // comments
+        }
+        { shouldRenderComments &&
+          <FlatList 
+            data={props.data.comments}
+            renderItem={renderComment}
+          />
+        }
+      </TouchableOpacity>
     </View>
   );
 }
