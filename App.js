@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { AppLoading } from "expo";
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
-import * as Updates from 'expo-updates';
 import { useFonts, Inter_400Regular } from '@expo-google-fonts/inter';
 import { ApolloProvider } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import Login from "./src/Components/Screens/Login";
 import Home from "./src/Components/Screens/Home";
+import PostView from "./src/Components/Screens/PostView";
 
 import queries from "./src/queries";
 import getClient from "./src/apollo_config";
@@ -49,12 +49,23 @@ export default function App() {
     });
   }
 
+  const HomeNavigator = createStackNavigator();
+
+  const HomeStack = () => {
+    return (
+      <HomeNavigator.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
+        <HomeNavigator.Screen name="Home" component={Home} />
+        <HomeNavigator.Screen name="PostView" component={PostView} />
+      </HomeNavigator.Navigator>
+    );
+  }
+
   const Drawer = createDrawerNavigator();
 
   const Main = () => {
     return (
       <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={Home} />
+        <Drawer.Screen name="Home" component={HomeStack} />
       </Drawer.Navigator>
     );
   }
@@ -78,7 +89,7 @@ export default function App() {
 
   return (
     <ApolloProvider client={client}>
-      <NavigationContainer>
+      <NavigationContainer theme={DefaultTheme}>
         <Stack.Navigator
           screenOptions={{
             headerShown: false

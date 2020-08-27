@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, RefreshControl, ActivityIndicator } from "react-native";
+import { View, FlatList, RefreshControl, TouchableOpacity, ActivityIndicator } from "react-native";
 import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 
 import Header from "../../Misc/Header";
 import Post from "../../Misc/Post";
+import PostView from "../../Screens/PostView";
 import CustomText from "../../Misc/CustomText";
 
 import global_styles from "../../global_styles";
@@ -50,8 +51,17 @@ export default function Feed(props) {
   }
 
   const renderItem = ({ item }) => {
-    return ( 
-      <Post data={item} />
+
+    const onPostPress = () => {
+      props.navigation.navigate("PostView", {
+        post: item
+      });
+    }
+
+    return (
+      <TouchableOpacity onPress={onPostPress}>
+        <Post data={item} renderComments={false} />
+      </TouchableOpacity>
     );
   }
 

@@ -17,6 +17,7 @@ export default queries = {
             id
             username
           }
+          time
           text
         }
       }

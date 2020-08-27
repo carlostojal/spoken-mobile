@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity, FlatList } from "react-native";
 import { useMutation } from "@apollo/client";
-import CommentIcon from "../../../../assets/icons/comment1.svg";
 
+import CommentIcon from "../../../../assets/icons/comment1.svg";
 import CustomText from "../CustomText";
+import Comment from "../Comment";
 
 import postDateFormat from "../../../helpers/postDateFormat";
 import styles from "./styles";
@@ -31,7 +32,7 @@ export default function Post(props) {
 
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const [userReacted, setUserReacted] = useState(props.data.user_reacted);
+  const [userReacted, setUserReacted] = useState(props.userReacted || props.data.user_reacted);
 
   const [reactPost, { data: reactData, loading: reactLoading, error: reactError }] = useMutation(queries.REACT_POST, {
     variables: {
@@ -95,6 +96,12 @@ export default function Post(props) {
     }
   }
 
+  const renderComment = ({item}) => {
+    return (
+      <Comment data={item}/>
+    );
+  }
+
   const onReact = () => {
     reactPost();
     setUserReacted(!userReacted);
@@ -102,11 +109,17 @@ export default function Post(props) {
 
   return (
     <View style={styles.container} onLayout={getPostDimensions}>
+      {
+        // image
+      }
       { props.data.media_url &&
         <Image source={{uri: props.data.media_url}} style={{ width: imageDimensions.width, height: imageDimensions.height }} onLoadEnd={() => setImageLoaded(true)} />
       }
       { props.data.media_url && !imageLoaded &&
         <View style={styles.loading_image} />
+      }
+      {
+        // header
       }
       <View style={styles.header} onLayout={getHeaderDimensions}>
         <CustomText style={styles.username}>{`@${props.data.poster.username}`}</CustomText>
@@ -115,7 +128,13 @@ export default function Post(props) {
           <Image source={require("../../../../assets/icons/icons8-menu-vertical-24.png")} style={{ marginLeft: 5, width: optionsIconDimensions.width, height: optionsIconDimensions.height }} />
         </View>
       </View>
+      {
+        // content
+      }
       <CustomText style={styles.content}>{props.data.text}</CustomText>
+      {
+        // footer
+      }
       <View style={styles.footer} onLayout={getFooterDimensions}>
         <TouchableOpacity onPress={onReact}>
           { !userReacted &&
@@ -132,6 +151,15 @@ export default function Post(props) {
           <Image source={require("../../../../assets/icons/icons8-share-3-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
         </TouchableOpacity>
       </View>
+      {
+        // comments
+      }
+      { props.renderComments &&
+        <FlatList 
+          data={props.data.comments}
+          renderItem={renderComment}
+        />
+      }
     </View>
   );
 }
