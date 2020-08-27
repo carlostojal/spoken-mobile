@@ -67,7 +67,7 @@ export default function Feed(props) {
 
   const renderHeader = () => {
     return (
-      <Header navigation={props.navigation} homeScroller={props.homeScroller} />
+      <Header navigation={props.navigation} homeScroller={props.homeScroller} type="Home" />
     );
   }
 
