@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 
 import Header from "../../Misc/Header";
 import Post from "../../Misc/Post";
-import PostView from "../../Screens/PostView";
 import CustomText from "../../Misc/CustomText";
 
 import global_styles from "../../global_styles";
@@ -58,7 +57,7 @@ export default function Feed(props) {
 
   const renderHeader = () => {
     return (
-      <Header navigation={props.navigation} homeScroller={props.homeScroller} type="Home" />
+      <Header navigation={props.navigation} homeScroller={props.homeScroller} />
     );
   }
 

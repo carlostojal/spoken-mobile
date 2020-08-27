@@ -20,5 +20,9 @@ export default StyleSheet.create({
 
   content: {
     flex: 1
+  },
+
+  time: {
+    marginLeft: 10
   }
 });

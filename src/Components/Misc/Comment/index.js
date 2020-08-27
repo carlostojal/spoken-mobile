@@ -16,7 +16,7 @@ export default function Comment(props) {
         <CustomText style={styles.username}>{`@${props.data.user.username}`}</CustomText>
         <CustomText style={styles.content}>{props.data.text}</CustomText>
       </View>
-      <CustomText>{dateFormatResult.value + dateFormatResult.unit}</CustomText>
+      <CustomText style={styles.time}>{dateFormatResult.value + dateFormatResult.unit}</CustomText>
     </View>
   );
 }
