@@ -35,9 +35,11 @@ export default function Post(props) {
 
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  //const [userReacted, setUserReacted] = useState(post.user_reacted);
-
   const [shouldRenderComments, setShouldRenderComments] = useState(false);
+
+  const [shouldFocusComment, setShouldFocusComment] = useState(false);
+
+  const [commentFieldRef, setCommentFieldRef] = useState();
 
   const [reactPost, { data: reactData, loading: reactLoading, error: reactError }] = useMutation(queries.REACT_POST);
 
@@ -61,6 +63,13 @@ export default function Post(props) {
     if(reactData && reactData.reactPost)
       setPost(reactData.reactPost);
   }, [reactData]);
+
+  useEffect(() => {
+    if(shouldFocusComment && commentFieldRef) {
+      commentFieldRef.focus();
+      setShouldFocusComment(false);
+    }
+  }, [shouldFocusComment, commentFieldRef]);
 
   if(post) {
     const dateFormatResult = postDateFormat(parseInt(post.time));
@@ -144,6 +153,15 @@ export default function Post(props) {
       });
     }
 
+    const onCommentButton = () => {
+      setShouldRenderComments(true);
+      setShouldFocusComment(true);
+    }
+
+    const setCommentRef = (input) => {
+      setCommentFieldRef(input);
+    }
+
     return (
       <View style={styles.container} onLayout={getPostDimensions}>
         <TouchableOpacity onPress={onPostPress}>
@@ -182,7 +200,7 @@ export default function Post(props) {
                 <Image source={require("../../../../assets/icons/icons8-heart-active1-50.png")} style={{ width: footerIconsDimensions.width, height: footerIconsDimensions.height, marginRight: 10 }} />
               }
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onCommentButton}>
               <CommentIcon width={footerIconsDimensions.width} height={footerIconsDimensions.height} style={styles.footer_icon} />
             </TouchableOpacity>
             <TouchableOpacity>
@@ -194,7 +212,7 @@ export default function Post(props) {
           }
           { shouldRenderComments &&
             <>
-              <CommentField onComment={onComment} />
+              <CommentField onComment={onComment} setRef={setCommentRef.bind(this)} />
               <FlatList 
                 data={post.comments}
                 renderItem={renderComment}

@@ -20,7 +20,7 @@ export default function CommentField(props) {
 
   return (
     <View style={styles.container}>
-      <TextInput style={styles.field} onChangeText={onType} value={text} />
+      <TextInput ref={(ref) => props.setRef(ref)} style={styles.field} onChangeText={onType} value={text} placeholder="Comment" />
       { text != "" &&
         <TouchableOpacity style={styles.buttonContainer} onPress={onComment}>
           <CustomText style={styles.button}> Comment</CustomText>

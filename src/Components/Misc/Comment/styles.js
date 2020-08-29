@@ -19,10 +19,12 @@ export default StyleSheet.create({
   },
 
   content: {
-    flex: 1
+    flex: 1,
+    color: "#5c5c5c"
   },
 
   time: {
-    marginLeft: 10
+    marginLeft: 10,
+    color: "#8f8f8f"
   }
 });
