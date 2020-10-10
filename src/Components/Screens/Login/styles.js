@@ -16,13 +16,12 @@ export default StyleSheet.create({
 
   input: {
     borderWidth: 0.5,
-    borderColor: "transparent",
-    borderBottomColor: colors.detail,
+    borderColor: colors.detail,
+    borderRadius: 30,
     color: colors.detail,
     padding: 15,
-    paddingLeft: 0,
-    fontSize: 17,
-    width: Dimensions.get("window").width * 0.65,
+    fontSize: 15,
+    fontFamily: "Raleway_400Regular",
     marginBottom: 20
   },
   

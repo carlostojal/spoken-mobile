@@ -3,18 +3,25 @@
     "screens": {
       "login": {
         "labels": {
-          "login": "Username ou email",
-          "password": "Palavra-passe",
-          "not_registered_1": "Não tens conta?",
-          "not_registered_2": "Inscreve-te",
+          "login": "Username or email",
+          "password": "Password",
+          "not_registered_1": "Don't have an account?",
+          "not_registered_2": "Sign up",
           "login_btn": "Login"
         }
       },
       "feed": {
         "labels": {
-          "no_posts": "Nenhuma publicação para mostrar."
+          "no_posts": "No posts."
         }
       }
+    },
+    "strings": {
+      "error": "Error"
+    },
+    "errors": {
+      "user_not_found": "User not found.",
+      "wrong_password": "Wrong password."
     }
   }
 }

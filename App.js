@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { AppLoading } from "expo";
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
-import { useFonts, Inter_400Regular } from '@expo-google-fonts/inter';
+import { useFonts, Raleway_400Regular, Raleway_600SemiBold, Raleway_700Bold } from '@expo-google-fonts/raleway';
 import { ApolloProvider } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
 
@@ -62,7 +62,9 @@ export default function App() {
 
   // load fonts
   let [fontsLoaded] = useFonts({
-    Inter_400Regular,
+    Raleway_400Regular,
+    Raleway_600SemiBold,
+    Raleway_700Bold
   });
 
   if(!isReady || !fontsLoaded) {
@@ -77,7 +79,7 @@ export default function App() {
 
   return (
     <ApolloProvider client={client}>
-      <NavigationContainer theme={DefaultTheme}>
+      <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
             headerShown: false

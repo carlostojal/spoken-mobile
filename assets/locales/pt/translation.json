@@ -15,6 +15,13 @@
           "no_posts": "Nenhuma publicação para mostrar."
         }
       }
+    },
+    "strings": {
+      "error": "Erro"
+    },
+    "errors": {
+      "user_not_found": "O utilizador não existe.",
+      "wrong_password": "Password errada."
     }
   }
 }

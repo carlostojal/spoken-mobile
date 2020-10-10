@@ -13,7 +13,7 @@ export default StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     fontSize: 15,
-    fontFamily: "Inter_400Regular",
+    fontFamily: "Raleway_400Regular",
     flex: 1,
     borderWidth: 1,
     borderColor: colors.detail,
