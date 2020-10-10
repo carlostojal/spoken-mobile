@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, ScrollView, Image, Text, TextInput, TouchableOpacity, Vibration } from "react-native";
 import { useLazyQuery } from "@apollo/client";
 import AsyncStorage from '@react-native-community/async-storage'; 
+import * as Device from "expo-device";
 import { useTranslation } from "react-i18next";
 
 import global_styles from "../../global_styles";
@@ -21,7 +22,8 @@ export default function Login({ navigation }) {
   const [doLogin, { loading, data, error }] = useLazyQuery(queries.GET_TOKEN, {
     variables: {
       username: login,
-      password: password
+      password: password,
+      userPlatform: `${Device.manufacturer} ${Device.modelName}`
     }
   });
 

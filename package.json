@@ -33,7 +33,8 @@
     "react-native-screens": "~2.9.0",
     "react-native-web": "~0.11.7",
     "subscriptions-transport-ws": "^0.9.18",
-    "react-native-svg": "12.1.0"
+    "react-native-svg": "12.1.0",
+    "expo-device": "~2.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
