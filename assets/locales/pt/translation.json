@@ -10,6 +10,16 @@
           "login_btn": "Iniciar sessão"
         }
       },
+      "confirm_account": {
+        "title": "Confirmar",
+        "labels": {
+          "confirmation_code": "Código de confirmação",
+          "instructions": "Por favor introduza o código recebido por email no momento do registo.\nCaso não tenha recebido o código, por favor peça um reenvio.",
+          "success": "Conta confirmada com sucesso.",
+          "confirm_btn": "Confirmar",
+          "resend_btn": "Reenviar código"
+        }
+      },
       "feed": {
         "labels": {
           "no_posts": "Nenhuma publicação para mostrar."
@@ -17,12 +27,15 @@
       }
     },
     "strings": {
+      "success": "Sucesso",
       "error": "Erro"
     },
     "errors": {
       "user_not_found": "O utilizador não existe.",
       "wrong_password": "Password errada.",
       "email_not_confirmed": "O email não foi verificado.",
+      "wrong_confirmation_code": "Código de confirmação incorreto.",
+      "confirmation_on_timeout": "Por favor aguarde um momento até reenviar o email de confirmação.",
       "unexpected": "Ocorreu um erro inesperado."
     }
   }

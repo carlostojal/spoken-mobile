@@ -13,6 +13,7 @@ import styles from "./styles";
 import queries from "./queries";
 import colors from "../../../colors";
 import CustomText from "../../Misc/CustomText";
+import Header from "../../Misc/Header";
 
 export default function Login({ navigation }) {
 
@@ -21,7 +22,9 @@ export default function Login({ navigation }) {
 
   const { t } = useTranslation();
 
-  const [doLogin, { loading, data, error }] = useLazyQuery(queries.GET_TOKEN);
+  const [doLogin, { loading, data, error }] = useLazyQuery(queries.GET_TOKEN, {
+    fetchPolicy: "network-only"
+  });
 
   useEffect(() => {
     if(data) {
@@ -50,49 +53,58 @@ export default function Login({ navigation }) {
           break;
         case "EMAIL_NOT_CONFIRMED":
           details = t("errors.email_not_confirmed");
+          break;
         default:
           details = t("errors.unexpected");
       }
 
       Alert.alert(t("strings.error"), details);
+
+      if(error.message == "EMAIL_NOT_CONFIRMED")
+        navigation.navigate("ConfirmAccount", {
+          username: login,
+          password
+        });
     }
   }, [error]);
 
   return (
     <View>
       <ScrollView contentContainerStyle={global_styles.container}>
-        <View style={styles.area}>
-            <CustomText style={{fontSize: 40, fontFamily: "Raleway_700Bold"}}>
+        <View style={{padding: 15}}>
+          <View style={styles.area}>
+            <Header>
               {t("screens.login.title")}
-            </CustomText>
+            </Header>
           </View>
-        <View style={styles.area}>
-          <TextInput
-            style={styles.input}
-            onChangeText={text => setLogin(text)}
-            placeholder={t("screens.login.labels.login")}
-            placeholderTextColor="gray"
-            autoCompleteType="email"
-          />
-          <TextInput
-            style={styles.input}
-            secureTextEntry={true}
-            onChangeText={text => setPassword(text)}
-            placeholder={t("screens.login.labels.password")}
-            placeholderTextColor="gray"
-            autoCompleteType="password"
-          />
-        </View>
-        <View style={styles.area}>
-          <CustomButton loading={loading} loadingColor="white" onPress={() => {
-            doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})` }});
-          }}>
-            {t("screens.login.labels.login_btn")}
-          </CustomButton>
-          <View style={{height: 5}}/>
-          <CustomButton style={{backgroundColor: colors.secondary}} textStyle={{color: "black"}}>
-            {t("screens.login.labels.register")}
-          </CustomButton>
+          <View style={styles.area}>
+            <TextInput
+              style={styles.input}
+              onChangeText={text => setLogin(text)}
+              placeholder={t("screens.login.labels.login")}
+              placeholderTextColor="gray"
+              autoCompleteType="email"
+            />
+            <TextInput
+              style={styles.input}
+              secureTextEntry={true}
+              onChangeText={text => setPassword(text)}
+              placeholder={t("screens.login.labels.password")}
+              placeholderTextColor="gray"
+              autoCompleteType="password"
+            />
+          </View>
+          <View style={styles.area}>
+            <CustomButton loading={loading} loadingColor="white" onPress={() => {
+              doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})` }});
+            }}>
+              {t("screens.login.labels.login_btn")}
+            </CustomButton>
+            <View style={{height: 5}}/>
+            <CustomButton style={{backgroundColor: colors.secondary}} textStyle={{color: "black"}}>
+              {t("screens.login.labels.register")}
+            </CustomButton>
+          </View>
         </View>
       </ScrollView>
     </View>

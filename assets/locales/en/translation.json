@@ -10,6 +10,16 @@
           "login_btn": "Login"
         }
       },
+      "confirm_account": {
+        "title": "Confirm",
+        "labels": {
+          "confirmation_code": "Confirmation code",
+          "instructions": "Please enter the code that you received in the email provided in signup.\nIf ou haven't received the code please request a resend.",
+          "success": "Account confirmed successfully",
+          "confirm_btn": "Confirm",
+          "resend_btn": "Resend code"
+        }
+      },
       "feed": {
         "labels": {
           "no_posts": "No posts."
@@ -17,12 +27,15 @@
       }
     },
     "strings": {
+      "success": "Success",
       "error": "Error"
     },
     "errors": {
       "user_not_found": "User not found.",
       "wrong_password": "Wrong password.",
       "email_not_confirmed": "Email not confirmed.",
+      "wrong_confirmation_code": "Wrong confirmation code.",
+      "confirmation_on_timeout": "Please wait a moment before resending a confirmation email.",
       "unexpected": "Unexpected error."
     }
   }

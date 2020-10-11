@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import CustomText from "../CustomText";
 import Comment from "../Comment";
-import CommentField from "../CommentField";
+import CommentField from "../CustomTextField";
 
 import postDateFormat from "../../../helpers/postDateFormat";
 import styles from "./styles";
@@ -18,73 +18,26 @@ export default function Post(props) {
 
   const [post, setPost] = useState(props.data);
 
-  const [imageDimensions, setImageDimensions] = useState({
-    width: null,
-    height: null
-  });
-  const [imageDimensionsSet, setImageDimensionsSet] = useState(false);
-
-  const [optionsIconDimensions, setOptionsIconDimensions] = useState({
-    width: null,
-    height: null
-  });
-  const [optionsIconDimensionsSet, setOptionsIconDimensionsSet] = useState(false);
-
-  const [footerIconsDimensions, setFooterIconsDimensions] = useState({
-    width: null,
-    height: null
-  });
-  const [footerIconsDimensionsSet, setFooterIconsDimensionsSet] = useState(false);
-
   const [imageLoaded, setImageLoaded] = useState(false);
-
-  const [shouldRenderComments, setShouldRenderComments] = useState(false);
 
   const [shouldFocusComment, setShouldFocusComment] = useState(false);
 
-  const [commentFieldRef, setCommentFieldRef] = useState();
-
   const [reactPost, { data: reactData, loading: reactLoading, error: reactError }] = useMutation(queries.REACT_POST);
-
-  const [commentPost, { data: commentData, loading: commentLoading, error: commentError }] = useMutation(queries.COMMENT_POST);
 
   useEffect(() => {
     if(reactError) {
       Alert.alert(t("strings.error"), reactError.message)
     }    
   }, [reactError]);
-
-  useEffect(() => {
-    if(commentData && commentData.commentPost)
-      setPost(commentData.commentPost);
-  }, [commentData]);
-
+  
   useEffect(() => {
     if(reactData && reactData.reactPost)
       setPost(reactData.reactPost);
   }, [reactData]);
 
-  useEffect(() => {
-    if(shouldFocusComment && commentFieldRef) {
-      commentFieldRef.focus();
-      setShouldFocusComment(false);
-    }
-  }, [shouldFocusComment, commentFieldRef]);
-
   if(post) {
 
     const dateFormatResult = postDateFormat(parseInt(post.time));
-
-
-    const renderComment = ({item}) => {
-      return (
-        <Comment data={item}/>
-      );
-    }
-
-    const onPostPress = () => {
-      setShouldRenderComments(!shouldRenderComments);
-    }
 
     const onReact = () => {
       reactPost({
@@ -97,27 +50,9 @@ export default function Post(props) {
       setPost(postCopy);
     }
 
-    const onComment = (text) => {
-      commentPost({
-        variables: {
-          id: post.id,
-          text: text
-        }
-      });
-    }
-
-    const onCommentButton = () => {
-      setShouldRenderComments(true);
-      setShouldFocusComment(true);
-    }
-
-    const setCommentRef = (input) => {
-      setCommentFieldRef(input);
-    }
-
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={onPostPress}>
+        <TouchableOpacity>
           {
             // image
           }
@@ -148,26 +83,13 @@ export default function Post(props) {
             <TouchableOpacity onPress={onReact}>
               <Icon name="md-heart-empty" size={30} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={onCommentButton} style={{marginLeft: 10}}>
+            <TouchableOpacity style={{marginLeft: 10}}>
               <Icon name="md-arrow-back" size={30} />
             </TouchableOpacity>
             <TouchableOpacity style={{marginLeft: 10}}>
               <Icon name="md-arrow-forward" size={30} />
             </TouchableOpacity>
           </View>
-          {
-            // comments
-          }
-          { shouldRenderComments &&
-            <>
-              <CommentField onComment={onComment} setRef={setCommentRef.bind(this)} />
-              <FlatList 
-                data={post.comments}
-                renderItem={renderComment}
-                keyExtractor={item => item.id}
-              />
-            </>
-          }
         </TouchableOpacity>
       </View>
     );

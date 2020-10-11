@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import Ionicons from "react-native-vector-icons/Ionicons"
 
 import Login from "./src/Components/Screens/Login";
+import ConfirmAccount from "./src/Components/Screens/ConfirmAccount";
 import Home from "./src/Components/Screens/Home";
 
 import queries from "./src/queries";
@@ -105,6 +106,7 @@ export default function App() {
           initialRouteName={initialRouteName}
         >
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="ConfirmAccount" component={ConfirmAccount} />
           <Stack.Screen name="Main" component={Main} />
         </Stack.Navigator>
       </NavigationContainer>

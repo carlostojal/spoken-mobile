@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { View, Image, TouchableWithoutFeedback } from "react-native";
+import { View, Image } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import Icons from "react-native-vector-icons/Ionicons";
 import colors from "../../../colors";
 import CustomText from "../CustomText";
 
@@ -32,7 +31,7 @@ export default function Header(props) {
     <View style={styles.container}>
       <Icon name="logo-twitter" size={45} color={colors.primary} style={{marginRight: 5}} />
       <CustomText style={{fontFamily: "Raleway_700Bold", fontSize: 40}}>
-        Home
+        {props.children}
       </CustomText>
     </View>
   );
