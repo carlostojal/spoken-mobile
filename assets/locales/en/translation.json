@@ -2,11 +2,11 @@
   "translation": {
     "screens": {
       "login": {
+        "title": "Hello",
         "labels": {
           "login": "Username or email",
           "password": "Password",
-          "not_registered_1": "Don't have an account?",
-          "not_registered_2": "Sign up",
+          "register": "Sign up",
           "login_btn": "Login"
         }
       },

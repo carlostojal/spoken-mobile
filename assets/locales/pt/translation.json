@@ -2,12 +2,12 @@
   "translation": {
     "screens": {
       "login": {
+        "title": "Olá",
         "labels": {
-          "login": "Username ou email",
+          "login": "Nome de utilizador ou email",
           "password": "Palavra-passe",
-          "not_registered_1": "Não tens conta?",
-          "not_registered_2": "Inscreve-te",
-          "login_btn": "Login"
+          "register": "Criar conta",
+          "login_btn": "Iniciar sessão"
         }
       },
       "feed": {

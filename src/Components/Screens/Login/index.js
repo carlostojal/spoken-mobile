@@ -44,8 +44,12 @@ export default function Login({ navigation }) {
       switch(error.message) {
         case "USER_NOT_FOUND":
           details = t("errors.user_not_found");
+          break;
         case "WRONG_PASSWORD":
           details = t("errors.wrong_password");
+          break;
+        default:
+          details = error.message;
       }
 
       Alert.alert(t("strings.error"), details);
@@ -57,7 +61,7 @@ export default function Login({ navigation }) {
       <ScrollView contentContainerStyle={global_styles.container}>
         <View style={styles.area}>
             <CustomText style={{fontSize: 40, fontFamily: "Raleway_700Bold"}}>
-              Hello
+              {t("screens.login.title")}
             </CustomText>
           </View>
         <View style={styles.area}>
@@ -66,7 +70,7 @@ export default function Login({ navigation }) {
             onChangeText={text => setLogin(text)}
             placeholder={t("screens.login.labels.login")}
             placeholderTextColor="gray"
-            autoCompleteType="username"
+            autoCompleteType="email"
           />
           <TextInput
             style={styles.input}
@@ -78,14 +82,14 @@ export default function Login({ navigation }) {
           />
         </View>
         <View style={styles.area}>
-          <CustomButton onPress={() => {
-            doLogin({variables: { username: login, password, userPlatform: `${Device.brand} ${Device.modelName}` }});
+          <CustomButton loading={loading} loadingColor="white" onPress={() => {
+            doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})` }});
           }}>
             {t("screens.login.labels.login_btn")}
           </CustomButton>
-          <View style={{height: 10}}/>
+          <View style={{height: 5}}/>
           <CustomButton style={{backgroundColor: colors.secondary}} textStyle={{color: "black"}}>
-            {t("screens.login.labels.not_registered_2")}
+            {t("screens.login.labels.register")}
           </CustomButton>
         </View>
       </ScrollView>

@@ -19,10 +19,10 @@ export default StyleSheet.create({
     borderColor: colors.detail,
     borderRadius: 30,
     color: colors.detail,
-    padding: 15,
+    padding: 10,
     fontSize: 15,
     fontFamily: "Raleway_400Regular",
-    marginBottom: 20
+    marginBottom: 10
   },
   
   not_registered: {
