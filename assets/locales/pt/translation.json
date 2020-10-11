@@ -21,7 +21,9 @@
     },
     "errors": {
       "user_not_found": "O utilizador não existe.",
-      "wrong_password": "Password errada."
+      "wrong_password": "Password errada.",
+      "email_not_confirmed": "O email não foi verificado.",
+      "unexpected": "Ocorreu um erro inesperado."
     }
   }
 }

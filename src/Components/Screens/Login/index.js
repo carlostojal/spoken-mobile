@@ -48,8 +48,10 @@ export default function Login({ navigation }) {
         case "WRONG_PASSWORD":
           details = t("errors.wrong_password");
           break;
+        case "EMAIL_NOT_CONFIRMED":
+          details = t("errors.email_not_confirmed");
         default:
-          details = error.message;
+          details = t("errors.unexpected");
       }
 
       Alert.alert(t("strings.error"), details);

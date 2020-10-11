@@ -21,7 +21,9 @@
     },
     "errors": {
       "user_not_found": "User not found.",
-      "wrong_password": "Wrong password."
+      "wrong_password": "Wrong password.",
+      "email_not_confirmed": "Email not confirmed.",
+      "unexpected": "Unexpected error."
     }
   }
 }
