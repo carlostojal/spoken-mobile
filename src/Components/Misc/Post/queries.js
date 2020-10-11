@@ -11,17 +11,6 @@ export default queries = {
           username
         }
         text
-        media_url
-        user_reacted
-        comments {
-          id
-          user {
-            id
-            username
-          }
-          time
-          text
-        }
       }
     }
   `,

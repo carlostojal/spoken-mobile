@@ -7,19 +7,11 @@ export default queries = {
         id
         time
         poster {
+          name
+          surname
           username
         }
         text
-        media_url
-        user_reacted
-        comments {
-          user {
-            id
-            username
-          }
-          time
-          text
-        }
       }
     }
   `,

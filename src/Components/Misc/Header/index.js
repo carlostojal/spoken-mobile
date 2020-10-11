@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { View, Image, TouchableWithoutFeedback } from "react-native";
-import MessageIcon from "../../../../assets/icons/message.svg";
+import Icon from "react-native-vector-icons/Ionicons";
+import Icons from "react-native-vector-icons/Ionicons";
+import colors from "../../../colors";
+import CustomText from "../CustomText";
 
 import styles from "./styles";
 
@@ -26,18 +29,11 @@ export default function Header(props) {
   }
 
   return  (
-    <View style={styles.container} onLayout={getHeaderDimensions}>
-      <TouchableWithoutFeedback onPress={() => props.navigation.openDrawer()} >
-        <Image source={require("../../../../assets/icons/icons8-menu-30.png")} style={{width: iconsDimensions.width, height: iconsDimensions.height}}/>
-      </TouchableWithoutFeedback>
-      <View style={[styles.right]}>
-        <TouchableWithoutFeedback>
-          <Image source={require("../../../../assets/icons/icons8-add-image-100.png")} style={{width: iconsDimensions.width, height: iconsDimensions.height}}/>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => props.homeScroller.scrollToEnd({ animated: true })} >
-          <MessageIcon width={iconsDimensions.width} height={iconsDimensions.height} style={styles.header_icon} />
-        </TouchableWithoutFeedback>
-      </View>
+    <View style={styles.container}>
+      <Icon name="logo-twitter" size={45} color={colors.primary} style={{marginRight: 5}} />
+      <CustomText style={{fontFamily: "Raleway_700Bold", fontSize: 40}}>
+        Home
+      </CustomText>
     </View>
   );
 }

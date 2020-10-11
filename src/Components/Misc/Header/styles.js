@@ -3,12 +3,8 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    height: 50,
     padding: 5,
-    backgroundColor: "white",
-    opacity: 0.9,
-    alignItems: "center"
+    margin: 10
   },
 
   right: {

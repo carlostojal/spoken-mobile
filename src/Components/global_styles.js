@@ -5,7 +5,6 @@ export default StyleSheet.create({
   container: {
     marginTop: Constants.statusBarHeight,
     width: Dimensions.get("screen").width,
-    backgroundColor: "white",
-    padding: 20
+    backgroundColor: "white"
   }
 })

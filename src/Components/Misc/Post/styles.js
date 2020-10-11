@@ -17,7 +17,8 @@ export default StyleSheet.create({
   },
 
   username: {
-    fontWeight: "bold"
+    fontFamily: "Raleway_700Bold",
+    fontSize: 15
   },
 
   time_options: {
@@ -27,7 +28,7 @@ export default StyleSheet.create({
   content: {
     padding: 15,
     paddingTop: 0,
-    fontSize: 15
+    fontSize: 20
   },
 
   loading_image: {
