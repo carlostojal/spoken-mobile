@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Alert } from "react-native";
+import { View, Alert, Vibration } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useLazyQuery, useMutation} from "@apollo/client";
 
@@ -52,6 +52,8 @@ export default function ConfirmAccount(props) {
   useEffect(() => {
     if(resendError) {
 
+      Vibration.vibrate(100);
+
       let message;
 
       switch(resendError.message) {
@@ -69,6 +71,7 @@ export default function ConfirmAccount(props) {
 
   useEffect(() => {
     if(confirmationData && confirmationData.confirmAccount) {
+      Vibration.vibrate([0, 70, 100, 70]);
       Alert.alert(t("strings.success"), t("screens.confirm_account.labels.success"))
       props.navigation.goBack();
     }
@@ -77,14 +80,14 @@ export default function ConfirmAccount(props) {
   return (
     <View style={global_styles.container}>
       <View style={{padding: 15}}>
-        <Header>
+        <Header renderLogo>
           {t("screens.confirm_account.title")}
         </Header>
         <CustomText style={{color: "gray"}}>
           {t("screens.confirm_account.labels.instructions")}
         </CustomText>
         <View style={{height: 20}} />
-        <CustomTextField onChangeText={(text) => setCode(text)}>
+        <CustomTextField onChangeText={(text) => setCode(text)} keyboardType="numeric">
           {t("screens.confirm_account.labels.confirmation_code")}
         </CustomTextField>
         <View style={{height: 20}}/>

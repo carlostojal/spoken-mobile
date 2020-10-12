@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, RefreshControl, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, FlatList, RefreshControl, TouchableOpacity, ActivityIndicator, Dimensions } from "react-native";
+import { useQuery } from "@apollo/client";
 import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 
@@ -10,44 +11,32 @@ import CustomText from "../../Misc/CustomText";
 import global_styles from "../../global_styles";
 import styles from "./styles";
 import queries from "./queries";
-import getClient from "../../../apollo_config";
 
 export default function Feed(props) {
 
-  const [data, setData] = useState({
-    feed: null,
-    currentPage: 1,
-    isLoading: true
+  // page number
+  const [page, setPage] = useState(1);
+  const perPage = Constants.manifest.extra.POSTS_PER_PAGE;
+
+  // feed query
+  const { data: feedData, loading: feedLoading, error: feedError } = useQuery(queries.GET_FEED, {
+    variables: {
+      page,
+      perPage
+    }
   });
+
+  // feed array
+  const [feed, setFeed] = useState(null);
 
   useEffect(() => {
-    if(data.isLoading)
-      getData();
-  });
-
-  const getData = async () => {
-    const client = await getClient();
-    client.query({
-      query: queries.GET_FEED,
-      variables: {
-        page: data.currentPage,
-        perPage: Constants.manifest.extra.POSTS_PER_PAGE
-      }
-    }).then((result) => {
-      let res = data.feed;
-      if(res == null)
-        res = result.data.getUserFeed;
+    if(feedData && feedData.getUserFeed) {
+      if(!feed)
+        setFeed(feedData.getUserFeed);
       else
-        res = res.concat(result.data.getUserFeed);
-      setData({ currentPage: data.currentPage, isLoading: false, feed: res });
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
-
-  const handleLoadMore = () => {
-    setData({ currentPage: data.currentPage + 1, isLoading: true, feed: data.feed });
-  }
+        setFeed([...feed].concat(feedData.getUserFeed));
+    }
+  }, [feedData]);
 
   const renderItem = ({ item }) => {
     return (
@@ -64,8 +53,8 @@ export default function Feed(props) {
   const renderFooter = () => {
     return (
       <View style={styles.footer}>
-        {
-          data.isLoading && data.feed && data.feed.langth > 0 &&  <ActivityIndicator size="small" />
+        { feedLoading && 
+          <ActivityIndicator size="large" />
         }
       </View>
     );
@@ -81,21 +70,23 @@ export default function Feed(props) {
     <View style={global_styles.container}>
       <FlatList
         decelerationRate="normal"
-        data={data.feed}
+        data={feed}
         renderItem={renderItem}
-        onEndReached={handleLoadMore}
+        onEndReached={() => {
+          setPage(page + 1);
+        }}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         ItemSeparatorComponent={renderSeparator}
-        stickyHeaderIndices={[0]}
         keyExtractor={item => item.id}
         refreshControl={
-          <RefreshControl refreshing={data.isLoading && data.currentPage == 1} onRefresh={() => {
-            setData({ currentPage: 1, isLoading: true, feed: null });
+          <RefreshControl refreshing={feedLoading && page == 1} onRefresh={() => {
+            setPage(1);
+            setFeed([]);
           }}/>
         }
       />
-      { (!data.feed || data.feed.length == 0) && !data.isLoading &&
+      { (!feed || feed.length == 0) && !feedLoading &&
         <CustomText>{t("screens.feed.labels.no_posts")}</CustomText>
       }
     </View>

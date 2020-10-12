@@ -30,6 +30,7 @@ export default function Login({ navigation }) {
     if(data) {
       if(data.getToken) {
         AsyncStorage.setItem("access_token", data.getToken).then(() => {
+            Vibration.vibrate([0, 70, 100, 70]);
             navigation.replace("Main");
         }).catch((e) => {
           console.error(e);
@@ -73,7 +74,7 @@ export default function Login({ navigation }) {
       <ScrollView contentContainerStyle={global_styles.container}>
         <View style={{padding: 15}}>
           <View style={styles.area}>
-            <Header>
+            <Header renderLogo>
               {t("screens.login.title")}
             </Header>
           </View>
@@ -84,6 +85,7 @@ export default function Login({ navigation }) {
               placeholder={t("screens.login.labels.login")}
               placeholderTextColor="gray"
               autoCompleteType="email"
+              keyboardType="email-address"
             />
             <TextInput
               style={styles.input}

@@ -7,7 +7,7 @@ export default function CustomTextField(props) {
 
   return (
     <View style={props.style}>
-      <TextInput style={styles.field} onChangeText={props.onChangeText} placeholder={props.children} />
+      <TextInput style={styles.field} onChangeText={props.onChangeText} placeholder={props.children} keyboardType={props.keyboardType} />
     </View>
   );
 }

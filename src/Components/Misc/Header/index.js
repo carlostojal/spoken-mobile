@@ -29,7 +29,9 @@ export default function Header(props) {
 
   return  (
     <View style={styles.container}>
-      <Icon name="logo-twitter" size={45} color={colors.primary} style={{marginRight: 5}} />
+      { props.renderLogo && 
+        <Icon name="logo-twitter" size={45} color={colors.primary} style={{marginRight: 5}} />
+      }
       <CustomText style={{fontFamily: "Raleway_700Bold", fontSize: 40}}>
         {props.children}
       </CustomText>
