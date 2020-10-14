@@ -11,6 +11,7 @@ export default queries = {
           username
         }
         text
+        user_reacted
       }
     }
   `,

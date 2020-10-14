@@ -7,11 +7,14 @@ export default queries = {
         id
         time
         poster {
+          id
           name
           surname
           username
         }
         text
+        user_reacted
+        edited
       }
     }
   `,

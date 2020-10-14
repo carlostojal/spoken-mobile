@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, RefreshControl, TouchableOpacity, ActivityIndicator, Dimensions } from "react-native";
-import { useQuery } from "@apollo/client";
+import { View, FlatList, RefreshControl, ActivityIndicator, Alert } from "react-native";
+import { useLazyQuery } from "@apollo/client";
 import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 
 import Header from "../../Misc/Header";
 import Post from "../../Misc/Post";
-import CustomText from "../../Misc/CustomText";
 
 import global_styles from "../../global_styles";
-import styles from "./styles";
 import queries from "./queries";
+import NoPosts from "../../Misc/NoPosts";
 
 export default function Feed(props) {
 
@@ -19,24 +18,34 @@ export default function Feed(props) {
   const perPage = Constants.manifest.extra.POSTS_PER_PAGE;
 
   // feed query
-  const { data: feedData, loading: feedLoading, error: feedError } = useQuery(queries.GET_FEED, {
-    variables: {
-      page,
-      perPage
-    }
-  });
+  const [getFeed, { data: feedData, loading: feedLoading, error: feedError }] = useLazyQuery(queries.GET_FEED);
 
   // feed array
   const [feed, setFeed] = useState(null);
 
   useEffect(() => {
+    if(page)
+      getFeed({ variables: { page, perPage } });
+  }, [page]);
+
+  useEffect(() => {
     if(feedData && feedData.getUserFeed) {
-      if(!feed)
-        setFeed(feedData.getUserFeed);
-      else
-        setFeed([...feed].concat(feedData.getUserFeed));
+      if(feedData.getUserFeed.length == 0) {
+        setPage(null);
+      } else {
+        if(!feed)
+          setFeed(feedData.getUserFeed);
+        else
+          setFeed([...feed].concat(feedData.getUserFeed));
+      }
     }
   }, [feedData]);
+
+  useEffect(() => {
+    if(feedError) {
+      Alert.alert(t("strings.error"), feedError.message);
+    }
+  }, [feedError]);
 
   const renderItem = ({ item }) => {
     return (
@@ -52,9 +61,12 @@ export default function Feed(props) {
 
   const renderFooter = () => {
     return (
-      <View style={styles.footer}>
+      <View style={{marginTop: 20}}>
         { feedLoading && 
           <ActivityIndicator size="large" />
+        }
+        { !feedLoading &&
+          <NoPosts />
         }
       </View>
     );
@@ -73,8 +85,10 @@ export default function Feed(props) {
         data={feed}
         renderItem={renderItem}
         onEndReached={() => {
-          setPage(page + 1);
+          if(page)
+            setPage(page + 1);
         }}
+        onEndReachedThreshold={50}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         ItemSeparatorComponent={renderSeparator}
@@ -86,9 +100,6 @@ export default function Feed(props) {
           }}/>
         }
       />
-      { (!feed || feed.length == 0) && !feedLoading &&
-        <CustomText>{t("screens.feed.labels.no_posts")}</CustomText>
-      }
     </View>
   );
 }

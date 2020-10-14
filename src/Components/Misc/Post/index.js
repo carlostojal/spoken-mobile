@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Image, TouchableOpacity, FlatList, Alert } from "react-native";
+import { View, Image, TouchableOpacity, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -11,6 +11,7 @@ import CommentField from "../CustomTextField";
 import postDateFormat from "../../../helpers/postDateFormat";
 import styles from "./styles";
 import queries from "./queries";
+import colors from "../../../colors";
 
 export default function Post(props) {
 
@@ -19,8 +20,6 @@ export default function Post(props) {
   const [post, setPost] = useState(props.data);
 
   const [imageLoaded, setImageLoaded] = useState(false);
-
-  const [shouldFocusComment, setShouldFocusComment] = useState(false);
 
   const [reactPost, { data: reactData, loading: reactLoading, error: reactError }] = useMutation(queries.REACT_POST);
 
@@ -81,7 +80,12 @@ export default function Post(props) {
           }
           <View style={styles.footer}>
             <TouchableOpacity onPress={onReact}>
-              <Icon name="md-heart-empty" size={30} />
+              { post.user_reacted &&
+                <Icon name="md-heart" size={30} color={colors.primary} />
+              } 
+              { !post.user_reacted &&
+                <Icon name="md-heart-empty" size={30} />
+              }
             </TouchableOpacity>
             <TouchableOpacity style={{marginLeft: 10}}>
               <Icon name="md-arrow-back" size={30} />

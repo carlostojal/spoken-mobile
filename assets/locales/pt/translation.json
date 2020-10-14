@@ -26,6 +26,12 @@
         }
       }
     },
+    "misc": {
+      "no_posts": {
+        "heading": "Por agora é tudo!",
+        "text": "Não há mais publicações para ver."
+      }
+    },
     "strings": {
       "success": "Sucesso",
       "error": "Erro"

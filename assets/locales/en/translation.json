@@ -26,6 +26,12 @@
         }
       }
     },
+    "misc": {
+      "no_posts": {
+        "heading": "That's it!",
+        "text": "No more posts."
+      }
+    },
     "strings": {
       "success": "Success",
       "error": "Error"

@@ -62,6 +62,8 @@ export default function App() {
 
             if(route.name === "Home") {
               iconName = "md-home"
+            } else if(route.name === "New") {
+              iconName = "md-add-circle"
             }
 
             return <Ionicons name={iconName} size={size} color={color} />
