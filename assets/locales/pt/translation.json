@@ -24,6 +24,13 @@
         "labels": {
           "no_posts": "Nenhuma publicação para mostrar."
         }
+      },
+      "new_post": {
+        "title": "Criar publicação",
+        "labels": {
+          "text": "Escreve aqui a tua publicação.",
+          "post_btn": "Publicar"
+        }
       }
     },
     "misc": {

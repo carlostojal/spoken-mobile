@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AppLoading } from "expo";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -7,10 +7,12 @@ import { useFonts, Raleway_400Regular, Raleway_600SemiBold, Raleway_700Bold } fr
 import { ApolloProvider } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
 import Ionicons from "react-native-vector-icons/Ionicons"
+import { Alert, BackHandler } from "react-native";
 
 import Login from "./src/Components/Screens/Login";
 import ConfirmAccount from "./src/Components/Screens/ConfirmAccount";
 import Home from "./src/Components/Screens/Home";
+import NewPost from "./src/Components/Screens/NewPost";
 
 import queries from "./src/queries";
 import getClient from "./src/apollo_config";
@@ -31,10 +33,22 @@ export default function App() {
         const my_client = await getClient()
         setClient(my_client);
 
+        let data = null;
+
         // try to use refresh token to get new access token
-        const data = await my_client.query({
-          query: queries.REFRESH_TOKEN
-        });
+        try {
+          data = await my_client.query({
+            query: queries.REFRESH_TOKEN
+          });
+        } catch(e) {
+          Alert.alert(
+            "Error",
+            "Connection error.",
+            [{
+              text: "OK",
+              onPress: () => BackHandler.exitApp()
+            }]);
+        }
 
         // if could refresh token, means the session is active, so skip login
         if(data && data.data) {
@@ -75,6 +89,7 @@ export default function App() {
         }}
       >
         <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="New" component={NewPost} />
       </Tab.Navigator>
     );
   }

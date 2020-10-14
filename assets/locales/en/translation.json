@@ -24,6 +24,13 @@
         "labels": {
           "no_posts": "No posts."
         }
+      },
+      "new_post": {
+        "title": "Create post",
+        "labels": {
+          "text": "Write your post here",
+          "post_btn": "Post"
+        }
       }
     },
     "misc": {

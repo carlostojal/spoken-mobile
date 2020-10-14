@@ -18,7 +18,9 @@ export default function Feed(props) {
   const perPage = Constants.manifest.extra.POSTS_PER_PAGE;
 
   // feed query
-  const [getFeed, { data: feedData, loading: feedLoading, error: feedError }] = useLazyQuery(queries.GET_FEED);
+  const [getFeed, { data: feedData, loading: feedLoading, error: feedError }] = useLazyQuery(queries.GET_FEED, {
+    fetchPolicy: "network-only"
+  });
 
   // feed array
   const [feed, setFeed] = useState(null);
@@ -43,7 +45,7 @@ export default function Feed(props) {
 
   useEffect(() => {
     if(feedError) {
-      Alert.alert(t("strings.error"), feedError.message);
+      Alert.alert(t("strings.error"), t("errors.unexpected"));
     }
   }, [feedError]);
 
