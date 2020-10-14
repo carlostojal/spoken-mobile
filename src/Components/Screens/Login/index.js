@@ -12,7 +12,7 @@ import styles from "./styles";
 
 import queries from "./queries";
 import colors from "../../../colors";
-import CustomText from "../../Misc/CustomText";
+import CustomTextField from "../../Misc/CustomTextField";
 import Header from "../../Misc/Header";
 
 export default function Login({ navigation }) {
@@ -79,22 +79,21 @@ export default function Login({ navigation }) {
             </Header>
           </View>
           <View style={styles.area}>
-            <TextInput
-              style={styles.input}
+            <CustomTextField
               onChangeText={text => setLogin(text)}
-              placeholder={t("screens.login.labels.login")}
-              placeholderTextColor="gray"
               autoCompleteType="email"
               keyboardType="email-address"
-            />
-            <TextInput
-              style={styles.input}
+              style={{marginBottom: 10}}
+            >
+              {t("screens.login.labels.login")}
+            </CustomTextField>
+            <CustomTextField
               secureTextEntry={true}
               onChangeText={text => setPassword(text)}
-              placeholder={t("screens.login.labels.password")}
-              placeholderTextColor="gray"
               autoCompleteType="password"
-            />
+            >
+              {t("screens.login.labels.password")}
+            </CustomTextField>
           </View>
           <View style={styles.area}>
             <CustomButton loading={loading} loadingColor="white" onPress={() => {

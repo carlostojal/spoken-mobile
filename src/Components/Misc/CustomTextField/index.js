@@ -9,6 +9,7 @@ export default function CustomTextField(props) {
     <View style={props.style}>
       <TextInput 
         style={[styles.field, props.inputStyle]} 
+        secureTextEntry={props.secureTextEntry}
         onChangeText={props.onChangeText} 
         placeholder={props.children} 
         keyboardType={props.keyboardType} 
