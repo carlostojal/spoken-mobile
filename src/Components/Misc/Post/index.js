@@ -65,7 +65,10 @@ export default function Post(props) {
             // header
           }
           <View style={styles.header}>
-            <CustomText style={styles.username}>{`@${post.poster.username}`}</CustomText>
+            <TouchableOpacity>
+              <CustomText style={styles.username}>{post.poster.username}</CustomText>
+              <CustomText style={styles.name}>{`${post.poster.name} ${post.poster.surname}`}</CustomText>
+            </TouchableOpacity>
             <View style={styles.time_options}>
               <CustomText>{dateFormatResult.value + dateFormatResult.unit}</CustomText>
               <Icon name="md-settings" size={20} style={{marginLeft: 10}}/>
@@ -81,17 +84,17 @@ export default function Post(props) {
           <View style={styles.footer}>
             <TouchableOpacity onPress={onReact}>
               { post.user_reacted &&
-                <Icon name="md-heart" size={30} color={colors.primary} />
+                <Icon name="md-heart" size={35} color={colors.primary} />
               } 
               { !post.user_reacted &&
-                <Icon name="md-heart-empty" size={30} />
+                <Icon name="md-heart-empty" size={35} />
               }
             </TouchableOpacity>
             <TouchableOpacity style={{marginLeft: 10}}>
-              <Icon name="md-arrow-back" size={30} />
+              <Icon name="md-arrow-back" size={35} />
             </TouchableOpacity>
             <TouchableOpacity style={{marginLeft: 10}}>
-              <Icon name="md-arrow-forward" size={30} />
+              <Icon name="md-arrow-forward" size={35} />
             </TouchableOpacity>
           </View>
         </TouchableOpacity>

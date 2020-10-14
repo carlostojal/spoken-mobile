@@ -21,6 +21,10 @@ export default StyleSheet.create({
     fontSize: 15
   },
 
+  name: {
+    fontSize: 14
+  },
+
   time_options: {
     flexDirection: "row"
   },
