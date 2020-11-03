@@ -9,6 +9,7 @@ import Comment from "../Comment";
 import CommentField from "../CustomTextField";
 
 import postDateFormat from "../../../helpers/postDateFormat";
+import refreshToken from "../../../helpers/refreshToken";
 import styles from "./styles";
 import queries from "./queries";
 import colors from "../../../colors";
@@ -21,10 +22,17 @@ export default function Post(props) {
 
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const [reactPost, { data: reactData, loading: reactLoading, error: reactError }] = useMutation(queries.REACT_POST);
+  const [reactPost, { data: reactData, loading: reactLoading, error: reactError }] = useMutation(queries.REACT_POST, {
+    errorPolicy: "all",
+    onError: (error) => {
+      console.log("onError" + error);
+      refreshToken(reactPost, { variables: { id: post.id } })
+    }
+  });
 
   useEffect(() => {
     if(reactError) {
+      console.log(reactError);
       Alert.alert(t("strings.error"), reactError.message)
     }    
   }, [reactError]);

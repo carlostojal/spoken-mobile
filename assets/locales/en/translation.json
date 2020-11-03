@@ -10,6 +10,20 @@
           "login_btn": "Login"
         }
       },
+      "signup": {
+        "title": "Welcome",
+        "labels": {
+          "name": "Name",
+          "surname": "Surname",
+          "birthdate": "Birthdate",
+          "email": "Email address",
+          "username": "Username",
+          "password": "Password",
+          "confirm_password": "Confirm password",
+          "profile_type": "Profile type",
+          "profile_privacy_type": "Profile privacy type"
+        }
+      },
       "confirm_account": {
         "title": "Confirm",
         "labels": {

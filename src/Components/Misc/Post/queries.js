@@ -8,6 +8,8 @@ export default queries = {
         id
         time
         poster {
+          name
+          surname
           username
         }
         text
@@ -22,6 +24,8 @@ export default queries = {
         id
         time
         poster {
+          name
+          surname
           username
         }
         text

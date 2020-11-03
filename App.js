@@ -10,6 +10,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 import { Alert, BackHandler } from "react-native";
 
 import Login from "./src/Components/Screens/Login";
+import Signup from "./src/Components/Screens/Signup";
 import ConfirmAccount from "./src/Components/Screens/ConfirmAccount";
 import Home from "./src/Components/Screens/Home";
 import NewPost from "./src/Components/Screens/NewPost";
@@ -123,6 +124,7 @@ export default function App() {
           initialRouteName={initialRouteName}
         >
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Signup" component={Signup} />
           <Stack.Screen name="ConfirmAccount" component={ConfirmAccount} />
           <Stack.Screen name="Main" component={Main} />
         </Stack.Navigator>

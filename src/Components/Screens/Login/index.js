@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
             Vibration.vibrate([0, 70, 100, 70]);
             navigation.replace("Main");
         }).catch((e) => {
-          console.error(e);
+          console.log(e);
         });
       }
     }
@@ -102,7 +102,9 @@ export default function Login({ navigation }) {
               {t("screens.login.labels.login_btn")}
             </CustomButton>
             <View style={{height: 5}}/>
-            <CustomButton style={{backgroundColor: colors.secondary}} textStyle={{color: "black"}}>
+            <CustomButton style={{backgroundColor: colors.secondary}} textStyle={{color: "black"}} onPress={() => {
+              navigation.navigate("Signup");
+            }}>
               {t("screens.login.labels.register")}
             </CustomButton>
           </View>

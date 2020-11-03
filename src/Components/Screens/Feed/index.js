@@ -7,6 +7,8 @@ import { useTranslation } from "react-i18next";
 import Header from "../../Misc/Header";
 import Post from "../../Misc/Post";
 
+import refreshToken from "../../../helpers/refreshToken";
+
 import global_styles from "../../global_styles";
 import queries from "./queries";
 import NoPosts from "../../Misc/NoPosts";
@@ -18,8 +20,12 @@ export default function Feed(props) {
   const perPage = Constants.manifest.extra.POSTS_PER_PAGE;
 
   // feed query
-  const [getFeed, { data: feedData, loading: feedLoading, error: feedError }] = useLazyQuery(queries.GET_FEED, {
-    fetchPolicy: "network-only"
+  const [getFeed, { data: feedData, loading: feedLoading, error: feedError, refetch: feedRefetch }] = useLazyQuery(queries.GET_FEED, {
+    fetchPolicy: "network-only",
+    onError: (error) => {
+      console.log(error);
+      refreshToken(feedRefetch, { variables: { page, perPage } });
+    }
   });
 
   // feed array
@@ -45,6 +51,7 @@ export default function Feed(props) {
 
   useEffect(() => {
     if(feedError) {
+      console.log(feedError);
       Alert.alert(t("strings.error"), t("errors.unexpected"));
     }
   }, [feedError]);

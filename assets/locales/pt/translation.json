@@ -10,6 +10,20 @@
           "login_btn": "Iniciar sessão"
         }
       },
+      "signup": {
+        "title": "Bem Vindo",
+        "labels": {
+          "name": "Nome",
+          "surname": "Apelido",
+          "birthdate": "Data de Nascimento",
+          "email": "Email",
+          "username": "Nome de utilizador",
+          "password": "Palavra-passe",
+          "confirm_password": "Confirmar palavra-passe",
+          "profile_type": "Tipo de Perfil",
+          "profile_privacy_type": "Privacidade do Perfil"
+        }
+      },
       "confirm_account": {
         "title": "Confirmar",
         "labels": {
