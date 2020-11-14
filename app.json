@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SpokenNetwork",
-    "slug": "spokennetwork-mobile",
+    "name": "Spoken",
+    "slug": "spoken-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -41,7 +41,7 @@
       "favicon": "./assets/favicon.png"
     },
     "android": {
-      "package": "com.spokennetwork"
+      "package": "com.carlostojal.spoken"
     },
     "extra": {
       "APOLLO_ADDRESS": "46.189.216.119",
