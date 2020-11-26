@@ -4,9 +4,9 @@
     "slug": "spoken-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/spoken-logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/spoken-logo-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -38,16 +38,16 @@
       "supportsTablet": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/spoken-logo.png"
     },
     "android": {
       "package": "com.carlostojal.spoken"
     },
     "extra": {
-      "APOLLO_ADDRESS": "46.189.216.119",
+      "APOLLO_ADDRESS": "192.168.1.66",
       "APOLLO_PORT": "4000",
-      "EXPRESS_URL": "http://46.189.216.119:8080",
-      "EXPRESS_ADDRESS": "46.189.216.119",
+      "EXPRESS_URL": "http://192.168.1.66:8080",
+      "EXPRESS_ADDRESS": "192.168.1.66",
       "EXPRESS_PORT": "8080",
       "MEDIA_ENDPOINT": "media",
       "UPLOAD_ENDPOINT": "upload",
