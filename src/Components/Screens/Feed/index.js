@@ -9,8 +9,8 @@ import Post from "../../Misc/Post";
 
 import refreshToken from "../../../helpers/refreshToken";
 
-import global_styles from "../../global_styles";
 import queries from "./queries";
+import styles from "./styles";
 import NoPosts from "../../Misc/NoPosts";
 
 export default function Feed(props) {
@@ -64,7 +64,14 @@ export default function Feed(props) {
 
   const renderHeader = () => {
     return (
-      <Header>Home</Header>
+      <View style={styles.header}>
+        <CustomText style={styles.header_title}>
+          {t("screens.feed.labels.good_afternoon")}
+        </CustomText>
+        <CustomText style={styles.header_name}>
+          Carlos
+        </CustomText>
+      </View>
     );
   }
 
@@ -74,21 +81,21 @@ export default function Feed(props) {
         { feedLoading && 
           <ActivityIndicator size="large" />
         }
-        { !feedLoading &&
+        { /*!feedLoading &&
           <NoPosts />
-        }
+        */ }
       </View>
     );
   }
 
   const renderSeparator = () => {
-    return <View style={{height: 20}} />
+    return <View style={{height: 15}} />
   }
 
   const { t } = useTranslation();
 
   return (
-    <View style={global_styles.container}>
+    <View>
       <FlatList
         decelerationRate="normal"
         data={feed}

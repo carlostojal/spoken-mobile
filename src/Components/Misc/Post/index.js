@@ -78,8 +78,10 @@ export default function Post(props) {
               <CustomText style={styles.name}>{`${post.poster.name} ${post.poster.surname}`}</CustomText>
             </TouchableOpacity>
             <View style={styles.time_options}>
-              <CustomText>{dateFormatResult.value + dateFormatResult.unit}</CustomText>
+              <CustomText style={styles.time}>{dateFormatResult.value + dateFormatResult.unit}</CustomText>
+              { /*
               <Icon name="md-settings" size={20} style={{marginLeft: 10}}/>
+              */ }
             </View>
           </View>
           {
@@ -90,20 +92,22 @@ export default function Post(props) {
             // footer
           }
           <View style={styles.footer}>
+            { /*
             <TouchableOpacity onPress={onReact}>
               { post.user_reacted &&
                 <Icon name="md-heart" size={35} color={colors.primary} />
               } 
               { !post.user_reacted &&
-                <Icon name="md-heart-empty" size={35} />
+                <Icon name="md-heart-empty" size={35} color="#FFFFFF" />
               }
             </TouchableOpacity>
             <TouchableOpacity style={{marginLeft: 10}}>
-              <Icon name="md-arrow-back" size={35} />
+              <Icon name="md-arrow-back" size={35} color="#FFFFFF" />
             </TouchableOpacity>
             <TouchableOpacity style={{marginLeft: 10}}>
-              <Icon name="md-arrow-forward" size={35} />
+              <Icon name="md-arrow-forward" size={35} color="#FFFFFF" />
             </TouchableOpacity>
+            */ }
           </View>
         </TouchableOpacity>
       </View>

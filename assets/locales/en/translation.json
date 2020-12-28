@@ -36,6 +36,7 @@
       },
       "feed": {
         "labels": {
+          "good_afternoon": "Good afternoon,",
           "no_posts": "No posts."
         }
       },

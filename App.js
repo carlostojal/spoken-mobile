@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { StatusBar } from "react-native";
 import { AppLoading } from "expo";
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts, Raleway_400Regular, Raleway_600SemiBold, Raleway_700Bold } from '@expo-google-fonts/raleway';
@@ -15,6 +16,7 @@ import ConfirmAccount from "./src/Components/Screens/ConfirmAccount";
 import Home from "./src/Components/Screens/Home";
 import NewPost from "./src/Components/Screens/NewPost";
 
+import CustomTheme from "./src/Components/CustomTheme";
 import queries from "./src/queries";
 import getClient from "./src/apollo_config";
 import colors from "./src/colors";
@@ -116,7 +118,8 @@ export default function App() {
 
   return (
     <ApolloProvider client={client}>
-      <NavigationContainer>
+      <NavigationContainer theme={CustomTheme}>
+        <StatusBar backgroundColor="#404040" barStyle="light-content"/>
         <Stack.Navigator
           screenOptions={{
             headerShown: false

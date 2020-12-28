@@ -7,7 +7,6 @@ import { useTranslation } from "react-i18next";
 
 import CustomButton from "../../Misc/CustomButton";
 
-import global_styles from "../../global_styles";
 import styles from "./styles";
 
 import queries from "./queries";
@@ -71,7 +70,7 @@ export default function Login({ navigation }) {
 
   return (
     <View>
-      <ScrollView contentContainerStyle={global_styles.container}>
+      <ScrollView>
         <View style={{padding: 15}}>
           <View style={styles.area}>
             <Header renderLogo>

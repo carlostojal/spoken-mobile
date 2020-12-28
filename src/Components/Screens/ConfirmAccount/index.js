@@ -8,7 +8,6 @@ import CustomText from "../../Misc/CustomText";
 import CustomTextField from "../../Misc/CustomTextField";
 import CustomButton from "../../Misc/CustomButton";
 
-import global_styles from "../../global_styles";
 import colors from "../../../colors";
 
 import queries from "./queries";
@@ -78,7 +77,7 @@ export default function ConfirmAccount(props) {
   }, [confirmationData]);
 
   return (
-    <View style={global_styles.container}>
+    <View>
       <View style={{padding: 15}}>
         <Header renderLogo>
           {t("screens.confirm_account.title")}

@@ -9,7 +9,6 @@ import CustomButton from "../../Misc/CustomButton";
 
 import queries from "./queries";
 import styles from "./styles";
-import global_styles from "../../global_styles";
 
 export default function NewPost(props) {
 
@@ -34,7 +33,7 @@ export default function NewPost(props) {
   }, [createPostData]);
 
   return (
-    <View style={global_styles.container}>
+    <View>
       <Header>
         { t("screens.new_post.title") }
       </Header>

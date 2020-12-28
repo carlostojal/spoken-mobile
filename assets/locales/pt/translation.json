@@ -36,6 +36,7 @@
       },
       "feed": {
         "labels": {
+          "good_afternoon": "Boa tarde,",
           "no_posts": "Nenhuma publicação para mostrar."
         }
       },

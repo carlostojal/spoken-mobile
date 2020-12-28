@@ -3,11 +3,11 @@ import { StyleSheet, Dimensions } from "react-native";
 export default StyleSheet.create({
 
   container: {
-    margin: 4,
-    borderColor: "#c7c7c7",
-    borderWidth: 1,
+    marginRight: 15,
+    marginLeft: 15,
     borderRadius: 20,
-    overflow: "hidden"
+    overflow: "hidden",
+    backgroundColor: "#343434"
   },
 
   header: {
@@ -18,21 +18,30 @@ export default StyleSheet.create({
 
   username: {
     fontFamily: "Raleway_700Bold",
-    fontSize: 15
+    fontSize: 17,
+    color: "#FFFFFF",
+    marginBottom: 3
   },
 
   name: {
-    fontSize: 14
+    fontSize: 14,
+    color: "#B4B4B4"
   },
 
   time_options: {
     flexDirection: "row"
   },
 
+  time: {
+    fontSize: 15,
+    color: "#ACACAC"
+  },
+
   content: {
     padding: 15,
     paddingTop: 0,
-    fontSize: 20
+    fontSize: 20,
+    color: "#DDDDDD"
   },
 
   loading_image: {

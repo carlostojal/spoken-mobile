@@ -5,15 +5,13 @@ import { useTranslation } from "react-i18next";
 import Header from "../../Misc/Header";
 import CustomTextField from "../../Misc/CustomTextField";
 
-import global_styles from "../../global_styles";
-
 export default function Signup() {
 
   const { t } = useTranslation();
 
   return (
     <View>
-      <ScrollView contentContainerStyle={global_styles.container}>
+      <ScrollView>
         <View style={{padding: 15}}>
           <Header renderLogo>
             { t("screens.signup.title") }
