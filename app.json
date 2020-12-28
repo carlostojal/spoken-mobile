@@ -8,7 +8,7 @@
     "splash": {
       "image": "./assets/spoken-logo-splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#2D2D2D"
     },
     "packagerOpts": {
       "config": "metro.config.js",

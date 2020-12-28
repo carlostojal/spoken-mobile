@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Image, TouchableOpacity, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import CustomText from "../CustomText";
@@ -17,6 +18,7 @@ import colors from "../../../colors";
 export default function Post(props) {
 
   const { t } = useTranslation();
+  const { colors: themeColors } = useTheme();
 
   const [post, setPost] = useState(props.data);
 
@@ -58,7 +60,7 @@ export default function Post(props) {
     }
 
     return (
-      <View style={styles.container}>
+      <View style={[{ backgroundColor: themeColors.card }, styles.container]}>
         <TouchableOpacity>
           {
             // image

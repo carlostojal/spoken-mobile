@@ -6,8 +6,7 @@ export default StyleSheet.create({
     marginRight: 15,
     marginLeft: 15,
     borderRadius: 20,
-    overflow: "hidden",
-    backgroundColor: "#343434"
+    overflow: "hidden"
   },
 
   header: {

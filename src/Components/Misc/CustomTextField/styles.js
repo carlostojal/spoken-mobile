@@ -4,11 +4,10 @@ import colors from "../../../colors";
 export default StyleSheet.create({
 
   field: {
-    borderWidth: 0.5,
-    borderColor: colors.detail,
+    backgroundColor: "#464646",
     borderRadius: 30,
-    color: colors.detail,
-    padding: 10,
+    color: "#E5E5E5",
+    padding: 15,
     fontSize: 15,
     fontFamily: "Raleway_400Regular"
   }
