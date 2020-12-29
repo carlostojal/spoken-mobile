@@ -15,6 +15,7 @@ import Signup from "./src/Components/Screens/Signup";
 import ConfirmAccount from "./src/Components/Screens/ConfirmAccount";
 import Home from "./src/Components/Screens/Home";
 import NewPost from "./src/Components/Screens/NewPost";
+import Profile from "./src/Components/Screens/Profile";
 
 import CustomTheme from "./src/Components/CustomTheme";
 import queries from "./src/queries";
@@ -81,6 +82,8 @@ export default function App() {
               iconName = "md-home"
             } else if(route.name === "New") {
               iconName = "md-add-circle"
+            } else if(route.name === "Profile") {
+              iconName = "md-person"
             }
 
             return <Ionicons name={iconName} size={size} color={color} />
@@ -93,6 +96,7 @@ export default function App() {
       >
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="New" component={NewPost} />
+        <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
     );
   }
