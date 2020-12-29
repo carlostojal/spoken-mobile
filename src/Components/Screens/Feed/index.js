@@ -56,6 +56,14 @@ export default function Feed(props) {
     }
   }, [feedError]);
 
+  useEffect(() => {
+    console.log(props);
+    if(props.shouldReload) {
+      setPage(1);
+      setFeed({});
+    }
+  }, [props.shouldReload]);
+
   const renderItem = ({ item }) => {
     return (
       <Post data={item} />

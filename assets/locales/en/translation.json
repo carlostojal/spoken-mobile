@@ -44,7 +44,8 @@
         "title": "Create post",
         "labels": {
           "text": "Write your post here",
-          "post_btn": "Post"
+          "post_btn": "Post",
+          "success": "Post created successfully."
         }
       }
     },

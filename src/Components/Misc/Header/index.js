@@ -10,7 +10,7 @@ import styles from "./styles";
 export default function Header(props) {
 
   const onDraw = (e) => {
-    console.log(e.nativeEvent.layout);
+    // console.log(e.nativeEvent.layout);
   }
 
   return  (

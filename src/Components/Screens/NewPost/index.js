@@ -28,7 +28,9 @@ export default function NewPost(props) {
   useEffect(() => {
     if(createPostData && createPostData.createPost) {
       Vibration.vibrate([0, 70, 100, 70]);
-      setText("");
+      setText(""); // clear text box
+      Alert.alert(t("strings.success"), t("screens.new_post.labels.success")); // show success alert
+      props.navigation.navigate("Home"); // navigate home
     }
   }, [createPostData]);
 
