@@ -23,5 +23,13 @@ export default queries = {
     query getToken($username: String!, $password: String!) {
       getToken(username: $username, password: $password) 
     }
+  `,
+
+  GET_USER_DATA: gql`
+    query getUserData {
+      getUserData {
+        name
+      }
+    }
   `
 }

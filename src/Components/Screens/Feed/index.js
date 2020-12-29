@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, FlatList, RefreshControl, ActivityIndicator, Alert } from "react-native";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 
@@ -27,6 +27,8 @@ export default function Feed(props) {
       refreshToken(feedRefetch, { variables: { page, perPage } });
     }
   });
+
+  const { data: userData } = useQuery(queries.GET_USER_DATA);
 
   // feed array
   const [feed, setFeed] = useState(null);
@@ -57,7 +59,6 @@ export default function Feed(props) {
   }, [feedError]);
 
   useEffect(() => {
-    console.log(props);
     if(props.shouldReload) {
       setPage(1);
       setFeed({});
@@ -77,7 +78,9 @@ export default function Feed(props) {
           {t("screens.feed.labels.good_afternoon")}
         </CustomText>
         <CustomText style={styles.header_name}>
-          Carlos
+          { userData && userData.getUserData ?
+            userData.getUserData.name :
+            "..." }
         </CustomText>
       </View>
     );

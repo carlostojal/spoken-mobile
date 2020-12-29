@@ -119,7 +119,7 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <NavigationContainer theme={CustomTheme}>
-        <StatusBar backgroundColor="#404040" barStyle="light-content"/>
+        <StatusBar backgroundColor={colors.card} barStyle="light-content"/>
         <Stack.Navigator
           screenOptions={{
             headerShown: false
