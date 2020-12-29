@@ -52,6 +52,7 @@
       "MEDIA_ENDPOINT": "media",
       "UPLOAD_ENDPOINT": "upload",
       "POSTS_PER_PAGE": 10
-    }
+    },
+    "description": ""
   }
 }

@@ -41,12 +41,12 @@ export default function Feed(props) {
 
     const currentHours = parseInt(new Date().getHours());
 
-    if(currentHours >= 12 && currentHours < 20)
-      setSalutation(t("screens.feed.labels.good_afternoon"));
-    else if(currentHours >= 20)
-      setSalutation(t("screens.feed.labels.good_evening"));
-    else
+    if(currentHours >= 6 && currentHours < 12)
       setSalutation(t("screens.feed.labels.good_morning"));
+    else if(currentHours >= 12 && currentHours < 20)
+      setSalutation(t("screens.feed.labels.good_afternoon"));
+    else
+      setSalutation(t("screens.feed.labels.good_evening"));      
 
   });
 
