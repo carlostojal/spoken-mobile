@@ -4,14 +4,12 @@ import { useLazyQuery, useQuery } from "@apollo/client";
 import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 
-import Header from "../../Misc/Header";
 import Post from "../../Misc/Post";
 
 import refreshToken from "../../../helpers/refreshToken";
 
 import queries from "./queries";
 import styles from "./styles";
-import NoPosts from "../../Misc/NoPosts";
 
 export default function Feed(props) {
 
@@ -67,7 +65,7 @@ export default function Feed(props) {
 
   const renderItem = ({ item }) => {
     return (
-      <Post data={item} />
+      <Post data={item} navigation={props.navigation} />
     );
   }
 

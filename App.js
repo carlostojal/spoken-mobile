@@ -13,9 +13,10 @@ import { Alert, BackHandler } from "react-native";
 import Login from "./src/Components/Screens/Login";
 import Signup from "./src/Components/Screens/Signup";
 import ConfirmAccount from "./src/Components/Screens/ConfirmAccount";
-import Home from "./src/Components/Screens/Home";
+import HomeScreen from "./src/Components/Screens/Home";
 import NewPost from "./src/Components/Screens/NewPost";
 import Profile from "./src/Components/Screens/Profile";
+import DynamicProfile from "./src/Components/Screens/DynamicProfile";
 
 import CustomTheme from "./src/Components/CustomTheme";
 import queries from "./src/queries";
@@ -67,6 +68,17 @@ export default function App() {
         reject(e);
       }
     });
+  }
+
+  const HomeStack = createStackNavigator();
+
+  const Home = () => {
+    return (
+      <HomeStack.Navigator screenOptions={{headerShown: false}}>
+        <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+        <HomeStack.Screen name="DynamicProfile" component={DynamicProfile} />
+      </HomeStack.Navigator>
+    );
   }
 
   const Tab = createBottomTabNavigator();
