@@ -1,6 +1,8 @@
 export default colors = {
   "primary": "#FF6B00",
-  "secondary": "#FFB783",
-  "accent": "#95bb30",
-  "detail": "#787878"
+  "background": '#2D2D2D',
+  "card": '#343434',
+  "text": '#FFFFFF',
+  "border": '#00000000',
+  "notification": '#FF6B00'
 }

@@ -1,12 +1,13 @@
+import colors from "../colors";
 
 export default CustomTheme = {
     dark: true,
     colors: {
-        primary: '#FF6B00',
-        background: '#2D2D2D',
-        card: '#343434',
-        text: '#FFFFFF',
-        border: '#00000000',
-        notification: '#FF6B00'
+        primary: colors.primary,
+        background: colors.background,
+        card: colors.card,
+        text: colors.text,
+        border: colors.border,
+        notification: colors.notification
     }
 }

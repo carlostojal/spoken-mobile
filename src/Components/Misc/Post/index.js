@@ -18,7 +18,6 @@ import colors from "../../../colors";
 export default function Post(props) {
 
   const { t } = useTranslation();
-  const { colors: themeColors } = useTheme();
 
   const [post, setPost] = useState(props.data);
 
@@ -60,7 +59,7 @@ export default function Post(props) {
     }
 
     return (
-      <View style={[{ backgroundColor: themeColors.card }, styles.container]}>
+      <View style={[{ backgroundColor: colors.card }, styles.container]}>
         <TouchableOpacity>
           {
             // image

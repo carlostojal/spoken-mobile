@@ -4,9 +4,9 @@ import colors from "../../../colors";
 export default StyleSheet.create({
 
   field: {
-    backgroundColor: "#464646",
+    backgroundColor: colors.card,
     borderRadius: 30,
-    color: "#E5E5E5",
+    color: colors.text,
     padding: 15,
     fontSize: 15,
     fontFamily: "Raleway_400Regular"
