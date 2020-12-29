@@ -13,6 +13,11 @@ import styles from "./styles";
 
 export default function Feed(props) {
 
+  const { t } = useTranslation();
+
+  // salutation
+  const [salutation, setSalutation] = useState("...")
+
   // page number
   const [page, setPage] = useState(1);
   const perPage = Constants.manifest.extra.POSTS_PER_PAGE;
@@ -30,6 +35,20 @@ export default function Feed(props) {
 
   // feed array
   const [feed, setFeed] = useState(null);
+
+  // get salutation by time
+  useEffect(() => {
+
+    const currentHours = parseInt(new Date().getHours());
+
+    if(currentHours >= 12 && currentHours < 20)
+      setSalutation(t("screens.feed.labels.good_afternoon"));
+    else if(currentHours >= 20)
+      setSalutation(t("screens.feed.labels.good_evening"));
+    else
+      setSalutation(t("screens.feed.labels.good_morning"));
+
+  });
 
   useEffect(() => {
     if(page)
@@ -73,7 +92,7 @@ export default function Feed(props) {
     return (
       <View style={styles.header}>
         <CustomText style={styles.header_title}>
-          {t("screens.feed.labels.good_afternoon")}
+          { salutation }
         </CustomText>
         <CustomText style={styles.header_name}>
           { userData && userData.getUserData ?
@@ -99,9 +118,7 @@ export default function Feed(props) {
 
   const renderSeparator = () => {
     return <View style={{height: 15}} />
-  }
-
-  const { t } = useTranslation();
+  }  
 
   return (
     <View>
