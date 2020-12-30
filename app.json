@@ -41,7 +41,8 @@
       "favicon": "./assets/spoken-logo.png"
     },
     "android": {
-      "package": "com.carlostojal.spoken"
+      "package": "com.carlostojal.spoken",
+      "useNextNotificationsApi": true
     },
     "extra": {
       "APOLLO_ADDRESS": "192.168.1.68",

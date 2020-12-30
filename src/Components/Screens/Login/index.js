@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, Text, TextInput, TouchableOpacity, Vibration, Alert } from "react-native";
-import { useLazyQuery,useMutation } from "@apollo/client";
+import { View, ScrollView, Vibration, Alert } from "react-native";
+import { useLazyQuery } from "@apollo/client";
 import AsyncStorage from '@react-native-community/async-storage'; 
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
@@ -20,58 +20,25 @@ export default function Login({ navigation }) {
   const [login, setLogin] = useState(null);
   const [password, setPassword] = useState(null);
 
-  const [loginDone, setLoginDone] = useState(false);
-  const [tokenRegisterDone, setTokenRegisterDone] = useState(false);
-
   const { t } = useTranslation();
 
   const [doLogin, { loading, data, error }] = useLazyQuery(queries.GET_TOKEN, {
     fetchPolicy: "network-only"
   });
 
-  const [setPushToken, {loading: setPushTokenLoading, data: setPushTokenData, error: setPushTokenError}] = useMutation(queries.SET_PUSH_TOKEN, {
-    fetchPolicy: "no-cache"
-  });
-
   // when login is done
   useEffect(() => {
     if(data) {
       if(data.getToken) {
-        console.log("Login done.");
         AsyncStorage.setItem("access_token", data.getToken).then(() => {
-          setLoginDone(true);
+          Vibration.vibrate([0, 70, 100, 70]);
+          navigation.replace("Main");
         }).catch((e) => {
           console.log(e);
-        });
+        })
       }
     }
   }, [data]);
-
-  // when login is done, start setting push token
-  useEffect(() => {
-    if(loginDone) {
-      console.log("Setting push token...");
-      Notifications.getExpoPushTokenAsync().then((push_token) => {
-        setPushToken({variables: {token: push_token.data}});
-      });
-    }
-  }, [loginDone]);
-
-  // when push token is set, set flag to true
-  useEffect(() => {
-    if(setPushTokenData && setPushTokenData.setExpoPushToken) {
-      setTokenRegisterDone(true);
-    }
-  }, [setPushTokenData]);
-
-  // when login or token register are updated, if both are done, skip login
-  useEffect(() => {
-    if(loginDone && tokenRegisterDone) {
-      console.log("Login done and push token set.");
-      Vibration.vibrate([0, 70, 100, 70]);
-      navigation.replace("Main");
-    }
-  }, [loginDone, tokenRegisterDone]);
 
   useEffect(() => {
     if(error) {
@@ -130,8 +97,10 @@ export default function Login({ navigation }) {
             </CustomTextField>
           </View>
           <View style={styles.area}>
-            <CustomButton loading={loading || setPushTokenLoading} loadingColor="white" onPress={() => {
-              doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})` }});
+            <CustomButton loading={loading} loadingColor="white" onPress={() => {
+              Notifications.getExpoPushTokenAsync().then((push_token) => {
+                doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})`, pushToken: push_token.data }});
+              });
             }}>
               {t("screens.login.labels.login_btn")}
             </CustomButton>

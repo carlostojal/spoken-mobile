@@ -9,6 +9,7 @@ import queries from "./queries";
 export default function Profile(props) {
 
   const { data: userData } = useQuery(queries.GET_PROFILE, {
+    fetchPolicy: "network-only",
     variables: {
       user_id: props.user_id
     }
