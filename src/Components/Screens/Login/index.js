@@ -24,8 +24,6 @@ export default function Login({ navigation }) {
 
   const [isLoading, setLoading] = useState(false);
 
-  const [status, setStatus] = useState("");
-
   const { t } = useTranslation();
 
   const [doLogin, { loading, data, error }] = useLazyQuery(queries.GET_TOKEN, {
@@ -33,9 +31,7 @@ export default function Login({ navigation }) {
   });
 
   const getPushTokenAndLogin = () => {
-    setStatus("Getting expo push token");
     Notifications.getExpoPushTokenAsync().then((push_token) => {
-      setStatus("Token: " + push_token.data);
       doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})`, pushToken: push_token.data }});
     });
   }
@@ -120,7 +116,6 @@ export default function Login({ navigation }) {
           <View style={styles.area}>
             <CustomButton loading={isLoading} loadingColor="white" onPress={() => {
               setLoading(true);
-              setStatus("Asking permission");
               Permissions.getAsync(Permissions.NOTIFICATIONS).then(({status: existingStatus}) => {
                 let finalStatus = existingStatus;
                 if (existingStatus !== 'granted') {
