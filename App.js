@@ -55,13 +55,14 @@ export default function App() {
             }]);
         }
 
+        /*
         // if could refresh token, means the session is active, so skip login
         if(data && data.data) {
           if(data.data.refreshToken) {
             await AsyncStorage.setItem("access_token", data.data.refreshToken);
             setInitialRouteName("Main"); // skip directly from splash screen to main navigator
           }
-        }
+        }*/
 
         resolve("done");
       } catch(e) {

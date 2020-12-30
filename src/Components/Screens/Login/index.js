@@ -4,6 +4,7 @@ import { useLazyQuery } from "@apollo/client";
 import AsyncStorage from '@react-native-community/async-storage'; 
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
 import { useTranslation } from "react-i18next";
 
 import CustomButton from "../../Misc/CustomButton";
@@ -14,17 +15,34 @@ import queries from "./queries";
 import colors from "../../../colors";
 import CustomTextField from "../../Misc/CustomTextField";
 import Header from "../../Misc/Header";
+import CustomText from "../../Misc/CustomText";
 
 export default function Login({ navigation }) {
 
   const [login, setLogin] = useState(null);
   const [password, setPassword] = useState(null);
 
+  const [isLoading, setLoading] = useState(false);
+
+  const [status, setStatus] = useState("");
+
   const { t } = useTranslation();
 
   const [doLogin, { loading, data, error }] = useLazyQuery(queries.GET_TOKEN, {
     fetchPolicy: "network-only"
   });
+
+  const getPushTokenAndLogin = () => {
+    setStatus("Getting expo push token");
+    Notifications.getExpoPushTokenAsync().then((push_token) => {
+      setStatus("Token: " + push_token.data);
+      doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})`, pushToken: push_token.data }});
+    });
+  }
+
+  useEffect(() => {
+    setLoading(loading);
+  }, [loading]);
 
   // when login is done
   useEffect(() => {
@@ -96,10 +114,25 @@ export default function Login({ navigation }) {
               {t("screens.login.labels.password")}
             </CustomTextField>
           </View>
+          <CustomText>
+            {status}
+          </CustomText>
           <View style={styles.area}>
-            <CustomButton loading={loading} loadingColor="white" onPress={() => {
-              Notifications.getExpoPushTokenAsync().then((push_token) => {
-                doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})`, pushToken: push_token.data }});
+            <CustomButton loading={isLoading} loadingColor="white" onPress={() => {
+              setLoading(true);
+              setStatus("Asking permission");
+              Permissions.getAsync(Permissions.NOTIFICATIONS).then(({status: existingStatus}) => {
+                let finalStatus = existingStatus;
+                if (existingStatus !== 'granted') {
+                  Permissions.askAsync(Permissions.NOTIFICATIONS).then(({status}) => {
+                    finalStatus = status;
+                    if (finalStatus === 'granted') {
+                      getPushTokenAndLogin();
+                    }
+                  });
+                } else {
+                  getPushTokenAndLogin();
+                }
               });
             }}>
               {t("screens.login.labels.login_btn")}
