@@ -110,9 +110,6 @@ export default function Login({ navigation }) {
               {t("screens.login.labels.password")}
             </CustomTextField>
           </View>
-          <CustomText>
-            {status}
-          </CustomText>
           <View style={styles.area}>
             <CustomButton loading={isLoading} loadingColor="white" onPress={() => {
               setLoading(true);
