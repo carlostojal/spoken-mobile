@@ -42,6 +42,7 @@
     },
     "android": {
       "package": "com.carlostojal.spoken",
+      "googleServicesFile": "./google-services.json",
       "useNextNotificationsApi": true
     },
     "extra": {

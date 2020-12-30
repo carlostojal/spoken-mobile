@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from "react-native";
-import { AppLoading } from "expo";
+import AppLoading from "expo-app-loading";
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
