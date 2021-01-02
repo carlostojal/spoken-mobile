@@ -92,6 +92,7 @@ export default function Signup() {
             style={{color: colors.text, fontFamily: "Raleway_400Regular", marginBottom: 10}}
             onValueChange={onProfileTypeChange}
             selectedValue={profileType}
+            mode="dropdown"
           >
             <Picker.Item label={t("screens.signup.labels.profile_type")} value="default" />
             <Picker.Item label={t("screens.signup.labels.personal")} value="personal" />
@@ -100,9 +101,10 @@ export default function Signup() {
           { profileType == "personal" &&
             <>
               <Picker
-              style={{color: colors.text, fontFamily: "Raleway_400Regular", marginBottom: 10}}
-              onValueChange={onProfilePrivacyTypeChange}
-              selectedValue={profilePrivacyType}
+                style={{color: colors.text, fontFamily: "Raleway_400Regular", marginBottom: 10}}
+                onValueChange={onProfilePrivacyTypeChange}
+                selectedValue={profilePrivacyType}
+                mode="dropdown"
               >
                 <Picker.Item label={t("screens.signup.labels.profile_privacy_type")} value="default"/>
                 <Picker.Item label={t("screens.signup.labels.public")} value="public" />
