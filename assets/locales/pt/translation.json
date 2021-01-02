@@ -21,7 +21,14 @@
           "password": "Palavra-passe",
           "confirm_password": "Confirmar palavra-passe",
           "profile_type": "Tipo de Perfil",
-          "profile_privacy_type": "Privacidade do Perfil"
+          "profile_privacy_type": "Privacidade do Perfil",
+          "personal": "Pessoal",
+          "business": "Negócio",
+          "public": "Público",
+          "private": "Privado",
+          "business_always_public": "Perfis de negócio são sempre públicos.",
+          "public_description": "Qualquer um que visite o seu perfil consegue ver as suas publicações.",
+          "private_description": "Apenas os seus seguidores conseguem ver as suas publicações. Os pedidos para seguir precisam de aprovação."
         }
       },
       "confirm_account": {

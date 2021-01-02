@@ -21,7 +21,14 @@
           "password": "Password",
           "confirm_password": "Confirm password",
           "profile_type": "Profile type",
-          "profile_privacy_type": "Profile privacy type"
+          "profile_privacy_type": "Profile privacy",
+          "personal": "Pessoal",
+          "business": "Business",
+          "public": "Public",
+          "private": "Private",
+          "business_always_public": "Business profiles are always public.",
+          "public_description": "Anyone who visits your profile can see your posts.",
+          "private_description": "Only followers can see your posts. You have to accept follow requests."
         }
       },
       "confirm_account": {

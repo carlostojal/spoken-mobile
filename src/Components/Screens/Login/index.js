@@ -89,7 +89,7 @@ export default function Login({ navigation }) {
       <ScrollView>
         <View style={{padding: 15}}>
           <View style={styles.area}>
-            <Header renderLogo>
+            <Header>
               {t("screens.login.title")}
             </Header>
           </View>
