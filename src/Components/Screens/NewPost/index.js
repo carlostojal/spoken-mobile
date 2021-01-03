@@ -21,7 +21,7 @@ export default function NewPost(props) {
   useEffect(() => {
     if(createPostError) {
       Vibration.vibrate([0, 70, 100, 70]);
-      Alert.alert(t("strings.error"), createPostError.message);
+      Alert.alert(t("strings.error"), t("errors.unexpected") + "\n\n" + createPostError.message);
     }
   }, [createPostError]);
 
