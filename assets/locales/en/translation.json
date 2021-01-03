@@ -28,7 +28,9 @@
           "private": "Private",
           "business_always_public": "Business profiles are always public.",
           "public_description": "Anyone who visits your profile can see your posts.",
-          "private_description": "Only followers can see your posts. You have to accept follow requests."
+          "private_description": "Only followers can see your posts. You have to accept follow requests.",
+          "signup": "Sign up",
+          "return_to_login": "Return to login"
         }
       },
       "confirm_account": {
@@ -74,7 +76,11 @@
       "email_not_confirmed": "Email not confirmed.",
       "wrong_confirmation_code": "Wrong confirmation code.",
       "confirmation_on_timeout": "Please wait a moment before resending a confirmation email.",
-      "unexpected": "Unexpected error."
+      "unexpected": "Unexpected error.",
+      "empty_fields": "Some fields are empty.",
+      "invalid_birthdate": "Invalid birthdate.",
+      "weak_password": "Weak password.",
+      "duplicate_username_or_email": "Username or email already registered."
     }
   }
 }

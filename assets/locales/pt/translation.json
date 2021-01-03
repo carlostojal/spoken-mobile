@@ -28,7 +28,9 @@
           "private": "Privado",
           "business_always_public": "Perfis de negócio são sempre públicos.",
           "public_description": "Qualquer um que visite o seu perfil consegue ver as suas publicações.",
-          "private_description": "Apenas os seus seguidores conseguem ver as suas publicações. Os pedidos para seguir precisam de aprovação."
+          "private_description": "Apenas os seus seguidores conseguem ver as suas publicações. Os pedidos para seguir precisam de aprovação.",
+          "signup": "Criar conta",
+          "return_to_login": "Voltar ao início de sessão"
         }
       },
       "confirm_account": {
@@ -74,7 +76,11 @@
       "email_not_confirmed": "O email não foi verificado.",
       "wrong_confirmation_code": "Código de confirmação incorreto.",
       "confirmation_on_timeout": "Por favor aguarde um momento até reenviar o email de confirmação.",
-      "unexpected": "Ocorreu um erro inesperado."
+      "unexpected": "Ocorreu um erro inesperado.",
+      "empty_fields": "Existem campos vazios.",
+      "invalid_birthdate": "Data de nascimento inválida.",
+      "weak_password": "Palavra-passe fraca.",
+      "duplicate_username_or_email": "Nome de utilizador ou email já registados."
     }
   }
 }

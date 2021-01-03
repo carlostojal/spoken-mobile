@@ -12,7 +12,7 @@ export default function CustomButton(props) {
           <Text style={[styles.text, props.textStyle]}>{props.children}</Text>
         }
         { props.loading &&
-          <ActivityIndicator size="small" color={props.loadingColor} />
+          <ActivityIndicator size="small" color={props.loadingColor || "white"} />
         }
       </View>
     </TouchableHighlight>

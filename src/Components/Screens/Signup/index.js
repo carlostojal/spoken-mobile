@@ -1,24 +1,63 @@
-import React, { useState } from "react";
-import { View, ScrollView, Picker } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, ScrollView, Picker, Alert } from "react-native";
 import { useTranslation } from "react-i18next";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useMutation } from "@apollo/client";
 
 import Header from "../../Misc/Header";
 import CustomTextField from "../../Misc/CustomTextField";
+import CustomText from "../../Misc/CustomText";
 import CustomButton from "../../Misc/CustomButton";
 import colors from "../../../colors";
-import CustomText from "../../Misc/CustomText";
+import queries from "./queries";
 
-export default function Signup() {
+export default function Signup(props) {
 
   const { t } = useTranslation();
 
   const [userSelectedDate, setUserSelectedDate] = useState(false);
-  const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  const [name, setName] = useState(null);
+  const [surname, setSurname] = useState(null);
+  const [birthdate, setBirthdate] = useState(new Date());
+  const [email, setEmail] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [password, setPassword] = useState(null);
   const [profileType, setProfileType] = useState("default");
   const [profilePrivacyType, setProfilePrivacyType] = useState("default");
+
+  const [onSignup, {loading: signupLoading, error: signupError, data: signupData}] = useMutation(queries.REGISTER_USER);
+
+  useEffect(() => {
+    if(signupError) {
+      Vibration.vibrate(100);
+
+      let details;
+      switch(signupError.message) {
+        case "INVALID_BIRTHDATE":
+          details = t("errors.invalid_birthdate");
+          break;
+        case "WEAK_PASSWORD":
+          details = t("errors.weak_password");
+          break;
+        case "DUPLICATE_USERNAME_OR_EMAIL":
+          details = t("errors.duplicate_username_or_email");
+          break;
+        default:
+          details = t("errors.unexpected") + "\n" + signupError.message;
+          break;
+      }
+
+      Alert.alert(t("strings.error"), details);
+    }
+  }, [signupError]);
+
+  useEffect(() => {
+    if(signupData) {
+      Alert.alert(signupError);
+    }
+  }, [signupData]);
 
   const onBirthdatePick = () => {
     setShowDatePicker(true);
@@ -26,7 +65,7 @@ export default function Signup() {
 
   const onBirthdateChange = (e, selectedDate) => {
     setShowDatePicker(false);
-    setDate(selectedDate || date);
+    setBirthdate(selectedDate || birthdate);
     setUserSelectedDate(true)
   };
 
@@ -43,6 +82,30 @@ export default function Signup() {
       setProfilePrivacyType(value);
   };
 
+  const onSignupClick = () => {
+
+    if(!userSelectedDate || !name || !surname || !email || !username || !password || profileType == "default" || profilePrivacyType == "default") {
+      Alert.alert(t("strings.error"), t("errors.empty_fields"));
+    } else {
+
+      onSignup({variables: {
+        username,
+        password,
+        name,
+        surname,
+        birthdate: birthdate.getTime().toString(),
+        email,
+        profile_type: profileType,
+        profile_privacy_type: profilePrivacyType
+      }});
+    }
+  };
+
+  const onBack = () => {
+    props.navigation.goBack();
+  };
+
+
   return (
     <View>
       <ScrollView>
@@ -50,23 +113,32 @@ export default function Signup() {
           <Header>
             { t("screens.signup.title") }
           </Header>
-          <CustomTextField style={{marginBottom: 10}}>
+          <CustomTextField
+            style={{marginBottom: 10}}
+            onChangeText={(e) => setName(e)}
+          >
             { t("screens.signup.labels.name") }
           </CustomTextField>
-          <CustomTextField style={{marginBottom: 10}}>
+          <CustomTextField
+            style={{marginBottom: 10}}
+            onChangeText={(e) => setSurname(e)}
+          >
             { t("screens.signup.labels.surname") }
           </CustomTextField>
-          <CustomButton style={{ backgroundColor: colors.card, marginBottom: 10 }} onPress={onBirthdatePick}>
+          <CustomButton
+            style={{ backgroundColor: colors.card, marginBottom: 10 }}
+            onPress={onBirthdatePick}
+          >
             {
               t("screens.signup.labels.birthdate")
             }
             { userSelectedDate &&
-              `: ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+              `: ${birthdate.getDate()}/${birthdate.getMonth() + 1}/${birthdate.getFullYear()}`
             }
           </CustomButton>
           { showDatePicker &&
             <DateTimePicker
-              value={date}
+              value={birthdate}
               mode="date"
               onChange={onBirthdateChange}
             />
@@ -75,16 +147,21 @@ export default function Signup() {
             autoCompleteType="email"
             keyboardType="email-address"
             style={{marginBottom: 10}}
+            onChangeText={(e) => setEmail(e)}
           >
             { t("screens.signup.labels.email") }
           </CustomTextField>
-          <CustomTextField style={{marginBottom: 10}}>
+          <CustomTextField
+            style={{marginBottom: 10}}
+            onChangeText={(e) => setUsername(e)}
+          >
             { t("screens.signup.labels.username") }
           </CustomTextField>
           <CustomTextField
             secureTextEntry={true}
-            keyboardType="visible-password"
+            keyboardType="password"
             style={{marginBottom: 10}}
+            onChangeText={(e) => setPassword(e)}
           >
             { t("screens.signup.labels.password") }
           </CustomTextField>
@@ -113,15 +190,30 @@ export default function Signup() {
             </>
           }
           { profileType == "business" &&
-            <CustomText>
+            <CustomText style={{marginBottom: 10}}>
               { t("screens.signup.labels.business_always_public") }
             </CustomText>
           }
           { profilePrivacyType != "default" &&
-                <CustomText>
-                  {t(`screens.signup.labels.${profilePrivacyType}_description`)}
-                </CustomText>
-              }
+            <CustomText style={{marginBottom: 10}}>
+              {t(`screens.signup.labels.${profilePrivacyType}_description`)}
+            </CustomText>
+          }
+          <CustomButton 
+            style={{marginBottom: 5}}
+            onPress={onSignupClick}
+            loading={signupLoading}
+            loadingColor="black"
+          >
+            {t("screens.signup.labels.signup")}
+          </CustomButton>
+          <CustomButton
+            style={{backgroundColor: colors.secondary}}
+            textStyle={{color: "black"}}
+            onPress={onBack}
+          >
+            {t("screens.signup.labels.return_to_login")}
+          </CustomButton>
         </View>
       </ScrollView>
     </View>

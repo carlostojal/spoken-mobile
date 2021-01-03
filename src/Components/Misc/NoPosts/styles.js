@@ -4,19 +4,19 @@ import colors from "../../../colors";
 export default StyleSheet.create({
 
   container: {
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.card,
     padding: 20,
     alignItems: "center"
   },
 
   heading: {
-    color: "black",
+    color: colors.text,
     fontFamily: "Raleway_700Bold",
     fontSize: 25
   },
 
   text: {
-    color: "black",
+    color: colors.text,
     fontSize: 15,
     marginTop: 20
   }

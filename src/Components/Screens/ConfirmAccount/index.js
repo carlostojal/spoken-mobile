@@ -90,11 +90,11 @@ export default function ConfirmAccount(props) {
           {t("screens.confirm_account.labels.confirmation_code")}
         </CustomTextField>
         <View style={{height: 20}}/>
-        <CustomButton onPress={onConfirm} loading={confirmationLoading}>
+        <CustomButton onPress={onConfirm} loading={confirmationLoading} loadingColor="black">
           {t("screens.confirm_account.labels.confirm_btn")}
         </CustomButton>
         <View style={{height: 5}} />
-        <CustomButton onPress={onResend} style={{backgroundColor: colors.secondary}} textStyle={{color: "black"}} loading={resendLoading}>
+        <CustomButton onPress={onResend} style={{backgroundColor: colors.secondary}} textStyle={{color: "black"}} loading={resendLoading} loadingColor="black">
           {t("screens.confirm_account.labels.resend_btn")}
         </CustomButton>
       </View>

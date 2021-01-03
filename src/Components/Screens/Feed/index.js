@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, RefreshControl, ActivityIndicator, Alert } from "react-native";
+import { View, FlatList, RefreshControl, ActivityIndicator, Alert, TouchableOpacity } from "react-native";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 
 import Post from "../../Misc/Post";
+import NoPosts from "../../Misc/NoPosts";
 
 import refreshToken from "../../../helpers/refreshToken";
 
@@ -90,7 +91,10 @@ export default function Feed(props) {
 
   const renderHeader = () => {
     return (
-      <View style={styles.header}>
+      <TouchableOpacity
+        style={styles.header}
+        onPress={() => props.navigation.navigate("Profile")}
+      >
         <CustomText style={styles.header_title}>
           { salutation }
         </CustomText>
@@ -99,7 +103,7 @@ export default function Feed(props) {
             userData.getUserData.name :
             "..." }
         </CustomText>
-      </View>
+      </TouchableOpacity>
     );
   }
 
@@ -109,9 +113,9 @@ export default function Feed(props) {
         { feedLoading && 
           <ActivityIndicator size="large" />
         }
-        { /*!feedLoading &&
+        { !feedLoading &&
           <NoPosts />
-        */ }
+        }
       </View>
     );
   }
