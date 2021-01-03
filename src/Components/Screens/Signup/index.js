@@ -24,8 +24,8 @@ export default function Signup(props) {
   const [email, setEmail] = useState(null);
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
-  const [profileType, setProfileType] = useState("default");
-  const [profilePrivacyType, setProfilePrivacyType] = useState("default");
+  const [profileType, setProfileType] = useState("personal");
+  const [profilePrivacyType, setProfilePrivacyType] = useState("public");
 
   const [onSignup, {loading: signupLoading, error: signupError, data: signupData}] = useMutation(queries.REGISTER_USER);
 
@@ -166,40 +166,44 @@ export default function Signup(props) {
           >
             { t("screens.signup.labels.password") }
           </CustomTextField>
-          <Picker
-            style={{color: colors.text, fontFamily: "Raleway_400Regular", marginBottom: 10}}
-            onValueChange={onProfileTypeChange}
-            selectedValue={profileType}
-            mode="dropdown"
-          >
-            <Picker.Item label={t("screens.signup.labels.profile_type")} value="default" />
-            <Picker.Item label={t("screens.signup.labels.personal")} value="personal" />
-            <Picker.Item label={t("screens.signup.labels.business")} value="business" />
-          </Picker>
-          { profileType == "personal" &&
+          {/*
             <>
-              <Picker
-                style={{color: colors.text, fontFamily: "Raleway_400Regular", marginBottom: 10}}
-                onValueChange={onProfilePrivacyTypeChange}
-                selectedValue={profilePrivacyType}
-                mode="dropdown"
-              >
-                <Picker.Item label={t("screens.signup.labels.profile_privacy_type")} value="default"/>
-                <Picker.Item label={t("screens.signup.labels.public")} value="public" />
-                <Picker.Item label={t("screens.signup.labels.private")} value="private" />
-              </Picker>
+            <Picker
+              style={{color: colors.text, fontFamily: "Raleway_400Regular", marginBottom: 10}}
+              onValueChange={onProfileTypeChange}
+              selectedValue={profileType}
+              mode="dropdown"
+            >
+              <Picker.Item label={t("screens.signup.labels.profile_type")} value="default" />
+              <Picker.Item label={t("screens.signup.labels.personal")} value="personal" />
+              <Picker.Item label={t("screens.signup.labels.business")} value="business" />
+            </Picker>
+            { profileType == "personal" &&
+              <>
+                <Picker
+                  style={{color: colors.text, fontFamily: "Raleway_400Regular", marginBottom: 10}}
+                  onValueChange={onProfilePrivacyTypeChange}
+                  selectedValue={profilePrivacyType}
+                  mode="dropdown"
+                >
+                  <Picker.Item label={t("screens.signup.labels.profile_privacy_type")} value="default"/>
+                  <Picker.Item label={t("screens.signup.labels.public")} value="public" />
+                  <Picker.Item label={t("screens.signup.labels.private")} value="private" />
+                </Picker>
+              </>
+            }
+            { profileType == "business" &&
+              <CustomText style={{marginBottom: 10}}>
+                { t("screens.signup.labels.business_always_public") }
+              </CustomText>
+            }
+            { profilePrivacyType != "default" &&
+              <CustomText style={{marginBottom: 10}}>
+                {t(`screens.signup.labels.${profilePrivacyType}_description`)}
+              </CustomText>
+            }
             </>
-          }
-          { profileType == "business" &&
-            <CustomText style={{marginBottom: 10}}>
-              { t("screens.signup.labels.business_always_public") }
-            </CustomText>
-          }
-          { profilePrivacyType != "default" &&
-            <CustomText style={{marginBottom: 10}}>
-              {t(`screens.signup.labels.${profilePrivacyType}_description`)}
-            </CustomText>
-          }
+          */}
           <CustomButton 
             style={{marginBottom: 5}}
             onPress={onSignupClick}

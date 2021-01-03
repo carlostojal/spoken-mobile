@@ -2,10 +2,10 @@ import React from "react";
 
 import ProfileComp from "../../Misc/Profile";
 
-export default function Profile() {
+export default function Profile(props) {
   return (
     <>
-      <ProfileComp />
+      <ProfileComp navigation={props.navigation} />
     </>
   );
 }
