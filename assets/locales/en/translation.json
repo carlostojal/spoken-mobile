@@ -79,7 +79,7 @@
       "email_not_confirmed": "Email not confirmed.",
       "wrong_confirmation_code": "Wrong confirmation code.",
       "confirmation_on_timeout": "Please wait a moment before resending a confirmation email.",
-      "unexpected": "Unexpected error.",
+      "unexpected": "Unexpected error. Please try again.",
       "empty_fields": "Some fields are empty.",
       "invalid_birthdate": "Invalid birthdate.",
       "weak_password": "Weak password.",

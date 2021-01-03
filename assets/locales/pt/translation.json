@@ -79,7 +79,7 @@
       "email_not_confirmed": "O email não foi verificado.",
       "wrong_confirmation_code": "Código de confirmação incorreto.",
       "confirmation_on_timeout": "Por favor aguarde um momento até reenviar o email de confirmação.",
-      "unexpected": "Ocorreu um erro inesperado.",
+      "unexpected": "Ocorreu um erro inesperado. Por favor tente novamente.",
       "empty_fields": "Existem campos vazios.",
       "invalid_birthdate": "Data de nascimento inválida.",
       "weak_password": "Palavra-passe fraca.",

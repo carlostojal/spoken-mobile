@@ -71,7 +71,7 @@ export default function Login({ navigation }) {
           details = t("errors.email_not_confirmed");
           break;
         default:
-          details = t("errors.unexpected") + "\n" + error.message;
+          details = t("errors.unexpected") + "\n\n" + error.message;
       }
 
       Alert.alert(t("strings.error"), details);

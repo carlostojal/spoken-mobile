@@ -45,7 +45,7 @@ export default function Signup(props) {
           details = t("errors.duplicate_username_or_email");
           break;
         default:
-          details = t("errors.unexpected") + "\n" + signupError.message;
+          details = t("errors.unexpected") + "\n\n" + signupError.message;
           break;
       }
 

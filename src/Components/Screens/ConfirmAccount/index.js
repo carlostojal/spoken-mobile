@@ -42,7 +42,7 @@ export default function ConfirmAccount(props) {
           message = t("errors.wrong_confirmation_code");
           break;
         default:
-          message = t("errors.unexpected");
+          message = t("errors.unexpected") + "\n\n" + confirmationError.message;
       }
       Alert.alert(t("strings.error"), message);
     }
@@ -60,7 +60,7 @@ export default function ConfirmAccount(props) {
           message = t("errors.confirmation_on_timeout");
           break;
         default: 
-          message = t("errors.unexpected");
+          message = t("errors.unexpected") + "\n\n" + resendError.message;
           break;
       }
       

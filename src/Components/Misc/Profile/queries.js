@@ -13,5 +13,23 @@ export default queries = {
         username
       }
     }
+  `,
+
+  GET_USER_POSTS: gql`
+    query getUserPosts($page: Int!, $perPage: Int!, $user_id: String) {
+      getUserPosts(page: $page, perPage: $perPage, user_id: $user_id) {
+        id
+        time
+        poster {
+          id
+          name
+          surname
+          username
+        }
+        text
+        user_reacted
+        edited
+      }
+    }
   `
 }
