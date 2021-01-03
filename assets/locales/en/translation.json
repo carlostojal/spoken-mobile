@@ -54,6 +54,12 @@
           "no_posts": "No posts."
         }
       },
+      "search": {
+        "labels": {
+          "search": "Search",
+          "search_action": "Search"
+        }
+      },
       "new_post": {
         "title": "Create post",
         "labels": {
@@ -67,6 +73,14 @@
       "no_posts": {
         "heading": "That's it!",
         "text": "No more posts."
+      },
+      "no_results": {
+        "heading": "Hmm, I don't know...",
+        "text": "Sorry, no results were found."
+      },
+      "not_allowed": {
+        "heading": "Private account",
+        "text": "This account is private and you don't follow it."
       }
     },
     "strings": {

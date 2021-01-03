@@ -8,7 +8,8 @@ export default StyleSheet.create({
     flexDirection: "row",
     padding: 15,
     borderRadius: 30,
-    justifyContent: "center"
+    justifyContent: "center",
+    alignItems: "center"
   },
 
   text: {

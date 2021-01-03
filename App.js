@@ -14,6 +14,7 @@ import Login from "./src/Components/Screens/Login";
 import Signup from "./src/Components/Screens/Signup";
 import ConfirmAccount from "./src/Components/Screens/ConfirmAccount";
 import HomeScreen from "./src/Components/Screens/Home";
+import SearchScreen from "./src/Components/Screens/Search";
 import NewPost from "./src/Components/Screens/NewPost";
 import Profile from "./src/Components/Screens/Profile";
 import DynamicProfile from "./src/Components/Screens/DynamicProfile";
@@ -81,6 +82,17 @@ export default function App() {
     );
   }
 
+  const SearchStack = createStackNavigator();
+
+  const Search = () => {
+    return (
+      <SearchStack.Navigator screenOptions={{headerShown: false}}>
+        <SearchStack.Screen name="SearchScreen" component={SearchScreen} />
+        <SearchStack.Screen name="SearchProfile" component={DynamicProfile} />
+      </SearchStack.Navigator>
+    );
+  }
+
   const Tab = createBottomTabNavigator();
 
   const Main = () => {
@@ -92,6 +104,8 @@ export default function App() {
 
             if(route.name === "Home") {
               iconName = "md-home"
+            } else if(route.name === "Search") {
+              iconName = "md-search"
             } else if(route.name === "New") {
               iconName = "md-add-circle"
             } else if(route.name === "Profile") {
@@ -107,6 +121,7 @@ export default function App() {
         }}
       >
         <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Search" component={Search} />
         <Tab.Screen name="New" component={NewPost} />
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>

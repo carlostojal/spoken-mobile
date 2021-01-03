@@ -54,6 +54,12 @@
           "no_posts": "Nenhuma publicação para mostrar."
         }
       },
+      "search": {
+        "labels": {
+          "search": "Pesquisa",
+          "search_action": "Pesquisar"
+        }
+      },
       "new_post": {
         "title": "Criar publicação",
         "labels": {
@@ -67,6 +73,14 @@
       "no_posts": {
         "heading": "Por agora é tudo!",
         "text": "Não há mais publicações para ver."
+      },
+      "no_results": {
+        "heading": "Hmm, não sei...",
+        "text": "Desculpe, não foram encontrados resultados."
+      },
+      "not_allowed": {
+        "heading": "Conta privada",
+        "text": "Esta conta é privada e não a segues."
       }
     },
     "strings": {

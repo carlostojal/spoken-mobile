@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import Post from "../Post";
 import NoPosts from "../NoPosts";
+import NotAllowed from "../NotAllowed";
 import CustomText from "../CustomText";
 import styles from "./styles";
 import queries from "./queries";
@@ -13,6 +14,8 @@ import queries from "./queries";
 export default function Profile(props) {
 
   const { t } = useTranslation();
+
+  const [isAllowed, setIsAllowed] = useState(true);
 
   const [page, setPage] = useState(1);
   const perPage = Constants.manifest.extra.POSTS_PER_PAGE;
@@ -50,8 +53,10 @@ export default function Profile(props) {
 
   useEffect(() => {
     if(feedError) {
-      console.log(feedError);
-      Alert.alert(t("strings.error"), t("errors.unexpected") + "\n\n" + feedError.message);
+      if(feedError.message == "NOT_ALLOWED")
+        setIsAllowed(false);
+      else
+        Alert.alert(t("strings.error"), t("errors.unexpected") + "\n\n" + feedError.message);
     }
   }, [feedError]);
 
@@ -93,8 +98,11 @@ export default function Profile(props) {
         { feedLoading && 
           <ActivityIndicator size="large" />
         }
-        { !feedLoading &&
+        { !feedLoading && isAllowed &&
           <NoPosts />
+        }
+        { !isAllowed &&
+          <NotAllowed />
         }
       </View>
     );
