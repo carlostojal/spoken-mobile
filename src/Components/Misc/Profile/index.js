@@ -12,8 +12,6 @@ import queries from "./queries";
 
 export default function Profile(props) {
 
-  console.log(props.user_id);
-
   const { t } = useTranslation();
 
   const [page, setPage] = useState(1);
