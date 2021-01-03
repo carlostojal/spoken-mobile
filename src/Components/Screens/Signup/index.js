@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, Picker, Alert } from "react-native";
+import { View, ScrollView, Picker, Alert, Vibration } from "react-native";
 import { useTranslation } from "react-i18next";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useMutation } from "@apollo/client";
@@ -54,7 +54,7 @@ export default function Signup(props) {
   }, [signupError]);
 
   useEffect(() => {
-    if(signupData) {
+    if(signupData && signupData.registerUser) {
       Alert.alert(t("strings.success"), t("screens.signup.labels.success"));
       props.navigation.goBack();
     }
