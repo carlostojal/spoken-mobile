@@ -11,6 +11,8 @@ export default queries = {
         birthdate
         email
         username
+        is_followed
+        is_himself
       }
     }
   `,
@@ -29,6 +31,14 @@ export default queries = {
         text
         user_reacted
         edited
+      }
+    }
+  `,
+
+  FOLLOW: gql`
+    mutation follow($user_id: String!) {
+      followUser(id: $user_id) {
+        id
       }
     }
   `

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, FlatList, RefreshControl, ActivityIndicator, Alert } from "react-native";
-import { useQuery, useLazyQuery } from "@apollo/client";
+import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
 import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 
@@ -8,6 +8,7 @@ import Post from "../Post";
 import NoPosts from "../NoPosts";
 import NotAllowed from "../NotAllowed";
 import CustomText from "../CustomText";
+import CustomButton from "../CustomButton";
 import styles from "./styles";
 import queries from "./queries";
 
@@ -17,12 +18,16 @@ export default function Profile(props) {
 
   const [isAllowed, setIsAllowed] = useState(true);
 
+  const [isFollowed, setIsFollowed] = useState(user && user.is_followed || false);
+
+  const [user, setUser] = useState(null);
+
   const [page, setPage] = useState(1);
   const perPage = Constants.manifest.extra.POSTS_PER_PAGE;
 
   const [feed, setFeed] = useState(null);
 
-  const { data: userData } = useQuery(queries.GET_PROFILE, {
+  const { data: userData, loading: userLoading } = useQuery(queries.GET_PROFILE, {
     fetchPolicy: "network-only",
     variables: {
       user_id: props.user_id
@@ -32,6 +37,27 @@ export default function Profile(props) {
   const [getFeed, { data: feedData, loading: feedLoading, error: feedError }] = useLazyQuery(queries.GET_USER_POSTS, {
     fetchPolicy: "network-only"
   });
+
+  const [follow, { data: followData, loading: followLoading, error: followError }] = useMutation(queries.FOLLOW, {
+    fetchPolicy: "no-cache"
+  });
+
+  useEffect(() => {
+    if(userData && userData.getUserData) {
+      setUser(userData.getUserData);
+      setIsFollowed(userData.getUserData.is_followed);
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    if(followData && followData.followUser)
+      setIsFollowed(!isFollowed);
+  }, [followData]);
+
+  useEffect(() => {
+    if(followError)
+      Alert.alert(t("strings.error"), t("errors.unexpected") + "\n\n" + followError.message);
+  }, [followError]);
 
   useEffect(() => {
     if(page)
@@ -77,17 +103,25 @@ export default function Profile(props) {
     return (
       <View style={styles.container}>
         <CustomText style={styles.username}>
-          { userData && userData.getUserData ? 
-            userData.getUserData.username :
+          { user ? 
+            user.username :
             "..."
           }
         </CustomText>
         <CustomText style={styles.name}>
-          { userData && userData.getUserData ? 
-            userData.getUserData.name + " " + userData.getUserData.surname :
+          { user ? 
+            user.name + " " + user.surname :
             "..."
           }
         </CustomText>
+        { user && !user.is_himself &&
+          <CustomButton style={{marginTop: 25, padding: 10}} loading={followLoading || userLoading} onPress={onFollow}>
+            { isFollowed ? 
+              t("screens.profile.labels.unfollow") :
+              t("screens.profile.labels.follow")
+            }
+          </CustomButton>
+        }
       </View>
     );
   };
@@ -110,7 +144,11 @@ export default function Profile(props) {
 
   const renderSeparator = () => {
     return <View style={{height: 15}} />
-  }  
+  }
+
+  const onFollow = () => {
+    follow({variables: { user_id: props.user_id }});
+  }
 
   return (
     <View>

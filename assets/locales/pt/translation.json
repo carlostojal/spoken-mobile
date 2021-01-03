@@ -67,6 +67,12 @@
           "post_btn": "Publicar",
           "success": "Publicação criada com sucesso"
         }
+      },
+      "profile": {
+        "labels": {
+          "follow": "Seguir",
+          "unfollow": "Deixar de seguir"
+        }
       }
     },
     "misc": {

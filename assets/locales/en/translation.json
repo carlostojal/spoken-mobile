@@ -66,6 +66,12 @@
           "text": "Write your post here",
           "post_btn": "Post",
           "success": "Post created successfully."
+        },
+        "profile": {
+          "labels": {
+            "follow": "Follow",
+            "unfollow": "Unfollow"
+          }
         }
       }
     },
