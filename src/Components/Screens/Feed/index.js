@@ -72,7 +72,7 @@ export default function Feed(props) {
   useEffect(() => {
     if(feedError) {
       console.log(feedError);
-      Alert.alert(t("strings.error"), t("errors.unexpected"));
+      Alert.alert(t("strings.error"), t("errors.unexpected") + "\n" + feedError.message);
     }
   }, [feedError]);
 

@@ -21,6 +21,11 @@ export default function Header(props) {
       <CustomText style={{fontFamily: "Raleway_700Bold", fontSize: 40}}>
         {props.children}
       </CustomText>
+      { props.subtitle &&
+        <CustomText style={{fontFamily: "Raleway_400Regular", fontSize: 18, color: "#A4A4A4"}}>
+        {props.subtitle}
+      </CustomText>
+      }
     </View>
   );
 }

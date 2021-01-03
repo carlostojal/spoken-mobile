@@ -3,6 +3,7 @@
     "screens": {
       "login": {
         "title": "Hello",
+        "subtitle": "Login",
         "labels": {
           "login": "Username or email",
           "password": "Password",
@@ -12,6 +13,7 @@
       },
       "signup": {
         "title": "Welcome",
+        "subtitle": "Signup",
         "labels": {
           "name": "Name",
           "surname": "Surname",
@@ -30,7 +32,8 @@
           "public_description": "Anyone who visits your profile can see your posts.",
           "private_description": "Only followers can see your posts. You have to accept follow requests.",
           "signup": "Sign up",
-          "return_to_login": "Return to login"
+          "return_to_login": "Return to login",
+          "success": "Account created successfully."
         }
       },
       "confirm_account": {

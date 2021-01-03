@@ -55,7 +55,8 @@ export default function Signup(props) {
 
   useEffect(() => {
     if(signupData) {
-      Alert.alert(signupError);
+      Alert.alert(t("strings.success"), t("screens.signup.labels.success"));
+      props.navigation.goBack();
     }
   }, [signupData]);
 
@@ -110,7 +111,7 @@ export default function Signup(props) {
     <View>
       <ScrollView>
         <View style={{padding: 15}}>
-          <Header>
+          <Header subtitle={t("screens.signup.subtitle")}>
             { t("screens.signup.title") }
           </Header>
           <CustomTextField

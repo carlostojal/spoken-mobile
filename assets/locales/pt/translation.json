@@ -3,6 +3,7 @@
     "screens": {
       "login": {
         "title": "Olá",
+        "subtitle": "Início de sessão",
         "labels": {
           "login": "Nome de utilizador ou email",
           "password": "Palavra-passe",
@@ -12,6 +13,7 @@
       },
       "signup": {
         "title": "Bem vindo",
+        "subtitle": "Registo",
         "labels": {
           "name": "Nome",
           "surname": "Apelido",
@@ -30,7 +32,8 @@
           "public_description": "Qualquer um que visite o seu perfil consegue ver as suas publicações.",
           "private_description": "Apenas os seus seguidores conseguem ver as suas publicações. Os pedidos para seguir precisam de aprovação.",
           "signup": "Criar conta",
-          "return_to_login": "Voltar ao início de sessão"
+          "return_to_login": "Voltar ao início de sessão",
+          "success": "Conta criada com sucesso."
         }
       },
       "confirm_account": {

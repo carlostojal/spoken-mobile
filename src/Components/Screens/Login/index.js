@@ -71,7 +71,7 @@ export default function Login({ navigation }) {
           details = t("errors.email_not_confirmed");
           break;
         default:
-          details = t("errors.unexpected");
+          details = t("errors.unexpected") + "\n" + error.message;
       }
 
       Alert.alert(t("strings.error"), details);
@@ -89,7 +89,7 @@ export default function Login({ navigation }) {
       <ScrollView>
         <View style={{padding: 15}}>
           <View style={styles.area}>
-            <Header>
+            <Header subtitle={t("screens.login.subtitle")}>
               {t("screens.login.title")}
             </Header>
           </View>
