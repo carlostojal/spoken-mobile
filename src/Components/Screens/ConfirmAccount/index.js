@@ -79,7 +79,7 @@ export default function ConfirmAccount(props) {
   return (
     <View>
       <View style={{padding: 15}}>
-        <Header renderLogo>
+        <Header>
           {t("screens.confirm_account.title")}
         </Header>
         <CustomText style={{color: "gray"}}>
