@@ -103,7 +103,10 @@
       "empty_fields": "Some fields are empty.",
       "invalid_birthdate": "Invalid birthdate.",
       "weak_password": "Weak password.",
-      "duplicate_username_or_email": "Username or email already registered."
+      "duplicate_username_or_email": "Username or email already registered.",
+      "invalid_name_or_surname": "Invalid name or surname.",
+      "invalid_email": "Invalid email.",
+      "invalid_username": "Invalid username."
     }
   }
 }

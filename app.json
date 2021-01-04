@@ -48,7 +48,7 @@
       "icon": "./assets/spoken-logo.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/spoken-logo-foreground.png",
-        "backgroundColor": "#2D2D2D"
+        "backgroundImage": "./assets/spoken-logo-background.png"
       }
     },
     "extra": {

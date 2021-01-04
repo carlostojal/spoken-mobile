@@ -44,6 +44,15 @@ export default function Signup(props) {
         case "DUPLICATE_USERNAME_OR_EMAIL":
           details = t("errors.duplicate_username_or_email");
           break;
+        case "INVALID_NAME_OR_SURNAME":
+          details = t("errors.invalid_name_or_username");
+          break;
+        case "INVALID_EMAIL":
+          details = t("errors.invalid_email");
+          break;
+        case "INVALID_USERNAME":
+          details = t("errors.invalid_username");
+          break;
         default:
           details = t("errors.unexpected") + "\n\n" + signupError.message;
           break;

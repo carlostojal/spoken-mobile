@@ -103,7 +103,10 @@
       "empty_fields": "Existem campos vazios.",
       "invalid_birthdate": "Data de nascimento inválida.",
       "weak_password": "Palavra-passe fraca.",
-      "duplicate_username_or_email": "Nome de utilizador ou email já registados."
+      "duplicate_username_or_email": "Nome de utilizador ou email já registados.",
+      "invalid_name_or_surname": "Nome ou apelido inválidos.",
+      "invalid_email": "Email inválido.",
+      "invalid_username": "Username inválido."
     }
   }
 }
