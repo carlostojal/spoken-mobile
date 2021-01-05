@@ -106,7 +106,8 @@
       "duplicate_username_or_email": "Nome de utilizador ou email já registados.",
       "invalid_name_or_surname": "Nome ou apelido inválidos. Utilizou caracteres não permitidos.",
       "invalid_email": "Email inválido.",
-      "invalid_username": "Nome de utilizador inválido. O nome de utilizador pode conter letras, números e underscore."
+      "invalid_username": "Nome de utilizador inválido. O nome de utilizador pode conter letras, números e underscore.",
+      "invalid_post_text": "Texto inválido."
     }
   }
 }

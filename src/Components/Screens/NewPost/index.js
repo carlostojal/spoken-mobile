@@ -20,8 +20,15 @@ export default function NewPost(props) {
 
   useEffect(() => {
     if(createPostError) {
-      Vibration.vibrate([0, 70, 100, 70]);
-      Alert.alert(t("strings.error"), t("errors.unexpected") + "\n\n" + createPostError.message);
+      
+      let details = t("errors.unexpected") + "\n\n" + createPostError.message;
+      switch(createPostError.message) {
+        case "INVALID_TEXT":
+          details = t("errors.invalid_post_text");
+          break;
+      }
+
+      Alert.alert(t("strings.error"), details);
     }
   }, [createPostError]);
 

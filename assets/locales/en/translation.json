@@ -106,7 +106,8 @@
       "duplicate_username_or_email": "Username or email already registered.",
       "invalid_name_or_surname": "Invalid name or surname. You used not allowed characters.",
       "invalid_email": "Invalid email.",
-      "invalid_username": "Invalid username. The username can contain letters, numbers and underscore."
+      "invalid_username": "Invalid username. The username can contain letters, numbers and underscore.",
+      "invalid_post_text": "Texto inválido."
     }
   }
 }
