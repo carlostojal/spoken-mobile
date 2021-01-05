@@ -85,7 +85,7 @@ export default function Feed(props) {
 
   const renderItem = ({ item }) => {
     return (
-      <Post data={item} navigation={props.navigation} />
+      <Post data={item} navigation={props.navigation} profileType="dynamic" />
     );
   }
 

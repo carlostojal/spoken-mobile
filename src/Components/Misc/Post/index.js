@@ -55,7 +55,21 @@ export default function Post(props) {
     }
 
     const goToProfile = (id) => {
-      props.navigation.navigate("DynamicProfile", {
+      let destination = "DynamicProfile";
+      if(props.profileType) {
+        switch(props.profileType) {
+          case "dynamic":
+            destination = "DynamicProfile";
+            break;
+          case "personal":
+            destination = "Profile";
+            break;
+          case "search":
+            destination = "SearchProfile";
+            break;
+        }
+      }
+      props.navigation.navigate(destination, {
         user_id: id
       });
     };

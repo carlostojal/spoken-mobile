@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Alert, Vibration } from "react-native";
+import { ScrollView, View, Alert, Vibration } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@apollo/client";
 
@@ -35,7 +35,7 @@ export default function NewPost(props) {
   }, [createPostData]);
 
   return (
-    <View>
+    <ScrollView>
       <Header>
         { t("screens.new_post.title") }
       </Header>
@@ -61,6 +61,6 @@ export default function NewPost(props) {
           </CustomButton>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
