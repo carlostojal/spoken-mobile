@@ -35,8 +35,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "icon": "./assets/spoken-logo.png"
+      "supportsTablet": true
     },
     "web": {
       "favicon": "./assets/spoken-logo.png"
@@ -44,12 +43,7 @@
     "android": {
       "package": "com.carlostojal.spoken",
       "googleServicesFile": "./google-services.json",
-      "useNextNotificationsApi": true,
-      "icon": "./assets/spoken-logo.png",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/spoken-logo-foreground.png",
-        "backgroundImage": "./assets/spoken-logo-background.png"
-      }
+      "useNextNotificationsApi": true
     },
     "extra": {
       "APOLLO_ADDRESS": "http://46.189.218.6",
