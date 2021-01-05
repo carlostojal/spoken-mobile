@@ -104,9 +104,9 @@
       "invalid_birthdate": "Data de nascimento inválida.",
       "weak_password": "Palavra-passe fraca.",
       "duplicate_username_or_email": "Nome de utilizador ou email já registados.",
-      "invalid_name_or_surname": "Nome ou apelido inválidos.",
+      "invalid_name_or_surname": "Nome ou apelido inválidos. Utilizou caracteres não permitidos.",
       "invalid_email": "Email inválido.",
-      "invalid_username": "Username inválido."
+      "invalid_username": "Nome de utilizador inválido. O nome de utilizador pode conter letras, números e underscore."
     }
   }
 }
