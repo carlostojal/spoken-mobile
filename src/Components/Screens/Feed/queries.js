@@ -12,6 +12,11 @@ export default queries = {
           surname
           username
         }
+        media {
+          id
+          is_nsfw
+          url
+        }
         text
         user_reacted
         edited

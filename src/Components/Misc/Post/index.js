@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Image, TouchableOpacity, Alert } from "react-native";
+import { View, Image, TouchableOpacity, Alert, TouchableWithoutFeedback } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 
@@ -19,6 +19,10 @@ export default function Post(props) {
 
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  const [imageHeight, setImageHeight] = useState(null);
+
+  const [shouldBlur, setShouldBlur] = useState(post && post.media && post.media.is_nsfw);
+
   const [reactPost, { data: reactData, loading: reactLoading, error: reactError }] = useMutation(queries.REACT_POST, {
     errorPolicy: "all",
     onError: (error) => {
@@ -26,6 +30,14 @@ export default function Post(props) {
       refreshToken(reactPost, { variables: { id: post.id } })
     }
   });
+
+  useEffect(() => {
+    if(post && post.media && post.media.url) {
+      Image.getSize(post.media.url, (width, height) => {
+        setImageHeight((365 / width) * height);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if(reactError) {
@@ -103,7 +115,18 @@ export default function Post(props) {
         {
           // content
         }
-        <CustomText style={styles.content}>{post.text}</CustomText>
+        { post.media && post.media.url &&
+          <>
+            <View style={{width: 365, height: imageHeight}}>
+              <TouchableWithoutFeedback onPress={() => {
+                setShouldBlur(!shouldBlur);
+              }}>
+                <Image source={{uri: post.media.url}} style={{flex: 1, width: undefined, height: undefined}} blurRadius={shouldBlur ? 10 : null} />
+              </TouchableWithoutFeedback>
+            </View>
+          </>
+        }
+        <CustomText style={[styles.content, {paddingTop: post.media && post.media.url ? 15 : 0}]}>{post.text}</CustomText>
         {
           // footer
         }

@@ -94,6 +94,7 @@ export default function Profile(props) {
   }, [props.shouldReload]);
 
   const renderItem = ({ item }) => {
+    console.log(item)
     return (
       <Post data={item} navigation={props.navigation} profileType={props.profileType} />
     );
