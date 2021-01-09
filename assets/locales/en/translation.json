@@ -1,0 +1,113 @@
+{
+  "translation": {
+    "screens": {
+      "login": {
+        "title": "Hello",
+        "subtitle": "Login",
+        "labels": {
+          "login": "Username or email",
+          "password": "Password",
+          "register": "Sign up",
+          "login_btn": "Login"
+        }
+      },
+      "signup": {
+        "title": "Welcome",
+        "subtitle": "Signup",
+        "labels": {
+          "name": "Name",
+          "surname": "Surname",
+          "birthdate": "Birthdate",
+          "email": "Email address",
+          "username": "Username",
+          "password": "Password",
+          "confirm_password": "Confirm password",
+          "profile_type": "Profile type",
+          "profile_privacy_type": "Profile privacy",
+          "personal": "Pessoal",
+          "business": "Business",
+          "public": "Public",
+          "private": "Private",
+          "business_always_public": "Business profiles are always public.",
+          "public_description": "Anyone who visits your profile can see your posts.",
+          "private_description": "Only followers can see your posts. You have to accept follow requests.",
+          "signup": "Sign up",
+          "return_to_login": "Return to login",
+          "success": "Account created successfully."
+        }
+      },
+      "confirm_account": {
+        "title": "Confirm",
+        "labels": {
+          "confirmation_code": "Confirmation code",
+          "instructions": "Please enter the code that you received in the email provided in signup.\nIf ou haven't received the code please request a resend.",
+          "success": "Account confirmed successfully",
+          "confirm_btn": "Confirm",
+          "resend_btn": "Resend code"
+        }
+      },
+      "feed": {
+        "labels": {
+          "good_morning": "Good morning,",
+          "good_afternoon": "Good afternoon,",
+          "good_evening": "Good evening",
+          "no_posts": "No posts."
+        }
+      },
+      "search": {
+        "labels": {
+          "search": "Search",
+          "search_action": "Search"
+        }
+      },
+      "new_post": {
+        "title": "Create post",
+        "labels": {
+          "text": "Write your post here",
+          "post_btn": "Post",
+          "success": "Post created successfully."
+        },
+        "profile": {
+          "labels": {
+            "follow": "Follow",
+            "unfollow": "Unfollow"
+          }
+        }
+      }
+    },
+    "misc": {
+      "no_posts": {
+        "heading": "That's it!",
+        "text": "No more posts."
+      },
+      "no_results": {
+        "heading": "Hmm, I don't know...",
+        "text": "Sorry, no results were found."
+      },
+      "not_allowed": {
+        "heading": "Private account",
+        "text": "This account is private and you don't follow it."
+      }
+    },
+    "strings": {
+      "success": "Success",
+      "error": "Error"
+    },
+    "errors": {
+      "user_not_found": "User not found.",
+      "wrong_password": "Wrong password.",
+      "email_not_confirmed": "Email not confirmed.",
+      "wrong_confirmation_code": "Wrong confirmation code.",
+      "confirmation_on_timeout": "Please wait a moment before resending a confirmation email.",
+      "unexpected": "Unexpected error. Please try again.",
+      "empty_fields": "Some fields are empty.",
+      "invalid_birthdate": "Invalid birthdate.",
+      "weak_password": "Weak password.",
+      "duplicate_username_or_email": "Username or email already registered.",
+      "invalid_name_or_surname": "Invalid name or surname. You used not allowed characters.",
+      "invalid_email": "Invalid email.",
+      "invalid_username": "Invalid username. The username can contain letters, numbers and underscore.",
+      "invalid_post_text": "Texto inválido."
+    }
+  }
+}

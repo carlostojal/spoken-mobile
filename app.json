@@ -1,17 +1,35 @@
 {
   "expo": {
-    "name": "spokennetwork-mobile",
-    "slug": "spokennetwork-mobile",
+    "name": "Spoken",
+    "slug": "spoken-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/spoken-logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/spoken-logo-splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#2D2D2D"
+    },
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": [
+        "expo.ts",
+        "expo.tsx",
+        "expo.js",
+        "expo.jsx",
+        "ts",
+        "tsx",
+        "js",
+        "jsx",
+        "json",
+        "wasm",
+        "svg"
+      ]
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 10000
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,10 +38,22 @@
       "supportsTablet": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/spoken-logo.png"
+    },
+    "android": {
+      "package": "com.carlostojal.spoken",
+      "googleServicesFile": "./google-services.json",
+      "useNextNotificationsApi": true
     },
     "extra": {
-      "graphqlURL": "http://192.168.1.66:4000"
-    }
+      "APOLLO_ADDRESS": "http://192.168.1.68",
+      "APOLLO_PORT": "4000",
+      "EXPRESS_ADDRESS": "http://192.168.1.68",
+      "EXPRESS_PORT": "8080",
+      "MEDIA_ENDPOINT": "media",
+      "UPLOAD_ENDPOINT": "upload",
+      "POSTS_PER_PAGE": 10
+    },
+    "description": ""
   }
 }

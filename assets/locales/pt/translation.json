@@ -1,0 +1,113 @@
+{
+  "translation": {
+    "screens": {
+      "login": {
+        "title": "Olá",
+        "subtitle": "Início de sessão",
+        "labels": {
+          "login": "Nome de utilizador ou email",
+          "password": "Palavra-passe",
+          "register": "Criar conta",
+          "login_btn": "Iniciar sessão"
+        }
+      },
+      "signup": {
+        "title": "Bem vindo",
+        "subtitle": "Registo",
+        "labels": {
+          "name": "Nome",
+          "surname": "Apelido",
+          "birthdate": "Data de Nascimento",
+          "email": "Email",
+          "username": "Nome de utilizador",
+          "password": "Palavra-passe",
+          "confirm_password": "Confirmar palavra-passe",
+          "profile_type": "Tipo de Perfil",
+          "profile_privacy_type": "Privacidade do Perfil",
+          "personal": "Pessoal",
+          "business": "Negócio",
+          "public": "Público",
+          "private": "Privado",
+          "business_always_public": "Perfis de negócio são sempre públicos.",
+          "public_description": "Qualquer um que visite o seu perfil consegue ver as suas publicações.",
+          "private_description": "Apenas os seus seguidores conseguem ver as suas publicações. Os pedidos para seguir precisam de aprovação.",
+          "signup": "Criar conta",
+          "return_to_login": "Voltar ao início de sessão",
+          "success": "Conta criada com sucesso."
+        }
+      },
+      "confirm_account": {
+        "title": "Confirmar",
+        "labels": {
+          "confirmation_code": "Código de confirmação",
+          "instructions": "Por favor introduza o código recebido por email no momento do registo.\nCaso não tenha recebido o código, por favor peça um reenvio.",
+          "success": "Conta confirmada com sucesso.",
+          "confirm_btn": "Confirmar",
+          "resend_btn": "Reenviar código"
+        }
+      },
+      "feed": {
+        "labels": {
+          "good_morning": "Bom dia,",
+          "good_afternoon": "Boa tarde,",
+          "good_evening": "Boa noite,",
+          "no_posts": "Nenhuma publicação para mostrar."
+        }
+      },
+      "search": {
+        "labels": {
+          "search": "Pesquisa",
+          "search_action": "Pesquisar"
+        }
+      },
+      "new_post": {
+        "title": "Criar publicação",
+        "labels": {
+          "text": "Escreve aqui a tua publicação.",
+          "post_btn": "Publicar",
+          "success": "Publicação criada com sucesso"
+        }
+      },
+      "profile": {
+        "labels": {
+          "follow": "Seguir",
+          "unfollow": "Deixar de seguir"
+        }
+      }
+    },
+    "misc": {
+      "no_posts": {
+        "heading": "Por agora é tudo!",
+        "text": "Não há mais publicações para ver."
+      },
+      "no_results": {
+        "heading": "Hmm, não sei...",
+        "text": "Desculpe, não foram encontrados resultados."
+      },
+      "not_allowed": {
+        "heading": "Conta privada",
+        "text": "Esta conta é privada e não a segues."
+      }
+    },
+    "strings": {
+      "success": "Sucesso",
+      "error": "Erro"
+    },
+    "errors": {
+      "user_not_found": "O utilizador não existe.",
+      "wrong_password": "Password errada.",
+      "email_not_confirmed": "O email não foi verificado.",
+      "wrong_confirmation_code": "Código de confirmação incorreto.",
+      "confirmation_on_timeout": "Por favor aguarde um momento até reenviar o email de confirmação.",
+      "unexpected": "Ocorreu um erro inesperado. Por favor tente novamente.",
+      "empty_fields": "Existem campos vazios.",
+      "invalid_birthdate": "Data de nascimento inválida.",
+      "weak_password": "Palavra-passe fraca.",
+      "duplicate_username_or_email": "Nome de utilizador ou email já registados.",
+      "invalid_name_or_surname": "Nome ou apelido inválidos. Utilizou caracteres não permitidos.",
+      "invalid_email": "Email inválido.",
+      "invalid_username": "Nome de utilizador inválido. O nome de utilizador pode conter letras, números e underscore.",
+      "invalid_post_text": "Texto inválido."
+    }
+  }
+}
