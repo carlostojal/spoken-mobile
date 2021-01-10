@@ -65,6 +65,9 @@
         "labels": {
           "text": "Escreve aqui a tua publicação.",
           "post_btn": "Publicar",
+          "upload_btn": "Carregar imagem",
+          "change_upload": "Alterar imagem",
+          "image_uploaded": "Imagem carregada.",
           "success": "Publicação criada com sucesso"
         }
       },
@@ -107,7 +110,9 @@
       "invalid_name_or_surname": "Nome ou apelido inválidos. Utilizou caracteres não permitidos.",
       "invalid_email": "Email inválido.",
       "invalid_username": "Nome de utilizador inválido. O nome de utilizador pode conter letras, números e underscore.",
-      "invalid_post_text": "Texto inválido."
+      "invalid_post_text": "Texto inválido.",
+      "error_picking_media": "Erro ao escolher imagem.",
+      "error_uploading_media": "Erro ao carregar imagem."
     }
   }
 }

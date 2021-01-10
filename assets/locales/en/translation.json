@@ -65,6 +65,9 @@
         "labels": {
           "text": "Write your post here",
           "post_btn": "Post",
+          "upload_btn": "Upload image",
+          "change_upload": "Change image",
+          "image_uploaded": "Image uploaded.",
           "success": "Post created successfully."
         },
         "profile": {
@@ -107,7 +110,9 @@
       "invalid_name_or_surname": "Invalid name or surname. You used not allowed characters.",
       "invalid_email": "Invalid email.",
       "invalid_username": "Invalid username. The username can contain letters, numbers and underscore.",
-      "invalid_post_text": "Texto inválido."
+      "invalid_post_text": "Invalid text.",
+      "error_picking_media": "Error picking media.",
+      "error_uploading_media": "Error uploading media."
     }
   }
 }
