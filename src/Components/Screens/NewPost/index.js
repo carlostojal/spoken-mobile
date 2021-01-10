@@ -46,7 +46,7 @@ export default function NewPost(props) {
       Vibration.vibrate([0, 70, 100, 70]);
       setText(""); // clear text box
       setMediaId(null);
-      setShowUploadButton(true);
+      setUploadDone(false);
       Alert.alert(t("strings.success"), t("screens.new_post.labels.success")); // show success alert
       props.navigation.navigate("Home"); // navigate home
     }
