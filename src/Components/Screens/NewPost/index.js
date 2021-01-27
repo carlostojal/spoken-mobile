@@ -107,7 +107,7 @@ export default function NewPost(props) {
       switch(uploadResult.result) {
         case "FILE_UPLOADED":
           setUploadDone(true);
-          setMediaId(uploadResult.media_id);
+          setMediaId(parseInt(uploadResult.media_id));
           break;
         default:
           Alert.alert(t("strings.error"), t("errors.error_uploading_media"));

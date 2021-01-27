@@ -30,7 +30,7 @@ export default function Profile(props) {
   const { data: userData, loading: userLoading } = useQuery(queries.GET_PROFILE, {
     fetchPolicy: "network-only",
     variables: {
-      user_id: props.user_id
+      user_id: parseInt(props.user_id)
     }
   });
 
@@ -61,7 +61,7 @@ export default function Profile(props) {
 
   useEffect(() => {
     if(page)
-      getFeed({ variables: { page, perPage, user_id: props.user_id } });
+      getFeed({ variables: { page, perPage, user_id: parseInt(props.user_id) } });
   }, [page]);
 
   useEffect(() => {
@@ -94,7 +94,6 @@ export default function Profile(props) {
   }, [props.shouldReload]);
 
   const renderItem = ({ item }) => {
-    console.log(item)
     return (
       <Post data={item} navigation={props.navigation} profileType={props.profileType} />
     );
@@ -148,7 +147,7 @@ export default function Profile(props) {
   }
 
   const onFollow = () => {
-    follow({variables: { user_id: props.user_id }});
+    follow({variables: { user_id: parseInt(props.user_id) }});
   }
 
   return (
