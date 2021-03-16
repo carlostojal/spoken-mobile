@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 export default queries = {
     
   GET_PROFILE: gql`
-    query getProfile($user_id: String) {
+    query getProfile($user_id: Int) {
       getUserData(id: $user_id) {
         id
         name
@@ -18,7 +18,7 @@ export default queries = {
   `,
 
   GET_USER_POSTS: gql`
-    query getUserPosts($page: Int!, $perPage: Int!, $user_id: String) {
+    query getUserPosts($page: Int!, $perPage: Int!, $user_id: Int) {
       getUserPosts(page: $page, perPage: $perPage, user_id: $user_id) {
         id
         time
@@ -41,7 +41,7 @@ export default queries = {
   `,
 
   FOLLOW: gql`
-    mutation follow($user_id: String!) {
+    mutation follow($user_id: Int!) {
       followUser(id: $user_id) {
         id
       }

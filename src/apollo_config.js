@@ -15,7 +15,7 @@ export default async () => {
     token = "";*/
 
   const httpLink = new HttpLink({
-    uri: `${Constants.manifest.extra.APOLLO_ADDRESS}:${Constants.manifest.extra.APOLLO_PORT}`,
+    uri: `${Constants.manifest.extra.APOLLO_ADDRESS}:${Constants.manifest.extra.APOLLO_PORT}${Constants.manifest.extra.APOLLO_ENDPOINT}`,
     credentials: "include",
     onError: ({ graphQLErrors, networkError, operation, forward }) => {
       console.log("================")

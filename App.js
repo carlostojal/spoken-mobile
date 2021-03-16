@@ -49,11 +49,8 @@ export default function App() {
         } catch(e) {
           Alert.alert(
             "Error",
-            "Connection error.",
-            [{
-              text: "OK",
-              onPress: () => BackHandler.exitApp()
-            }]);
+            "Connection error."
+          );
         }
 
         // if could refresh token, means the session is active, so skip login
