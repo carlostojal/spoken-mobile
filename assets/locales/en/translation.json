@@ -76,6 +76,13 @@
             "unfollow": "Unfollow"
           }
         }
+      },
+      "follow_requests": {
+        "title": "Follow Requests",
+        "labels": {
+          "accept": "Accept",
+          "ignore": "Ignore"
+        }
       }
     },
     "misc": {

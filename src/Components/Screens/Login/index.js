@@ -31,9 +31,11 @@ export default function Login({ navigation }) {
   });
 
   const getPushTokenAndLogin = () => {
+    doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})` }});
+    /*
     Notifications.getExpoPushTokenAsync().then((push_token) => {
       doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})`, pushToken: push_token.data }});
-    });
+    });*/
   }
 
   useEffect(() => {

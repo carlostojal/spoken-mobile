@@ -8,7 +8,7 @@ import { useFonts, Raleway_400Regular, Raleway_600SemiBold, Raleway_700Bold } fr
 import { ApolloProvider } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
 import Ionicons from "react-native-vector-icons/Ionicons"
-import { Alert, BackHandler } from "react-native";
+import { Alert } from "react-native";
 
 import Login from "./src/Components/Screens/Login";
 import Signup from "./src/Components/Screens/Signup";
@@ -16,6 +16,7 @@ import ConfirmAccount from "./src/Components/Screens/ConfirmAccount";
 import HomeScreen from "./src/Components/Screens/Home";
 import SearchScreen from "./src/Components/Screens/Search";
 import NewPost from "./src/Components/Screens/NewPost";
+import FollowRequests from "./src/Components/Screens/FollowRequests";
 import Profile from "./src/Components/Screens/Profile";
 import DynamicProfile from "./src/Components/Screens/DynamicProfile";
 
@@ -105,6 +106,8 @@ export default function App() {
               iconName = "md-search"
             } else if(route.name === "New") {
               iconName = "md-add-circle"
+            } else if(route.name === "Requests") {
+              iconName = "md-heart"
             } else if(route.name === "Profile") {
               iconName = "md-person"
             }
@@ -120,6 +123,7 @@ export default function App() {
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Search" component={Search} />
         <Tab.Screen name="New" component={NewPost} />
+        <Tab.Screen name="Requests" component={FollowRequests} />
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
     );

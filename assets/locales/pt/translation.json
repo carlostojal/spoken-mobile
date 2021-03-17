@@ -76,6 +76,13 @@
           "follow": "Seguir",
           "unfollow": "Deixar de seguir"
         }
+      },
+      "follow_requests": {
+        "title": "Pedidos para seguir",
+        "labels": {
+          "accept": "Aceitar",
+          "ignore": "Ignorar"
+        }
       }
     },
     "misc": {
