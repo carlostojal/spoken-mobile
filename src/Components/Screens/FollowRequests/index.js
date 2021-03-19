@@ -24,8 +24,6 @@ export default function FollowRequests(props) {
     return <FollowRequest user={item.user} />
   };
 
-  console.log(requests);
-
   return (
     <>
       <FlatList 
@@ -37,6 +35,7 @@ export default function FollowRequests(props) {
         ListFooterComponent={
           loading && <ActivityIndicator />
         }
+        keyExtractor={item => item.user.id}
         data={requests}
         renderItem={renderItem}
       />
