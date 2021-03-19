@@ -62,5 +62,11 @@ export default StyleSheet.create({
 
   footer_icon: {
     marginRight: 10
+  },
+
+  options_option: {
+    fontFamily: "Raleway_700Bold",
+    padding: 15,
+    fontSize: 17
   }
 });

@@ -69,12 +69,26 @@
           "change_upload": "Change image",
           "image_uploaded": "Image uploaded.",
           "success": "Post created successfully."
-        },
-        "profile": {
-          "labels": {
-            "follow": "Follow",
-            "unfollow": "Unfollow"
-          }
+        }
+      },
+      "profile": {
+        "labels": {
+          "follow": "Follow",
+          "unfollow": "Unfollow"
+        }
+      },
+      "follow_requests": {
+        "title": "Follow Requests",
+        "labels": {
+          "accept": "Accept",
+          "ignore": "Ignore"
+        }
+      },
+      "promote": {
+        "title": "Promote Post",
+        "description": "Promoted posts have a wider audience.\nPost promotion is a paid feature.\nAfter clicking the button bellow you will be redirected for payment (PayPal checkout).",
+        "labels": {
+          "confirm": "Confirm"
         }
       }
     },
@@ -90,11 +104,18 @@
       "not_allowed": {
         "heading": "Private account",
         "text": "This account is private and you don't follow it."
+      },
+      "post": {
+        "edit": "Edit",
+        "promote": "Promote",
+        "delete": "Delete"
       }
     },
     "strings": {
       "success": "Success",
-      "error": "Error"
+      "error": "Error",
+      "ok": "OK",
+      "cancel": "Cancel"
     },
     "errors": {
       "user_not_found": "User not found.",

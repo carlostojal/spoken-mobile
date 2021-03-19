@@ -7,8 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts, Raleway_400Regular, Raleway_600SemiBold, Raleway_700Bold } from '@expo-google-fonts/raleway';
 import { ApolloProvider } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
-import Ionicons from "react-native-vector-icons/Ionicons"
-import { Alert, BackHandler } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { Alert } from "react-native";
 
 import Login from "./src/Components/Screens/Login";
 import Signup from "./src/Components/Screens/Signup";
@@ -16,8 +16,10 @@ import ConfirmAccount from "./src/Components/Screens/ConfirmAccount";
 import HomeScreen from "./src/Components/Screens/Home";
 import SearchScreen from "./src/Components/Screens/Search";
 import NewPost from "./src/Components/Screens/NewPost";
-import Profile from "./src/Components/Screens/Profile";
+import FollowRequests from "./src/Components/Screens/FollowRequests";
+import ProfileScreen from "./src/Components/Screens/Profile";
 import DynamicProfile from "./src/Components/Screens/DynamicProfile";
+import Promote from "./src/Components/Screens/Promote";
 
 import CustomTheme from "./src/Components/CustomTheme";
 import queries from "./src/queries";
@@ -90,6 +92,17 @@ export default function App() {
     );
   }
 
+  const ProfileStack = createStackNavigator();
+
+  const Profile = () => {
+    return (
+      <ProfileStack.Navigator screenOptions={{headerShown: false}}>
+        <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+        <ProfileStack.Screen name="Promote" component={Promote} />
+      </ProfileStack.Navigator>
+    );
+  }
+
   const Tab = createBottomTabNavigator();
 
   const Main = () => {
@@ -105,6 +118,8 @@ export default function App() {
               iconName = "md-search"
             } else if(route.name === "New") {
               iconName = "md-add-circle"
+            } else if(route.name === "Requests") {
+              iconName = "md-heart"
             } else if(route.name === "Profile") {
               iconName = "md-person"
             }
@@ -120,6 +135,7 @@ export default function App() {
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Search" component={Search} />
         <Tab.Screen name="New" component={NewPost} />
+        <Tab.Screen name="Requests" component={FollowRequests} />
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
     );
