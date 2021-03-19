@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts, Raleway_400Regular, Raleway_600SemiBold, Raleway_700Bold } from '@expo-google-fonts/raleway';
 import { ApolloProvider } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
-import Ionicons from "react-native-vector-icons/Ionicons"
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { Alert } from "react-native";
 
 import Login from "./src/Components/Screens/Login";
@@ -17,8 +17,9 @@ import HomeScreen from "./src/Components/Screens/Home";
 import SearchScreen from "./src/Components/Screens/Search";
 import NewPost from "./src/Components/Screens/NewPost";
 import FollowRequests from "./src/Components/Screens/FollowRequests";
-import Profile from "./src/Components/Screens/Profile";
+import ProfileScreen from "./src/Components/Screens/Profile";
 import DynamicProfile from "./src/Components/Screens/DynamicProfile";
+import Promote from "./src/Components/Screens/Promote";
 
 import CustomTheme from "./src/Components/CustomTheme";
 import queries from "./src/queries";
@@ -88,6 +89,17 @@ export default function App() {
         <SearchStack.Screen name="SearchScreen" component={SearchScreen} />
         <SearchStack.Screen name="SearchProfile" component={DynamicProfile} />
       </SearchStack.Navigator>
+    );
+  }
+
+  const ProfileStack = createStackNavigator();
+
+  const Profile = () => {
+    return (
+      <ProfileStack.Navigator screenOptions={{headerShown: false}}>
+        <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+        <ProfileStack.Screen name="Promote" component={Promote} />
+      </ProfileStack.Navigator>
     );
   }
 

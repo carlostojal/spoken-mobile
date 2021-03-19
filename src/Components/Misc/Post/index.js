@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { View, Image, TouchableOpacity, Alert, TouchableWithoutFeedback } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Image, TouchableOpacity, Alert, TouchableWithoutFeedback, ActivityIndicator } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
+import Icon from "react-native-vector-icons/Ionicons";
+import BottomSheet from "react-native-raw-bottom-sheet";
 
 import CustomText from "../CustomText";
 
@@ -23,6 +25,8 @@ export default function Post(props) {
 
   const [shouldBlur, setShouldBlur] = useState(post && post.media && post.media.is_nsfw);
 
+  const bottomSheetRef = useRef();
+
   const [reactPost, { data: reactData, loading: reactLoading, error: reactError }] = useMutation(queries.REACT_POST, {
     errorPolicy: "all",
     onError: (error) => {
@@ -30,6 +34,8 @@ export default function Post(props) {
       refreshToken(reactPost, { variables: { id: post.id } })
     }
   });
+
+  
 
   useEffect(() => {
     if(post && post.media && post.media.url) {
@@ -107,9 +113,9 @@ export default function Post(props) {
           </TouchableOpacity>
           <View style={styles.time_options}>
             <CustomText style={styles.time}>{dateFormatResult.value + dateFormatResult.unit}</CustomText>
-            { /*
-            <Icon name="md-settings" size={20} style={{marginLeft: 10}}/>
-            */ }
+            <TouchableWithoutFeedback onPress={() => bottomSheetRef.current.open()}>
+              <Icon name="md-settings" size={20} style={{marginLeft: 10}} color="white" />
+            </TouchableWithoutFeedback>
           </View>
         </View>
         {
@@ -131,23 +137,56 @@ export default function Post(props) {
           // footer
         }
         <View style={styles.footer}>
-          { /*
-          <TouchableOpacity onPress={onReact}>
-            { post.user_reacted &&
-              <Icon name="md-heart" size={35} color={colors.primary} />
-            } 
-            { !post.user_reacted &&
-              <Icon name="md-heart-empty" size={35} color="#FFFFFF" />
-            }
-          </TouchableOpacity>
-          <TouchableOpacity style={{marginLeft: 10}}>
-            <Icon name="md-arrow-back" size={35} color="#FFFFFF" />
-          </TouchableOpacity>
-          <TouchableOpacity style={{marginLeft: 10}}>
-            <Icon name="md-arrow-forward" size={35} color="#FFFFFF" />
-          </TouchableOpacity>
-          */ }
+          {/*
+            <>
+              <TouchableOpacity onPress={onReact}>
+                { post.user_reacted &&
+                  <Icon name="md-heart" size={35} color={colors.primary} />
+                } 
+                { !post.user_reacted &&
+                  <Icon name="md-heart-empty" size={35} color="#FFFFFF" />
+                }
+              </TouchableOpacity>
+              <TouchableOpacity style={{marginLeft: 10}}>
+                <Icon name="md-arrow-back" size={35} color="#FFFFFF" />
+              </TouchableOpacity>
+              <TouchableOpacity style={{marginLeft: 10}}>
+                <Icon name="md-arrow-forward" size={35} color="#FFFFFF" />
+              </TouchableOpacity>
+            </>
+              */}
         </View>
+        <BottomSheet
+          ref={bottomSheetRef}
+          closeOnDragDown={true}
+          closeOnPressBack={true}
+          customStyles={{
+            container: {
+              backgroundColor: "black"
+            }
+          }}
+        >
+          <TouchableOpacity>
+            <CustomText style={styles.options_option}>
+              { t("misc.post.edit") }
+            </CustomText>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => props.navigation.navigate("Profile", {
+            screen: "Promote",
+            params: {
+              post_id: post.id
+            }
+          })}>
+            <CustomText style={styles.options_option}>
+              { t("misc.post.promote") }
+            </CustomText>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <CustomText style={[styles.options_option, { color: "red" }]}>
+              { t("misc.post.delete") }
+            </CustomText>
+          </TouchableOpacity>
+        </BottomSheet>
       </View>
     );
   }
