@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { View, Linking, ScrollView } from "react-native";
+import { View, Linking, ScrollView, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 
@@ -26,7 +26,7 @@ export default function Promote(props) {
 
   useEffect(() => {
     if(promoteError)
-      Alert.alert("Promote error", JSON.stringify(promoteError));
+      Alert.alert("Promote error", promoteError.message);
   }, [promoteError]);
 
   return (
