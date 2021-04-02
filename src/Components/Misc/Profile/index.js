@@ -11,6 +11,7 @@ import CustomText from "../CustomText";
 import CustomButton from "../CustomButton";
 import styles from "./styles";
 import queries from "./queries";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function Profile(props) {
 
@@ -114,6 +115,9 @@ export default function Profile(props) {
             "..."
           }
         </CustomText>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Settings")}>
+          <CustomText>{t("screens.profile.labels.settings")}</CustomText>
+        </TouchableOpacity>
         { user && !user.is_himself &&
           <CustomButton style={{marginTop: 25, padding: 10}} loading={followLoading || userLoading} onPress={onFollow}>
             { isFollowed ? 

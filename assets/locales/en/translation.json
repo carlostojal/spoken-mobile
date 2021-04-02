@@ -74,7 +74,8 @@
       "profile": {
         "labels": {
           "follow": "Follow",
-          "unfollow": "Unfollow"
+          "unfollow": "Unfollow",
+          "settings": "Settings"
         }
       },
       "follow_requests": {

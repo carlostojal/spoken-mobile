@@ -74,7 +74,8 @@
       "profile": {
         "labels": {
           "follow": "Seguir",
-          "unfollow": "Deixar de seguir"
+          "unfollow": "Deixar de seguir",
+          "settings": "Definições"
         }
       },
       "follow_requests": {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StatusBar } from "react-native";
 import AppLoading from "expo-app-loading";
-import { NavigationContainer, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts, Raleway_400Regular, Raleway_600SemiBold, Raleway_700Bold } from '@expo-google-fonts/raleway';
@@ -19,6 +19,7 @@ import NewPost from "./src/Components/Screens/NewPost";
 import FollowRequests from "./src/Components/Screens/FollowRequests";
 import ProfileScreen from "./src/Components/Screens/Profile";
 import DynamicProfile from "./src/Components/Screens/DynamicProfile";
+import Settings from "./src/Components/Screens/Settings";
 import Promote from "./src/Components/Screens/Promote";
 
 import CustomTheme from "./src/Components/CustomTheme";
@@ -99,6 +100,7 @@ export default function App() {
       <ProfileStack.Navigator screenOptions={{headerShown: false}}>
         <ProfileStack.Screen name="Profile" component={ProfileScreen} />
         <ProfileStack.Screen name="Promote" component={Promote} />
+        <ProfileStack.Screen name="Settings" component={Settings} />
       </ProfileStack.Navigator>
     );
   }
