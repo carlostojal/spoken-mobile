@@ -74,7 +74,8 @@
       "profile": {
         "labels": {
           "follow": "Follow",
-          "unfollow": "Unfollow"
+          "unfollow": "Unfollow",
+          "settings": "Settings"
         }
       },
       "follow_requests": {
@@ -108,7 +109,9 @@
       "post": {
         "edit": "Edit",
         "promote": "Promote",
-        "delete": "Delete"
+        "delete": "Delete",
+        "confirm_delete": "Are you sure?",
+        "delete_successful": "Publicação eliminada com sucesso"
       }
     },
     "strings": {

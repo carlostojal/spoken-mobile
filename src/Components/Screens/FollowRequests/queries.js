@@ -5,7 +5,7 @@ export default queries = {
     query getFollowRequests {
       getFollowRequests {
         user {
-          id
+          _id
           username
           name
           surname

@@ -3,13 +3,12 @@ import { gql } from "@apollo/client";
 export default queries = {
     
   GET_PROFILE: gql`
-    query getProfile($user_id: Int) {
+    query getProfile($user_id: ID) {
       getUserData(id: $user_id) {
-        id
+        _id
         name
         surname
         birthdate
-        email
         username
         is_followed
         is_himself
@@ -18,32 +17,33 @@ export default queries = {
   `,
 
   GET_USER_POSTS: gql`
-    query getUserPosts($page: Int!, $perPage: Int!, $user_id: Int) {
-      getUserPosts(page: $page, perPage: $perPage, user_id: $user_id) {
-        id
+    query getUserPosts($user_id: ID) {
+      getUserPosts(user_id: $user_id) {
+        _id
         time
         poster {
-          id
+          _id
           name
           surname
           username
         }
         media {
-          id
+          _id
           is_nsfw
           url
         }
         text
-        user_reacted
-        edited
+        reactions {
+          _id
+        }
       }
     }
   `,
 
   FOLLOW: gql`
-    mutation follow($user_id: Int!) {
+    mutation follow($user_id: ID!) {
       followUser(id: $user_id) {
-        id
+        _id
       }
     }
   `

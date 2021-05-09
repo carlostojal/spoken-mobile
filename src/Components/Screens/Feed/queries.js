@@ -2,23 +2,28 @@ import { gql } from "@apollo/client";
 
 export default queries = {
   GET_FEED: gql`
-    query getUserFeed($page: Int!, $perPage: Int!) {
-      getUserFeed(page: $page, perPage: $perPage) {
-        id
+    query getUserFeed {
+      getUserFeed {
+        _id
         time
         poster {
-          id
+          _id
           name
           surname
           username
         }
         media {
-          id
+          _id
           is_nsfw
           url
         }
         text
-        user_reacted
+        reactions {
+          _id
+          username
+          name
+          surname
+        }
         edited
       }
     }

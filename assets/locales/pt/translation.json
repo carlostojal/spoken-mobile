@@ -74,7 +74,8 @@
       "profile": {
         "labels": {
           "follow": "Seguir",
-          "unfollow": "Deixar de seguir"
+          "unfollow": "Deixar de seguir",
+          "settings": "Definições"
         }
       },
       "follow_requests": {
@@ -108,14 +109,16 @@
       "post": {
         "edit": "Editar",
         "promote": "Promover",
-        "delete": "Eliminar"
+        "delete": "Eliminar",
+        "confirm_delete": "Tem a certeza?",
+        "delete_successful": "Publicação eliminada com sucesso"
       }
     },
     "strings": {
       "success": "Sucesso",
       "error": "Erro",
       "ok": "OK",
-      "cancel": "Cancel"
+      "cancel": "Cancelar"
     },
     "errors": {
       "user_not_found": "O utilizador não existe.",

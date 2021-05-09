@@ -19,16 +19,12 @@ export default function Feed(props) {
   // salutation
   const [salutation, setSalutation] = useState("...")
 
-  // page number
-  const [page, setPage] = useState(1);
-  const perPage = Constants.manifest.extra.POSTS_PER_PAGE;
-
   // feed query
-  const [getFeed, { data: feedData, loading: feedLoading, error: feedError, refetch: feedRefetch }] = useLazyQuery(queries.GET_FEED, {
+  const { data: feedData, loading: feedLoading, error: feedError, refetch: feedRefetch } = useQuery(queries.GET_FEED, {
     fetchPolicy: "network-only",
     onError: (error) => {
       console.log(error);
-      refreshToken(feedRefetch, { variables: { page, perPage } });
+      refreshToken(feedRefetch);
     }
   });
 
@@ -52,21 +48,8 @@ export default function Feed(props) {
   });
 
   useEffect(() => {
-    if(page)
-      getFeed({ variables: { page, perPage } });
-  }, [page]);
-
-  useEffect(() => {
-    if(feedData && feedData.getUserFeed) {
-      if(feedData.getUserFeed.length == 0) {
-        setPage(null);
-      } else {
-        if(!feed)
-          setFeed(feedData.getUserFeed);
-        else
-          setFeed([...feed].concat(feedData.getUserFeed));
-      }
-    }
+    if(feedData && feedData.getUserFeed)
+      setFeed(feedData.getUserFeed);
   }, [feedData]);
 
   useEffect(() => {
@@ -78,14 +61,13 @@ export default function Feed(props) {
 
   useEffect(() => {
     if(props.shouldReload) {
-      setPage(1);
       setFeed({});
     }
   }, [props.shouldReload]);
 
   const renderItem = ({ item }) => {
     return (
-      <Post data={item} navigation={props.navigation} profileType="dynamic" />
+      <Post data={item} navigation={props.navigation} profileType="dynamic" renderOptions={false} />
     );
   }
 
@@ -130,18 +112,13 @@ export default function Feed(props) {
         decelerationRate="normal"
         data={feed}
         renderItem={renderItem}
-        onEndReached={() => {
-          if(page)
-            setPage(page + 1);
-        }}
         onEndReachedThreshold={50}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         ItemSeparatorComponent={renderSeparator}
         keyExtractor={item => item.id}
         refreshControl={
-          <RefreshControl refreshing={feedLoading && page == 1} onRefresh={() => {
-            setPage(1);
+          <RefreshControl refreshing={feedLoading} onRefresh={() => {
             setFeed([]);
           }}/>
         }

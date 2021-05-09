@@ -11,6 +11,7 @@ import CustomText from "../CustomText";
 import CustomButton from "../CustomButton";
 import styles from "./styles";
 import queries from "./queries";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function Profile(props) {
 
@@ -22,19 +23,18 @@ export default function Profile(props) {
 
   const [user, setUser] = useState(null);
 
-  const [page, setPage] = useState(1);
-  const perPage = Constants.manifest.extra.POSTS_PER_PAGE;
-
   const [feed, setFeed] = useState(null);
 
-  const { data: userData, loading: userLoading } = useQuery(queries.GET_PROFILE, {
+  const { data: userData, loading: userLoading, error: userError } = useQuery(queries.GET_PROFILE, {
     fetchPolicy: "network-only",
     variables: {
-      user_id: parseInt(props.user_id)
+      user_id: props.user_id
     }
   });
 
-  const [getFeed, { data: feedData, loading: feedLoading, error: feedError }] = useLazyQuery(queries.GET_USER_POSTS, {
+  console.log(userError);
+
+  const { data: feedData, loading: feedLoading, error: feedError } = useQuery(queries.GET_USER_POSTS, {
     fetchPolicy: "network-only"
   });
 
@@ -60,20 +60,8 @@ export default function Profile(props) {
   }, [followError]);
 
   useEffect(() => {
-    if(page)
-      getFeed({ variables: { page, perPage, user_id: parseInt(props.user_id) } });
-  }, [page]);
-
-  useEffect(() => {
     if(feedData && feedData.getUserPosts) {
-      if(feedData.getUserPosts.length == 0) {
-        setPage(null);
-      } else {
-        if(!feed)
-          setFeed(feedData.getUserPosts);
-        else
-          setFeed([...feed].concat(feedData.getUserPosts));
-      }
+      setFeed(feedData.getUserPosts);
     }
   }, [feedData]);
 
@@ -86,16 +74,9 @@ export default function Profile(props) {
     }
   }, [feedError]);
 
-  useEffect(() => {
-    if(props.shouldReload) {
-      setPage(1);
-      setFeed({});
-    }
-  }, [props.shouldReload]);
-
   const renderItem = ({ item }) => {
     return (
-      <Post data={item} navigation={props.navigation} profileType={props.profileType} />
+      <Post data={item} navigation={props.navigation} profileType={props.profileType} renderOptions={true} />
     );
   }
 
@@ -114,6 +95,9 @@ export default function Profile(props) {
             "..."
           }
         </CustomText>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Settings")}>
+          <CustomText>{t("screens.profile.labels.settings")}</CustomText>
+        </TouchableOpacity>
         { user && !user.is_himself &&
           <CustomButton style={{marginTop: 25, padding: 10}} loading={followLoading || userLoading} onPress={onFollow}>
             { isFollowed ? 
@@ -156,18 +140,13 @@ export default function Profile(props) {
         decelerationRate="normal"
         data={feed}
         renderItem={renderItem}
-        onEndReached={() => {
-          if(page)
-            setPage(page + 1);
-        }}
         onEndReachedThreshold={50}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         ItemSeparatorComponent={renderSeparator}
         keyExtractor={item => item.id}
         refreshControl={
-          <RefreshControl refreshing={feedLoading && page == 1} onRefresh={() => {
-            setPage(1);
+          <RefreshControl refreshing={feedLoading} onRefresh={() => {
             setFeed([]);
           }}/>
         }
