@@ -5,7 +5,7 @@ export default queries = {
   SEARCH: gql`
     query userSearch($query: String!) {
       userSearch(query: $query) {
-        id
+        _id
         username
         name
         surname

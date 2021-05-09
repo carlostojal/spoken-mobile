@@ -49,6 +49,7 @@ export default function App() {
           data = await my_client.query({
             query: queries.REFRESH_TOKEN
           });
+          console.log(data);
         } catch(e) {
           Alert.alert(
             "Error",

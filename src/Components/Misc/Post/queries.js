@@ -3,9 +3,9 @@ import { gql } from "@apollo/client";
 export default queries = {
 
   REACT_POST: gql`
-    mutation reactPost($id: String!) {
+    mutation reactPost($id: ID!) {
       reactPost(id: $id) {
-        id
+        _id
         time
         poster {
           name
@@ -19,9 +19,9 @@ export default queries = {
   `,
 
   COMMENT_POST: gql`
-    mutation commentPost($id: String!, $text: String!) {
+    mutation commentPost($id: ID!, $text: String!) {
       commentPost(id: $id, text: $text) {
-        id
+        _id
         time
         poster {
           name
@@ -29,23 +29,12 @@ export default queries = {
           username
         }
         text
-        media_url
-        user_reacted
-        comments {
-          id
-          user {
-            id
-            username
-          }
-          time
-          text
-        }
       }
     }
   `,
 
   PROMOTE_POST: gql`
-    mutation promotePost($id: Int!) {
+    mutation promotePost($id: ID!) {
       promotePost(id: $id)
     }
   `
