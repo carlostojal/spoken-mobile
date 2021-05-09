@@ -45,5 +45,13 @@ export default queries = {
         _id
       }
     }
+  `,
+
+  COLLECT_VIEW: gql`
+    mutation collectPostView($id: ID!, $user_lat: Float, $user_long: Float, $user_platform: String, $user_os: String, $view_time: Float) {
+      collectPostView(id: $id, user_lat: $user_lat, user_long: $user_long, user_platform: $user_platform, user_os: $user_os, view_time: $view_time) {
+        _id
+      }
+    }
   `
 }

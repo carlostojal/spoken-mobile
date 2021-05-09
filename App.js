@@ -26,6 +26,7 @@ import CustomTheme from "./src/Components/CustomTheme";
 import queries from "./src/queries";
 import getClient from "./src/apollo_config";
 import colors from "./src/colors";
+import saveUserData from "./src/helpers/saveUserData";
 
 export default function App() {
 
@@ -64,6 +65,8 @@ export default function App() {
             setInitialRouteName("Main"); // skip directly from splash screen to main navigator
           }
         }
+
+        await saveUserData();
 
         resolve("done");
       } catch(e) {

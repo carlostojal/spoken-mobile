@@ -16,6 +16,7 @@ import colors from "../../../colors";
 import CustomTextField from "../../Misc/CustomTextField";
 import Header from "../../Misc/Header";
 import CustomText from "../../Misc/CustomText";
+import saveUserData from "../../../helpers/saveUserData";
 
 export default function Login({ navigation }) {
 
@@ -43,15 +44,21 @@ export default function Login({ navigation }) {
   }, [loading]);
 
   // when login is done
-  useEffect(() => {
+  useEffect(async () => {
     if(data) {
       if(data.getToken) {
-        AsyncStorage.setItem("access_token", data.getToken).then(() => {
-          Vibration.vibrate([0, 70, 100, 70]);
-          navigation.replace("Main");
-        }).catch((e) => {
-          console.log(e);
-        })
+        try {
+          await AsyncStorage.setItem("access_token", data.getToken);
+        } catch(e) {
+          console.error(e);
+        }
+        try {
+          await saveUserData();
+        } catch(e) {
+          console.error(e);
+        }
+        Vibration.vibrate([0, 70, 100, 70]);
+        navigation.replace("Main");
       }
     }
   }, [data]);
