@@ -76,7 +76,7 @@ export default function Profile(props) {
 
   const renderItem = ({ item }) => {
     return (
-      <Post data={item} navigation={props.navigation} profileType={props.profileType} />
+      <Post data={item} navigation={props.navigation} profileType={props.profileType} renderOptions={true} />
     );
   }
 

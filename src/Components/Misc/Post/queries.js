@@ -37,5 +37,13 @@ export default queries = {
     mutation promotePost($id: ID!) {
       promotePost(id: $id)
     }
+  `,
+
+  DELETE_POST: gql`
+    mutation deletePost($id: ID!) {
+      deletePost(id: $id) {
+        _id
+      }
+    }
   `
 }

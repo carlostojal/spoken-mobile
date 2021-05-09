@@ -31,11 +31,15 @@ export default function Post(props) {
     errorPolicy: "all",
     onError: (error) => {
       console.log("onError" + error);
-      refreshToken(reactPost, { variables: { id: post.id } })
+      refreshToken(reactPost, { variables: { id: post._id } })
     }
   });
 
-  
+  const [deletePost, { data: deleteData, loading: deleteLoading, error: deleteError }] = useMutation(queries.DELETE_POST, {
+    variables: {
+      id: post._id
+    }
+  });
 
   useEffect(() => {
     if(post && post.media && post.media.url) {
@@ -57,6 +61,17 @@ export default function Post(props) {
       setPost(reactData.reactPost);
   }, [reactData]);
 
+  useEffect(() => {
+    if(deleteError) {
+      Alert.alert(t("strings.error"), deleteError.message);
+    }
+  }, [deleteError]);
+
+  useEffect(() => {
+    if(deleteData && deleteData.deletePost)
+      Alert.alert(t("strings.success"), t("misc.post.delete_successful"));
+  })
+
   if(post) {
 
     const dateFormatResult = postDateFormat(parseInt(post.time));
@@ -64,7 +79,7 @@ export default function Post(props) {
     const onReact = () => {
       reactPost({
         variables: {
-          id: post.id
+          id: post._id
         }
       });
       let postCopy = {...post};
@@ -113,9 +128,11 @@ export default function Post(props) {
           </TouchableOpacity>
           <View style={styles.time_options}>
             <CustomText style={styles.time}>{dateFormatResult.value + dateFormatResult.unit}</CustomText>
-            <TouchableWithoutFeedback onPress={() => bottomSheetRef.current.open()}>
-              <Icon name="md-settings" size={20} style={{marginLeft: 10}} color="white" />
-            </TouchableWithoutFeedback>
+            { props.renderOptions && 
+              <TouchableWithoutFeedback onPress={() => bottomSheetRef.current.open()}>
+                <Icon name="md-settings" size={20} style={{marginLeft: 10}} color="white" />
+              </TouchableWithoutFeedback>
+            }
           </View>
         </View>
         {
@@ -174,17 +191,34 @@ export default function Post(props) {
           <TouchableOpacity onPress={() => props.navigation.navigate("Profile", {
             screen: "Promote",
             params: {
-              post_id: post.id
+              post_id: post._id
             }
           })}>
             <CustomText style={styles.options_option}>
               { t("misc.post.promote") }
             </CustomText>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <CustomText style={[styles.options_option, { color: "red" }]}>
-              { t("misc.post.delete") }
-            </CustomText>
+          <TouchableOpacity onPress={() => {
+            Alert.alert(t("misc.post.delete"), t("misc.post.confirm_delete"), [
+              {
+                text: t("strings.ok"),
+                onPress: () => {
+                  deletePost();
+                }
+              },
+              {
+                text: t("strings.cancel")
+              }
+            ])
+          }}>
+            { deleteLoading && 
+              <ActivityIndicator />
+            }
+            { !deleteLoading &&
+              <CustomText style={[styles.options_option, { color: "red" }]}>
+                { t("misc.post.delete") }
+              </CustomText>
+            }
           </TouchableOpacity>
         </BottomSheet>
       </View>
