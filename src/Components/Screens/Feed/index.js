@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, FlatList, RefreshControl, ActivityIndicator, Alert, TouchableOpacity } from "react-native";
-import { useLazyQuery, useQuery } from "@apollo/client";
-import Constants from "expo-constants";
+import { useQuery } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 
 import Post from "../../Misc/Post";
