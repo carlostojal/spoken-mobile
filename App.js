@@ -9,6 +9,7 @@ import { ApolloProvider } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Alert } from "react-native";
+import * as Location from "expo-location";
 
 import Login from "./src/Components/Screens/Login";
 import Signup from "./src/Components/Screens/Signup";
@@ -45,13 +46,30 @@ export default function App() {
 
         let data = null;
 
+        let user_lat = null, user_long = null;
+
+        const { status } = await Location.requestPermissionsAsync();
+
+        if(status == "granted") {
+          const location = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.High
+          });
+          user_lat = location.coords.latitude;
+          user_long = location.coords.longitude;
+        }
+
         // try to use refresh token to get new access token
         try {
           data = await my_client.query({
-            query: queries.REFRESH_TOKEN
+            query: queries.REFRESH_TOKEN,
+            variables: {
+              user_lat,
+              user_long
+            }
           });
           console.log(data);
         } catch(e) {
+          console.error(e);
           Alert.alert(
             "Error",
             "Connection error."

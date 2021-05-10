@@ -3,8 +3,7 @@ import { View, ScrollView, Vibration, Alert } from "react-native";
 import { useLazyQuery } from "@apollo/client";
 import AsyncStorage from '@react-native-community/async-storage'; 
 import * as Device from "expo-device";
-import * as Notifications from "expo-notifications";
-import * as Permissions from "expo-permissions";
+import * as Location from "expo-location";
 import { useTranslation } from "react-i18next";
 
 import CustomButton from "../../Misc/CustomButton";
@@ -22,8 +21,7 @@ export default function Login({ navigation }) {
 
   const [login, setLogin] = useState(null);
   const [password, setPassword] = useState(null);
-
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { t } = useTranslation();
 
@@ -33,14 +31,10 @@ export default function Login({ navigation }) {
 
   const getPushTokenAndLogin = () => {
     doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})` }});
-    /*
-    Notifications.getExpoPushTokenAsync().then((push_token) => {
-      doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})`, pushToken: push_token.data }});
-    });*/
   }
 
   useEffect(() => {
-    setLoading(loading);
+    setIsLoading(loading);
   }, [loading]);
 
   // when login is done
@@ -120,21 +114,29 @@ export default function Login({ navigation }) {
             </CustomTextField>
           </View>
           <View style={styles.area}>
-            <CustomButton loading={isLoading} loadingColor="white" onPress={() => {
-              setLoading(true);
-              Permissions.getAsync(Permissions.NOTIFICATIONS).then(({status: existingStatus}) => {
-                let finalStatus = existingStatus;
-                if (existingStatus !== 'granted') {
-                  Permissions.askAsync(Permissions.NOTIFICATIONS).then(({status}) => {
-                    finalStatus = status;
-                    if (finalStatus === 'granted') {
-                      getPushTokenAndLogin();
-                    }
-                  });
-                } else {
-                  getPushTokenAndLogin();
-                }
-              });
+            <CustomButton loading={isLoading} loadingColor="white" onPress={async () => {
+
+              setIsLoading(true);
+
+              let user_lat = null, user_long = null;
+
+              let { status } = await Location.requestPermissionsAsync();
+
+              if(status == "granted") {
+                const location = await Location.getCurrentPositionAsync({
+                  accuracy: Location.Accuracy.Balanced
+                });
+                user_lat = location.coords.latitude;
+                user_long = location.coords.longitude;
+              }
+
+              doLogin({variables: {
+                username: login,
+                password,
+                userPlatform: `${Device.brand} ${Device.modelName}`,
+                user_lat,
+                user_long
+              }});
             }}>
               {t("screens.login.labels.login_btn")}
             </CustomButton>
