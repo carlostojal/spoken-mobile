@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, View, Alert, Vibration, Image } from "react-native";
+import { ScrollView, View, Alert, Vibration, Image, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@apollo/client";
 import Constants from "expo-constants";
 import * as ImagePicker from "expo-image-picker";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { Audio } from "expo-av";
 
 import Header from "../../Misc/Header";
 import CustomTextField from "../../Misc/CustomTextField";
@@ -13,6 +15,7 @@ import CustomButton from "../../Misc/CustomButton";
 import queries from "./queries";
 import styles from "./styles";
 import colors from "../../../colors";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export default function NewPost(props) {
 
@@ -24,7 +27,12 @@ export default function NewPost(props) {
 
   const [uploadLoading, setUploadLoading] = useState(false);
   const [uploadDone, setUploadDone] = useState(false);
+  const [recordingAudio, setRecordingAudio] = useState(false);
+  const [recordingObject, setRecordingObject] = useState(null);
+  const [mediaUploadType, setMediaUploadType] = useState(null);
   const [image, setImage] = useState(null);
+  const [audio, setAudio] = useState(null);
+  const [audioPlaying, setAudioPlaying] = useState(false);
   const [mediaId, setMediaId] = useState(null);
 
   useEffect(() => {
@@ -107,12 +115,75 @@ export default function NewPost(props) {
       switch(uploadResult.result) {
         case "FILE_UPLOADED":
           setUploadDone(true);
-          setMediaId(parseInt(uploadResult.media_id));
+          setMediaId(uploadResult.media_id);
           break;
         default:
           Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
           break;
       }
+    }
+  };
+
+  const onRecord = async () => {
+
+    await Audio.requestPermissionsAsync();
+    
+    const recording = new Audio.Recording();
+    await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY);
+    setRecordingAudio(true);
+    await recording.startAsync();
+    setRecordingObject(recording);
+
+  };
+
+  const onStopRecord = async () => {
+    await recordingObject.stopAndUnloadAsync();
+    setRecordingAudio(false);
+    const uri = recordingObject.getURI();
+    console.log(uri);
+    setAudio(uri);
+
+    setUploadLoading(true);
+
+    let filename = uri.split('/').pop();
+
+    // let match = /\.(\w+)$/.exec(filename);
+    // let type = match ? `image/${match[1]}` : `image`;
+
+    let form = new FormData();
+    form.append("media", { uri, name: filename, type: "audio/3gpp" });
+
+    let uploadResult = null;
+
+    try {
+      const url = `${Constants.manifest.extra.EXPRESS_ADDRESS}:${Constants.manifest.extra.EXPRESS_PORT}/upload`;
+      uploadResult = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": await AsyncStorage.getItem("access_token")
+        },
+        body: form
+      });
+
+      setUploadLoading(false);
+
+    } catch(e) {
+      console.error(e);
+      Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
+      setUploadLoading(false);
+    }
+
+    uploadResult = await uploadResult.json();
+
+    switch(uploadResult.result) {
+      case "FILE_UPLOADED":
+        setUploadDone(true);
+        setMediaId(uploadResult.media_id);
+        break;
+      default:
+        Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
+        break;
     }
   };
 
@@ -122,8 +193,37 @@ export default function NewPost(props) {
         { t("screens.new_post.title") }
       </Header>
       <View style={styles.container}>
-        { image && uploadDone &&
-          <Image source={{uri: image.uri}} style={{width: 50, height: 50, borderRadius: 5, marginBottom: 10}} resizeMode="cover" />
+        { image || audio &&
+          <TouchableWithoutFeedback style={{width: 50, height: 50, marginBottom: 10, borderRadius: 5, backgroundColor: colors.card, justifyContent: "center", alignItems: "center"}} onPress={async () => {
+            if(audio && !audioPlaying) {
+              const sound = new Audio.Sound();
+              await sound.loadAsync({
+                uri: audio
+              });
+              sound.setOnPlaybackStatusUpdate(async (status) => {
+                if(status.didJustFinish) {
+                  setAudioPlaying(false);
+                  await sound.unloadAsync();
+                }
+              });
+              setAudioPlaying(true);
+              await sound.playAsync();
+            }
+          }}>
+            { image && uploadDone &&
+              <Image source={{uri: image.uri}} style={{width: 50, height: 50, borderRadius: 5}} resizeMode="cover" />
+            }
+            { audio && uploadDone &&
+              <>
+                { audioPlaying &&
+                  <ActivityIndicator size="small" color={colors.primary} />
+                }
+                { !audioPlaying &&
+                  <Ionicons name="play" size={30} color={colors.primary} />
+                }
+              </>
+            }
+          </TouchableWithoutFeedback>
         }
         <CustomTextField
           multiline={true}
@@ -136,11 +236,23 @@ export default function NewPost(props) {
           { t("screens.new_post.labels.text") }
         </CustomTextField>
         <View style={styles.btn_area}>
-          <CustomButton style={{backgroundColor: colors.secondary, marginBottom: 5}} textStyle={{color: "black"}} loading={uploadLoading} onPress={() => {
-            onUpload();
-          }}>
-            { uploadDone ? t("screens.new_post.labels.change_upload") : t("screens.new_post.labels.upload_btn") }
-          </CustomButton>
+          { !audio && !recordingAudio &&
+            <CustomButton style={{backgroundColor: colors.secondary, marginBottom: 5}} textStyle={{color: "black"}} loading={uploadLoading} onPress={() => {
+              onUpload();
+            }}>
+              { uploadDone ? t("screens.new_post.labels.change_upload") : t("screens.new_post.labels.upload_btn") }
+            </CustomButton>
+          }
+          { !image &&
+            <CustomButton style={{backgroundColor: colors.secondary, marginBottom: 5}} textStyle={{color: "black"}} loading={uploadLoading} onPress={async () => {
+              if(!recordingAudio)
+                await onRecord();
+              else
+                await onStopRecord();
+            }}>
+              { !recordingAudio ? t("screens.new_post.labels.record_audio") : t("screens.new_post.labels.stop_recording") }
+            </CustomButton>
+          }
           <CustomButton 
             loading={createPostLoading}
             onPress={() => {

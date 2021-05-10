@@ -15,7 +15,7 @@ export default queries = {
         media {
           _id
           is_nsfw
-          url
+          type
         }
         text
         reactions {
