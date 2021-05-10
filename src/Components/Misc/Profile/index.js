@@ -25,16 +25,14 @@ export default function Profile(props) {
 
   const [feed, setFeed] = useState(null);
 
-  const { data: userData, loading: userLoading, error: userError } = useQuery(queries.GET_PROFILE, {
-    fetchPolicy: "network-only",
+  const { data: userData, loading: userLoading, error: userError, refetch: userRefetch } = useQuery(queries.GET_PROFILE, {
+    fetchPolicy: "cache-first",
     variables: {
       user_id: props.user_id
     }
   });
 
-  console.log(userError);
-
-  const { data: feedData, loading: feedLoading, error: feedError } = useQuery(queries.GET_USER_POSTS, {
+  const { data: feedData, loading: feedLoading, error: feedError, refetch: feedRefetch } = useQuery(queries.GET_USER_POSTS, {
     fetchPolicy: "network-only"
   });
 
@@ -47,7 +45,7 @@ export default function Profile(props) {
       setUser(userData.getUserData);
       setIsFollowed(userData.getUserData.is_followed);
     }
-  }, [userData]);
+  }, [userData, user]);
 
   useEffect(() => {
     if(followData && followData.followUser)
@@ -63,7 +61,7 @@ export default function Profile(props) {
     if(feedData && feedData.getUserPosts) {
       setFeed(feedData.getUserPosts);
     }
-  }, [feedData]);
+  }, [feedData, feed]);
 
   useEffect(() => {
     if(feedError) {
@@ -148,6 +146,8 @@ export default function Profile(props) {
         refreshControl={
           <RefreshControl refreshing={feedLoading} onRefresh={() => {
             setFeed([]);
+            userRefetch();
+            feedRefetch();
           }}/>
         }
       />

@@ -8,10 +8,7 @@ export default queries = {
         _id
         name
         surname
-        birthdate
         username
-        is_followed
-        is_himself
       }
     }
   `,
