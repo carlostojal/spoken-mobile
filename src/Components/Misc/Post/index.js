@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Image, TouchableOpacity, Alert, TouchableWithoutFeedback, ActivityIndicator } from "react-native";
+import { View, Image, TouchableOpacity, Alert, TouchableWithoutFeedback, ActivityIndicator, Button } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 import Icon from "react-native-vector-icons/Ionicons";
 import BottomSheet from "react-native-raw-bottom-sheet";
 import InViewPort from "@coffeebeanslabs/react-native-inviewport";
 import * as Device from "expo-device";
+import { Audio } from "expo-av";
+import Constants from "expo-constants";
 
 import CustomText from "../CustomText";
 
@@ -30,6 +32,8 @@ export default function Post(props) {
 
   const [viewStartTime, setViewStartTime] = useState(Date.now());
   const [postIsVisible, setPostIsVisible] = useState(false);
+
+  const [audioButtonLabel, setAudioButtonLabel] = useState("Play");
 
   const bottomSheetRef = useRef();
 
@@ -140,8 +144,6 @@ export default function Post(props) {
             view_time: (Date.now() - viewStartTime) / 1000
           };
 
-          console.log(data);
-
           if(!allowed) {
             data.user_platform = null;
             data.user_os = null;
@@ -163,11 +165,37 @@ export default function Post(props) {
           {
             // image
           }
-          { post.media_url &&
-            <Image source={{uri: post.media_url}} style={{ width: imageDimensions.width, height: imageDimensions.height }} onLoadEnd={() => setImageLoaded(true)} />
-          }
-          { post.media_url && !imageLoaded &&
-            <View style={styles.loading_image} />
+          { post.media &&
+            <>
+              { post.media.type == "image" &&
+                <Image source={{uri: `post.media.id`}} style={{ width: imageDimensions.width, height: imageDimensions.height }} onLoadEnd={() => setImageLoaded(true)} />
+              }
+              { post.media.type == "audio" &&
+                <Button onPress={async () => {
+                  if(audioButtonLabel == "Play") {
+                    const audio = new Audio.Sound();
+                    const access_token = await AsyncStorage.getItem("access_token");
+                    await audio.loadAsync({
+                      uri: `${Constants.manifest.extra.EXPRESS_ADDRESS}:${Constants.manifest.extra.EXPRESS_PORT}/media/${post.media._id}/${access_token}`
+                    });
+                    audio.setOnPlaybackStatusUpdate(async (status) => {
+                      // console.log(status);
+                      if(status.isPlaying)
+                        setAudioButtonLabel(parseInt((status.playableDurationMillis - status.positionMillis) / 1000) + 1 + "s");
+                      if(status.didJustFinish) {
+                        setAudioButtonLabel("Play");
+                        await audio.unloadAsync();
+                      }
+                    });
+                    // setAudioPlaying(true);
+                    await audio.playAsync();
+                    // await audio.unloadAsync();
+                    // setAudioPlaying(false);
+                  }
+                }} 
+                title={audioButtonLabel}/>
+              }
+            </>
           }
           {
             // header

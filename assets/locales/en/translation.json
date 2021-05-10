@@ -68,6 +68,8 @@
           "upload_btn": "Upload image",
           "change_upload": "Change image",
           "image_uploaded": "Image uploaded.",
+          "record_audio": "Record audio",
+          "stop_recording": "Stop recording",
           "success": "Post created successfully."
         }
       },

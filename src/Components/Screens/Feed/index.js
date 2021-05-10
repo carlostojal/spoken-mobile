@@ -21,11 +21,7 @@ export default function Feed(props) {
 
   // feed query
   const { data: feedData, loading: feedLoading, error: feedError, refetch: feedRefetch } = useQuery(queries.GET_FEED, {
-    fetchPolicy: "network-only",
-    onError: (error) => {
-      console.log(error);
-      refreshToken(feedRefetch);
-    }
+    fetchPolicy: "network-only"
   });
 
   const { data: userData } = useQuery(queries.GET_USER_DATA);
@@ -50,7 +46,7 @@ export default function Feed(props) {
   useEffect(() => {
     if(feedData && feedData.getUserFeed)
       setFeed(feedData.getUserFeed);
-  }, [feedData]);
+  }, [feedData, feed]);
 
   useEffect(() => {
     if(feedError) {
@@ -120,6 +116,7 @@ export default function Feed(props) {
         refreshControl={
           <RefreshControl refreshing={feedLoading} onRefresh={() => {
             setFeed([]);
+            feedRefetch();
           }}/>
         }
       />
