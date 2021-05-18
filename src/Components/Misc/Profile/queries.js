@@ -33,6 +33,7 @@ export default queries = {
         media {
           _id
           is_nsfw
+          type
           url
         }
         text

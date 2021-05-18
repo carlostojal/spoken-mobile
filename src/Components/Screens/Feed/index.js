@@ -78,11 +78,11 @@ export default function Feed(props) {
       >
         { userData && userData.getUserData && userData.getUserData.profile_pic &&
           <>
-            <Image style={{flex: 1, aspectRatio: 1/1}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${userData.getUserData.profile_pic._id}`}} />
+            <Image style={{flex: 1, aspectRatio: 1/1, borderRadius: 50}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${userData.getUserData.profile_pic._id}`}} />
             <View style={{width: 10}} />
           </>
         }
-        <View style={{flex: 8}}>
+        <View style={{flex: 7}}>
           <CustomText style={styles.header_title}>
             { salutation }
           </CustomText>

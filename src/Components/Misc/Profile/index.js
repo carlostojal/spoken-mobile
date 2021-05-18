@@ -100,9 +100,11 @@ export default function Profile(props) {
             </CustomText>
           </View>
         </View>
+        { /*
         <TouchableOpacity onPress={() => props.navigation.navigate("Settings")}>
           <CustomText>{t("screens.profile.labels.settings")}</CustomText>
         </TouchableOpacity>
+        */}
         { user && !user.is_himself &&
           <CustomButton style={{marginTop: 25, padding: 10}} loading={followLoading || userLoading} onPress={onFollow}>
             { isFollowed ? 
