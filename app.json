@@ -46,11 +46,11 @@
       "useNextNotificationsApi": true
     },
     "extra": {
-      "APOLLO_ADDRESS": "http://192.168.1.67",
-      "APOLLO_PORT": "4000",
-      "APOLLO_ENDPOINT": "/graphql",
-      "EXPRESS_ADDRESS": "http://192.168.1.67",
-      "EXPRESS_PORT": "8080",
+      "API_ADDRESS": "http://192.168.1.67",
+      "API_PORT": "4000",
+      "API_ENDPOINT": "/graphql",
+      "MEDIA_SERVER_ADDRESS": "http://192.168.1.67",
+      "MEDIA_SERVER_PORT": "8080",
       "MEDIA_ENDPOINT": "media",
       "UPLOAD_ENDPOINT": "upload",
       "POSTS_PER_PAGE": 10

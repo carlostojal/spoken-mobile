@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useLazyQuery } from "@apollo/client";
+import * as Location from "expo-location";
 
 import CustomTextField from "../../Misc/CustomTextField";
 import ListUser from "../../Misc/ListUser";
@@ -16,8 +17,13 @@ export default function Search(props) {
 
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [userLat, setUserLat] = useState(null);
+  const [userLong, setUserLong] = useState(null);
+  const [nearbyUsers, setNearbyUsers] = useState([]);
 
   const [doSearch, {data: searchData, loading: searchLoading, error: searchError}] = useLazyQuery(queries.SEARCH);
+
+  const [getNearbyUsers, {data: nearbyData, loading: nearbyLoading, error: nearbyError}] = useLazyQuery(queries.NEARBY_USERS);
 
   useEffect(() => {
     doSearch({variables: { query }});
@@ -30,6 +36,41 @@ export default function Search(props) {
       setResults([]);
     }
   }, [searchData]);
+
+  useEffect(() => {
+    if(nearbyData && nearbyData.getNearbyUsers) {
+      setNearbyUsers(nearbyData.getNearbyUsers);
+      setResults(nearbyUsers);
+    }
+  });
+
+  console.log(results);
+
+  useEffect(() => {
+
+    async function getNearby() {
+      
+      const { status } = await Location.requestPermissionsAsync();
+
+      if(status == "granted" && await Location.hasServicesEnabledAsync()) {
+
+        const location = await Location.getCurrentPositionAsync();
+
+        setUserLat(location.coords.latitude);
+        setUserLong(location.coords.longitude);
+        
+        getNearbyUsers({
+          variables: {
+            current_lat: userLat,
+            current_long: userLong,
+            max_distance: 500
+          }
+        });
+      }
+    }
+
+    getNearby();
+  }, [userLat, userLong]);
 
   const renderHeader = () => {
     return (
@@ -45,7 +86,9 @@ export default function Search(props) {
 
   const renderItem = ({ item }) => {
     return (
-      <ListUser user={item} navigation={props.navigation} />
+      <View style={{paddingLeft: 15, paddingRight: 15}}>
+        <ListUser user={item} navigation={props.navigation} />
+      </View>
     );
   };
 

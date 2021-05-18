@@ -11,6 +11,9 @@ export default queries = {
           name
           surname
           username
+          profile_pic {
+            _id
+          }
         }
         media {
           _id

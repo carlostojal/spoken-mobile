@@ -50,7 +50,7 @@ export default function App() {
 
         const { status } = await Location.requestPermissionsAsync();
 
-        if(status == "granted") {
+        if(status == "granted" && await Location.hasServicesEnabledAsync()) {
           const location = await Location.getCurrentPositionAsync({
             accuracy: Location.Accuracy.High
           });

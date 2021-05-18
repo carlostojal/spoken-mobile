@@ -1,5 +1,6 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, View, Image } from "react-native";
+import Constants from "expo-constants";
 
 import CustomText from "../CustomText";
 
@@ -15,13 +16,18 @@ export default function ListUser(props) {
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={() => onPress(props.user.id)}>
-      <CustomText style={styles.username}>
-        {props.user.username}
-      </CustomText>
-      <CustomText style={styles.name}>
-        {`${props.user.name} ${props.user.surname}`}
-      </CustomText>
+    <TouchableOpacity style={styles.container} onPress={() => onPress(props.user.id)} style={{flexDirection: "row"}}>
+      { props.user.profile_pic &&
+        <Image style={{width: 50, height: 50, borderRadius: 50}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${props.user.profile_pic._id}`}} />
+      }
+      <View style={{marginLeft: 10}}>
+        <CustomText style={styles.username}>
+          {props.user.username}
+        </CustomText>
+        <CustomText style={styles.name}>
+          {`${props.user.name} ${props.user.surname}`}
+        </CustomText>
+      </View>
     </TouchableOpacity>
   );
 }

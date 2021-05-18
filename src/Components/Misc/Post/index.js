@@ -34,6 +34,7 @@ export default function Post(props) {
   const [postIsVisible, setPostIsVisible] = useState(false);
 
   const [audioButtonLabel, setAudioButtonLabel] = useState("Play");
+  const [audioPlayPercentage, setAudioPlayPercentage] = useState(0);
 
   const bottomSheetRef = useRef();
 
@@ -159,6 +160,8 @@ export default function Post(props) {
       }
     };
 
+    console.log(audioPlayPercentage);
+
     return (
       <InViewPort onChange={(isVisible) => onVisibleChange(post._id, isVisible)}>
         <View style={[{ backgroundColor: colors.card }, styles.container]}>
@@ -171,12 +174,13 @@ export default function Post(props) {
                 <Image source={{uri: `post.media.id`}} style={{ width: imageDimensions.width, height: imageDimensions.height }} onLoadEnd={() => setImageLoaded(true)} />
               }
               { post.media.type == "audio" &&
-                <Button onPress={async () => {
+              <>
+                <TouchableOpacity style={{justifyContent: "center", alignItems: "center"}} onPress={async () => {
                   if(audioButtonLabel == "Play") {
                     const audio = new Audio.Sound();
                     const access_token = await AsyncStorage.getItem("access_token");
                     await audio.loadAsync({
-                      uri: `${Constants.manifest.extra.EXPRESS_ADDRESS}:${Constants.manifest.extra.EXPRESS_PORT}/media/${post.media._id}/${access_token}`
+                      uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.media._id}/${access_token}`
                     });
                     audio.setOnPlaybackStatusUpdate(async (status) => {
                       // console.log(status);
@@ -186,14 +190,28 @@ export default function Post(props) {
                         setAudioButtonLabel("Play");
                         await audio.unloadAsync();
                       }
+                      const perc = status.positionMillis / status.playableDurationMillis;
+                      if(perc == 1)
+                        setAudioPlayPercentage(0);
+                      else
+                        setAudioPlayPercentage(perc || 0);
                     });
                     // setAudioPlaying(true);
                     await audio.playAsync();
                     // await audio.unloadAsync();
                     // setAudioPlaying(false);
                   }
-                }} 
-                title={audioButtonLabel}/>
+                }} >
+                  <Image style={{width: 360, height: 200}} blurRadius={(1 - audioPlayPercentage) * 5} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.poster.profile_pic._id}`}} />
+                  { audioPlayPercentage != 0 &&
+                    <ActivityIndicator color={colors.primary} size="large" style={{position: "absolute"}} />
+                  }
+                  { audioPlayPercentage == 0 &&
+                    <Icon name="play" size={50} color={colors.primary} style={{position: "absolute"}} />
+                  }
+                  
+                </TouchableOpacity>
+                </>
               }
             </>
           }
@@ -201,9 +219,14 @@ export default function Post(props) {
             // header
           }
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => goToProfile(post.poster.id)}>
-              <CustomText style={styles.username}>{post.poster.username}</CustomText>
-              <CustomText style={styles.name}>{`${post.poster.name} ${post.poster.surname}`}</CustomText>
+            <TouchableOpacity onPress={() => goToProfile(post.poster.id)} style={{flexDirection: "row"}}>
+              { post.poster.profile_pic &&
+                <Image style={{width: 40, height: 40, borderRadius: 50}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.poster.profile_pic._id}`}} />
+              }
+              <View style={{marginLeft: 10}}>
+                <CustomText style={styles.username}>{post.poster.username}</CustomText>
+                <CustomText style={styles.name}>{`${post.poster.name} ${post.poster.surname}`}</CustomText>
+              </View>
             </TouchableOpacity>
             <View style={styles.time_options}>
               <CustomText style={styles.time}>{dateFormatResult.value + dateFormatResult.unit}</CustomText>

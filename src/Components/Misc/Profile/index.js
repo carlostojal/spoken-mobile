@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList, RefreshControl, ActivityIndicator, Alert } from "react-native";
+import { View, FlatList, RefreshControl, ActivityIndicator, Alert, Image } from "react-native";
 import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
 import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
@@ -81,18 +81,25 @@ export default function Profile(props) {
   const renderHeader = () => {
     return (
       <View style={styles.container}>
-        <CustomText style={styles.username}>
-          { user ? 
-            user.username :
-            "..."
+        <View style={{flexDirection: "row"}}>
+          { user && user.profile_pic &&
+            <Image style={{width: 80, height: 80, borderRadius: 50}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${user.profile_pic._id}`}} />
           }
-        </CustomText>
-        <CustomText style={styles.name}>
-          { user ? 
-            user.name + " " + user.surname :
-            "..."
-          }
-        </CustomText>
+          <View style={{marginLeft: 15}}>
+            <CustomText style={styles.username}>
+              { user ? 
+                user.username :
+                "..."
+              }
+            </CustomText>
+            <CustomText style={styles.name}>
+              { user ? 
+                user.name + " " + user.surname :
+                "..."
+              }
+            </CustomText>
+          </View>
+        </View>
         <TouchableOpacity onPress={() => props.navigation.navigate("Settings")}>
           <CustomText>{t("screens.profile.labels.settings")}</CustomText>
         </TouchableOpacity>
@@ -142,7 +149,7 @@ export default function Profile(props) {
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         ItemSeparatorComponent={renderSeparator}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id}
         refreshControl={
           <RefreshControl refreshing={feedLoading} onRefresh={() => {
             setFeed([]);

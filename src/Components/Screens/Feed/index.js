@@ -6,8 +6,6 @@ import { useTranslation } from "react-i18next";
 import Post from "../../Misc/Post";
 import NoPosts from "../../Misc/NoPosts";
 
-import refreshToken from "../../../helpers/refreshToken";
-
 import queries from "./queries";
 import styles from "./styles";
 
@@ -19,7 +17,12 @@ export default function Feed(props) {
   const [salutation, setSalutation] = useState("...")
 
   // feed query
-  const { data: feedData, loading: feedLoading, error: feedError, refetch: feedRefetch } = useQuery(queries.GET_FEED, {
+  const {
+    data: feedData,
+    loading: feedLoading,
+    error: feedError, 
+    refetch: feedRefetch 
+  } = useQuery(queries.GET_FEED, {
     fetchPolicy: "network-only"
   });
 
@@ -111,7 +114,7 @@ export default function Feed(props) {
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         ItemSeparatorComponent={renderSeparator}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id}
         refreshControl={
           <RefreshControl refreshing={feedLoading} onRefresh={() => {
             setFeed([]);

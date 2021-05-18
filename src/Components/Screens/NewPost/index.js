@@ -93,7 +93,7 @@ export default function NewPost(props) {
       let uploadResult = null;
 
       try {
-        const url = `${Constants.manifest.extra.EXPRESS_ADDRESS}:${Constants.manifest.extra.EXPRESS_PORT}/upload`;
+        const url = `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_ADDRESS_PORT}/upload`;
         uploadResult = await fetch(url, {
           method: "POST",
           headers: {
@@ -156,7 +156,7 @@ export default function NewPost(props) {
     let uploadResult = null;
 
     try {
-      const url = `${Constants.manifest.extra.EXPRESS_ADDRESS}:${Constants.manifest.extra.EXPRESS_PORT}/upload`;
+      const url = `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/upload`;
       uploadResult = await fetch(url, {
         method: "POST",
         headers: {
