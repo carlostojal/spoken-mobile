@@ -111,6 +111,7 @@ export default function Search(props) {
           data={results}
           renderItem={renderItem}
           ItemSeparatorComponent={renderSeparator}
+          keyExtractor={(item) => item._id}
         />
       </View>
       {

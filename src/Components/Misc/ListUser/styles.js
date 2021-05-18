@@ -3,9 +3,7 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
 
   container: {
-    padding: 15,
-    paddingTop: 7,
-    paddingBottom: 7
+    padding: 15
   },
 
   username: {
