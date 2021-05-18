@@ -41,9 +41,7 @@
       "favicon": "./assets/spoken-logo.png"
     },
     "android": {
-      "package": "com.carlostojal.spoken",
-      "googleServicesFile": "./google-services.json",
-      "useNextNotificationsApi": true
+      "package": "com.carlostojal.spoken"
     },
     "extra": {
       "API_ADDRESS": "http://192.168.1.67",
