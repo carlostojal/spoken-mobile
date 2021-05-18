@@ -44,8 +44,6 @@ export default function Search(props) {
     }
   });
 
-  console.log(results);
-
   useEffect(() => {
 
     async function getNearby() {

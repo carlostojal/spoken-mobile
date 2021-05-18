@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, RefreshControl, ActivityIndicator, Alert, TouchableOpacity } from "react-native";
+import { View, FlatList, RefreshControl, ActivityIndicator, Alert, TouchableOpacity, Image } from "react-native";
 import { useQuery } from "@apollo/client";
 import { useTranslation } from "react-i18next";
+import Constants from "expo-constants";
 
 import Post from "../../Misc/Post";
 import NoPosts from "../../Misc/NoPosts";
@@ -75,14 +76,22 @@ export default function Feed(props) {
         style={styles.header}
         onPress={() => props.navigation.navigate("Profile")}
       >
-        <CustomText style={styles.header_title}>
-          { salutation }
-        </CustomText>
-        <CustomText style={styles.header_name}>
-          { userData && userData.getUserData ?
-            userData.getUserData.name :
-            "..." }
-        </CustomText>
+        { userData && userData.getUserData && userData.getUserData.profile_pic &&
+          <>
+            <Image style={{flex: 1, aspectRatio: 1/1}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${userData.getUserData.profile_pic._id}`}} />
+            <View style={{width: 10}} />
+          </>
+        }
+        <View style={{flex: 8}}>
+          <CustomText style={styles.header_title}>
+            { salutation }
+          </CustomText>
+          <CustomText style={styles.header_name}>
+            { userData && userData.getUserData ?
+              userData.getUserData.name :
+              "..." }
+          </CustomText>
+        </View>
       </TouchableOpacity>
     );
   }

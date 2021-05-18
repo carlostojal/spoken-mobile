@@ -25,9 +25,6 @@ export default function ListUser(props) {
     }
   }, [mediaData]);
 
-  console.log(mediaData)
-  console.log(mediaError);
-
   const onPress = (user_id) => {
     props.navigation.navigate("SearchProfile", {
       user_id

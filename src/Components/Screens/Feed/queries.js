@@ -42,6 +42,9 @@ export default queries = {
     query getUserData {
       getUserData {
         name
+        profile_pic {
+          _id
+        }
       }
     }
   `
