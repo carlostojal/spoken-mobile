@@ -29,10 +29,6 @@ export default function Login({ navigation }) {
     fetchPolicy: "network-only"
   });
 
-  const getPushTokenAndLogin = () => {
-    doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})` }});
-  }
-
   useEffect(() => {
     setIsLoading(loading);
   }, [loading]);
@@ -137,7 +133,7 @@ export default function Login({ navigation }) {
               doLogin({variables: {
                 username: login,
                 password,
-                userPlatform: `${Device.brand} ${Device.modelName}`,
+                userPlatform: `${Device.manufacturer} ${Device.modelName}`,
                 user_lat,
                 user_long
               }});
