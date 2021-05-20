@@ -5,6 +5,6 @@ import styles from "./styles";
 
 export default CustomText = (props) => {
   return (
-    <Text style={[styles.text, props.style]}>{props.children}</Text>
+    <Text allowFontScaling={false} style={[styles.text, props.style]}>{props.children}</Text>
   );
 }

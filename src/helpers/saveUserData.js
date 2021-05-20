@@ -38,16 +38,12 @@ export default function saveUserData () {
       return reject(e);
     }
 
-    if(data && data.data && data.data.getUserData) {
-      // console.log(data.data.getUserData);
-    }
-
     try {
       await AsyncStorage.setItem("user_data", JSON.stringify(data.data.getUserData));
     } catch(e) {
       return reject(e);
     }
 
-    return resolve(null);
+    return resolve(data.data.getUserData);
   });
 }

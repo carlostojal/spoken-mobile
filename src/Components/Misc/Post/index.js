@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Image, TouchableOpacity, Alert, TouchableWithoutFeedback, ActivityIndicator, Button } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
-import Icon from "react-native-vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/FontAwesome";
 import BottomSheet from "react-native-raw-bottom-sheet";
 import InViewPort from "@coffeebeanslabs/react-native-inviewport";
 import * as Device from "expo-device";
 import { Audio } from "expo-av";
 import Constants from "expo-constants";
+import * as Location from "expo-location";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import CustomText from "../CustomText";
 
@@ -16,7 +18,6 @@ import refreshToken from "../../../helpers/refreshToken";
 import styles from "./styles";
 import queries from "./queries";
 import colors from "../../../colors";
-import AsyncStorage from "@react-native-community/async-storage";
 
 export default function Post(props) {
 
@@ -34,14 +35,18 @@ export default function Post(props) {
   const [postIsVisible, setPostIsVisible] = useState(false);
 
   const [audioButtonLabel, setAudioButtonLabel] = useState("Play");
+
+  const [userReacted, setUserReacted] = useState(false);
+
   const [audioPlayPercentage, setAudioPlayPercentage] = useState(0);
+
+  const [currentUser, setCurrentUser] = useState(null);
 
   const bottomSheetRef = useRef();
 
   const [reactPost, { data: reactData, loading: reactLoading, error: reactError }] = useMutation(queries.REACT_POST, {
     errorPolicy: "all",
     onError: (error) => {
-      console.log("onError" + error);
       refreshToken(reactPost, { variables: { id: post._id } })
     }
   });
@@ -55,24 +60,28 @@ export default function Post(props) {
   const [collectPostView, { data: collectData, loading: collectLoading, error: collectError }] = useMutation(queries.COLLECT_VIEW);
 
   useEffect(() => {
-    if(post && post.media && post.media.url) {
-      Image.getSize(post.media.url, (width, height) => {
-        setImageHeight((365 / width) * height);
-      });
+    async function getUserData() {
+      let user_data = null;
+      user_data = await AsyncStorage.getItem("user_data");
+      user_data = JSON.parse(user_data);
+      setCurrentUser(user_data);
     }
+    getUserData();
   }, []);
 
   useEffect(() => {
-    if(reactError) {
-      console.log(reactError);
-      Alert.alert(t("strings.error"), reactError.message)
-    }    
-  }, [reactError]);
-  
+    if(post && currentUser && post.reactions && post.reactions.length > 0) {
+      if(post.reactions.some(item => item._id == currentUser._id))
+        setUserReacted(true);
+    }
+  }, [post, currentUser]);
+
   useEffect(() => {
-    if(reactData && reactData.reactPost)
-      setPost(reactData.reactPost);
-  }, [reactData]);
+    if(reactError) {
+      setUserReacted(!userReacted);
+      Alert.alert(t("strings.error"), reactError.message)
+    }
+  }, [reactError]);
 
   useEffect(() => {
     if(deleteError) {
@@ -83,21 +92,41 @@ export default function Post(props) {
   useEffect(() => {
     if(deleteData && deleteData.deletePost)
       Alert.alert(t("strings.success"), t("misc.post.delete_successful"));
-  })
+  });
 
   if(post) {
 
     const dateFormatResult = postDateFormat(parseInt(post.time));
 
-    const onReact = () => {
-      reactPost({
-        variables: {
-          id: post._id
+    const onReact = async () => {
+
+      setUserReacted(!userReacted);
+
+      let vars = {
+        id: post._id
+      }
+
+      const allowed = currentUser.permissions.collect_usage_data;
+
+      if(allowed) {
+        
+        const { status } = await Location.getPermissionsAsync();
+
+        if(status == "granted") {
+
+          const location = await Location.getCurrentPositionAsync();
+
+          vars.user_lat = location.coords.latitude;
+          vars.user_long = location.coords.longitude;
+          vars.user_platform = `${Device.manufacturer} ${Device.modelName}`;
+          vars.user_os = Device.osName;
         }
+      }
+
+      reactPost({
+        variables: vars
       });
-      let postCopy = {...post};
-      postCopy.user_reacted = !post.user_reacted;
-      setPost(postCopy);
+      
     }
 
     const goToProfile = (id) => {
@@ -115,9 +144,11 @@ export default function Post(props) {
             break;
         }
       }
-      props.navigation.navigate(destination, {
-        user_id: id
-      });
+      if(props.navigation) {
+        props.navigation.navigate(destination, {
+          user_id: id
+        });
+      }
     };
 
     const onVisibleChange = async (post_id, isVisible) => {
@@ -132,23 +163,24 @@ export default function Post(props) {
 
         } else {
 
-          let user_data = null;
-          user_data = await AsyncStorage.getItem("user_data");
-          user_data = JSON.parse(user_data);
-
-          const allowed = user_data.permissions.collect_usage_data;
+          const allowed = currentUser.permissions.collect_usage_data;
 
           let data = {
-            id: post_id,
-            user_platform: `${Device.manufacturer} ${Device.modelName}`,
-            user_os: Device.osName,
-            view_time: (Date.now() - viewStartTime) / 1000
+            id: post_id
           };
 
-          if(!allowed) {
-            data.user_platform = null;
-            data.user_os = null;
-            data.view_time = null;
+          if(allowed) {
+
+            data.user_platform = `${Device.manufacturer} ${Device.modelName}`;
+            data.user_os = Device.osName;
+            data.view_time = (Date.now() - viewStartTime) / 1000;
+
+            const { status } = await Location.requestPermissionsAsync();
+            if(status == "granted") {
+              const location = await Location.getCurrentPositionAsync();
+              data.user_lat = location.coords.latitude;
+              data.user_long = location.coords.longitude;
+            }
           }
 
           collectPostView({
@@ -159,8 +191,6 @@ export default function Post(props) {
         }
       }
     };
-
-    console.log(audioPlayPercentage);
 
     return (
       <InViewPort onChange={(isVisible) => onVisibleChange(post._id, isVisible)}>
@@ -230,9 +260,9 @@ export default function Post(props) {
             </TouchableOpacity>
             <View style={styles.time_options}>
               <CustomText style={styles.time}>{dateFormatResult.value + dateFormatResult.unit}</CustomText>
-              { props.renderOptions && 
+              { currentUser && currentUser._id == post.poster._id &&
                 <TouchableWithoutFeedback onPress={() => bottomSheetRef.current.open()}>
-                  <Icon name="md-settings" size={20} style={{marginLeft: 10}} color="white" />
+                  <Icon name="navicon" size={20} style={{marginLeft: 10}} color="white" />
                 </TouchableWithoutFeedback>
               }
             </View>
@@ -251,27 +281,36 @@ export default function Post(props) {
               </View>
             </>
           }
-          <CustomText style={[styles.content, {paddingTop: post.media && post.media.url ? 15 : 0}]}>{post.text}</CustomText>
+          { post.original_post &&
+            <TouchableOpacity style={{borderWidth: 1, borderColor: "#474747", borderRadius: 20, marginBottom: 10}}>
+              <Post data={post.original_post} renderFooter={false} navigation={props.navigation} />
+            </TouchableOpacity>
+          }
+          <CustomText style={[styles.content, {paddingTop: post.media && post.media.url ? 15 : 0}]}>
+            {post.text}
+          </CustomText>
           {
             // footer
           }
-          <View style={styles.footer}>
-            {/*
-              <>
-                <TouchableOpacity onPress={onReact}>
-                  { post.user_reacted &&
-                    <Icon name="md-heart" size={35} color={colors.primary} />
-                  } 
-                  { !post.user_reacted &&
-                    <Icon name="md-heart-empty" size={35} color="#FFFFFF" />
-                  }
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginLeft: 10}}>
-                  <Icon name="md-arrow-forward" size={35} color="#FFFFFF" />
-                </TouchableOpacity>
-              </>
-                */}
-          </View>
+          { (props.renderFooter == true || props.renderFooter == undefined) &&
+            <View style={{flexDirection: "row", padding: 10}}>
+              {
+                <>
+                  <TouchableOpacity onPress={onReact} style={{flex: 1, alignItems: "center"}}>
+                    { userReacted &&
+                      <Icon name="heart" size={25} color={colors.primary} />
+                    } 
+                    { !userReacted &&
+                      <Icon name="heart-o" size={25} color="#FFFFFF" />
+                    }
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{marginLeft: 10}} style={{flex: 1, alignItems: "center"}}>
+                    <Icon name="comment-o" size={25} color="#FFFFFF" />
+                  </TouchableOpacity>
+                </>
+              }
+            </View>
+          }
           <BottomSheet
             ref={bottomSheetRef}
             closeOnDragDown={true}

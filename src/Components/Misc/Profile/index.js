@@ -11,7 +11,7 @@ import CustomText from "../CustomText";
 import CustomButton from "../CustomButton";
 import styles from "./styles";
 import queries from "./queries";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default function Profile(props) {
 
@@ -24,6 +24,8 @@ export default function Profile(props) {
   const [user, setUser] = useState(null);
 
   const [feed, setFeed] = useState(null);
+
+  const [currentUser, setCurrentUser] = useState(null);
 
   const { data: userData, loading: userLoading, error: userError, refetch: userRefetch } = useQuery(queries.GET_PROFILE, {
     fetchPolicy: "cache-first",
@@ -39,6 +41,16 @@ export default function Profile(props) {
   const [follow, { data: followData, loading: followLoading, error: followError }] = useMutation(queries.FOLLOW, {
     fetchPolicy: "no-cache"
   });
+
+  useEffect(() => {
+    async function getUserData() {
+      let user_data = null;
+      user_data = await AsyncStorage.getItem("user_data");
+      user_data = JSON.parse(user_data);
+      setCurrentUser(user_data);
+    }
+    getUserData();
+  }, []);
 
   useEffect(() => {
     if(userData && userData.getUserData) {
@@ -74,7 +86,7 @@ export default function Profile(props) {
 
   const renderItem = ({ item }) => {
     return (
-      <Post data={item} navigation={props.navigation} profileType={props.profileType} renderOptions={true} />
+      <Post data={item} navigation={props.navigation} profileType={props.profileType} />
     );
   }
 
@@ -105,9 +117,9 @@ export default function Profile(props) {
           <CustomText>{t("screens.profile.labels.settings")}</CustomText>
         </TouchableOpacity>
         */}
-        { user && !user.is_himself &&
+        { user && !user._id == currentUser._id &&
           <CustomButton style={{marginTop: 25, padding: 10}} loading={followLoading || userLoading} onPress={onFollow}>
-            { isFollowed ? 
+            { user && currentUser && currentUser.following.some(item => item._id == user._id) ? 
               t("screens.profile.labels.unfollow") :
               t("screens.profile.labels.follow")
             }

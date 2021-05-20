@@ -36,6 +36,20 @@ export default queries = {
           type
           url
         }
+        original_post {
+          _id
+          time
+          poster {
+            _id
+            name
+            surname
+            username
+            profile_pic {
+              _id
+            }
+          }
+          text
+        }
         text
         reactions {
           _id

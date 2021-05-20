@@ -50,7 +50,7 @@ export default function ListUser(props) {
         <View style={{marginTop: 5, flexDirection: "row"}}>
           { media.map((item) => (
               (item.type == "image" && 
-                <Image style={{flex: 1, aspectRatio: 1/1}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${item._id}`}} />
+                <Image key={item._id} style={{flex: 1, aspectRatio: 1/1}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${item._id}`}} />
               )
             ))
           }

@@ -65,8 +65,9 @@ export default function Feed(props) {
   }, [props.shouldReload]);
 
   const renderItem = ({ item }) => {
+    const currentUser = userData && userData.getUserData ? userData.getUserData : null;
     return (
-      <Post data={item} navigation={props.navigation} profileType="dynamic" renderOptions={false} />
+      <Post data={item} navigation={props.navigation} profileType="dynamic" renderFooter={true} />
     );
   }
 

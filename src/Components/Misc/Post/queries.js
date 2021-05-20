@@ -3,8 +3,8 @@ import { gql } from "@apollo/client";
 export default queries = {
 
   REACT_POST: gql`
-    mutation reactPost($id: ID!) {
-      reactPost(id: $id) {
+    mutation reactPost($id: ID!, $user_lat: Float, $user_long: Float, $user_platform: String, $user_os: String) {
+      reactPost(id: $id, user_lat: $user_lat, user_long: $user_long, user_platform: $user_platform, user_os: $user_os) {
         _id
         time
         poster {
@@ -13,7 +13,6 @@ export default queries = {
           username
         }
         text
-        user_reacted
       }
     }
   `,

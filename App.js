@@ -48,14 +48,18 @@ export default function App() {
 
         let user_lat = null, user_long = null;
 
-        const { status } = await Location.requestPermissionsAsync();
+        const user_data = await saveUserData();
 
-        if(status == "granted" && await Location.hasServicesEnabledAsync()) {
-          const location = await Location.getCurrentPositionAsync({
-            accuracy: Location.Accuracy.High
-          });
-          user_lat = location.coords.latitude;
-          user_long = location.coords.longitude;
+        if(user_data.permissions.collect_usage_data) {
+          const { status } = await Location.requestPermissionsAsync();
+
+          if(status == "granted" && await Location.hasServicesEnabledAsync()) {
+            const location = await Location.getCurrentPositionAsync({
+              accuracy: Location.Accuracy.High
+            });
+            user_lat = location.coords.latitude;
+            user_long = location.coords.longitude;
+          }
         }
 
         // try to use refresh token to get new access token
@@ -84,7 +88,7 @@ export default function App() {
           }
         }
 
-        await saveUserData();
+        
 
         resolve("done");
       } catch(e) {
