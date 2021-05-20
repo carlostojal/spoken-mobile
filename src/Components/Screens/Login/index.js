@@ -29,32 +29,32 @@ export default function Login({ navigation }) {
     fetchPolicy: "network-only"
   });
 
-  const getPushTokenAndLogin = () => {
-    doLogin({variables: { username: login, password, userPlatform: `${Device.deviceName} (${Device.modelName})` }});
-  }
-
   useEffect(() => {
     setIsLoading(loading);
   }, [loading]);
 
   // when login is done
-  useEffect(async () => {
-    if(data) {
-      if(data.getToken) {
-        try {
-          await AsyncStorage.setItem("access_token", data.getToken);
-        } catch(e) {
-          console.error(e);
+  useEffect(() => {
+    async function doStuff() {
+      if(data) {
+        console.log(data);
+        if(data.getToken) {
+          try {
+            await AsyncStorage.setItem("access_token", data.getToken);
+          } catch(e) {
+            console.error(e);
+          }
+          try {
+            await saveUserData();
+          } catch(e) {
+            console.error(e);
+          }
+          Vibration.vibrate([0, 70, 100, 70]);
+          navigation.replace("Main");
         }
-        try {
-          await saveUserData();
-        } catch(e) {
-          console.error(e);
-        }
-        Vibration.vibrate([0, 70, 100, 70]);
-        navigation.replace("Main");
       }
     }
+    doStuff();
   }, [data]);
 
   useEffect(() => {
@@ -122,7 +122,7 @@ export default function Login({ navigation }) {
 
               let { status } = await Location.requestPermissionsAsync();
 
-              if(status == "granted") {
+              if(status == "granted" && await Location.hasServicesEnabledAsync()) {
                 const location = await Location.getCurrentPositionAsync({
                   accuracy: Location.Accuracy.Balanced
                 });
@@ -133,7 +133,7 @@ export default function Login({ navigation }) {
               doLogin({variables: {
                 username: login,
                 password,
-                userPlatform: `${Device.brand} ${Device.modelName}`,
+                userPlatform: `${Device.manufacturer} ${Device.modelName}`,
                 user_lat,
                 user_long
               }});

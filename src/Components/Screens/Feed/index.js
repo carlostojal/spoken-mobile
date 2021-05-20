@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, RefreshControl, ActivityIndicator, Alert, TouchableOpacity } from "react-native";
+import { View, FlatList, RefreshControl, ActivityIndicator, Alert, TouchableOpacity, Image } from "react-native";
 import { useQuery } from "@apollo/client";
 import { useTranslation } from "react-i18next";
+import Constants from "expo-constants";
 
 import Post from "../../Misc/Post";
 import NoPosts from "../../Misc/NoPosts";
-
-import refreshToken from "../../../helpers/refreshToken";
 
 import queries from "./queries";
 import styles from "./styles";
@@ -19,7 +18,12 @@ export default function Feed(props) {
   const [salutation, setSalutation] = useState("...")
 
   // feed query
-  const { data: feedData, loading: feedLoading, error: feedError, refetch: feedRefetch } = useQuery(queries.GET_FEED, {
+  const {
+    data: feedData,
+    loading: feedLoading,
+    error: feedError, 
+    refetch: feedRefetch 
+  } = useQuery(queries.GET_FEED, {
     fetchPolicy: "network-only"
   });
 
@@ -62,7 +66,7 @@ export default function Feed(props) {
 
   const renderItem = ({ item }) => {
     return (
-      <Post data={item} navigation={props.navigation} profileType="dynamic" renderOptions={false} />
+      <Post containerStyle={{marginLeft: 15, marginRight: 15}} data={item} navigation={props.navigation} profileType="dynamic" renderFooter={true} />
     );
   }
 
@@ -72,14 +76,22 @@ export default function Feed(props) {
         style={styles.header}
         onPress={() => props.navigation.navigate("Profile")}
       >
-        <CustomText style={styles.header_title}>
-          { salutation }
-        </CustomText>
-        <CustomText style={styles.header_name}>
-          { userData && userData.getUserData ?
-            userData.getUserData.name :
-            "..." }
-        </CustomText>
+        { userData && userData.getUserData && userData.getUserData.profile_pic &&
+          <>
+            <Image style={{flex: 1, aspectRatio: 1/1, borderRadius: 50}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${userData.getUserData.profile_pic._id}`}} />
+            <View style={{width: 10}} />
+          </>
+        }
+        <View style={{flex: 7}}>
+          <CustomText style={styles.header_title}>
+            { salutation }
+          </CustomText>
+          <CustomText style={styles.header_name}>
+            { userData && userData.getUserData ?
+              userData.getUserData.name :
+              "..." }
+          </CustomText>
+        </View>
       </TouchableOpacity>
     );
   }
@@ -111,7 +123,7 @@ export default function Feed(props) {
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         ItemSeparatorComponent={renderSeparator}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id}
         refreshControl={
           <RefreshControl refreshing={feedLoading} onRefresh={() => {
             setFeed([]);

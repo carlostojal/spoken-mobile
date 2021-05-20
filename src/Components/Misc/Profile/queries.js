@@ -9,6 +9,9 @@ export default queries = {
         name
         surname
         username
+        profile_pic {
+          _id
+        }
       }
     }
   `,
@@ -23,11 +26,29 @@ export default queries = {
           name
           surname
           username
+          profile_pic {
+            _id
+          }
         }
         media {
           _id
           is_nsfw
+          type
           url
+        }
+        original_post {
+          _id
+          time
+          poster {
+            _id
+            name
+            surname
+            username
+            profile_pic {
+              _id
+            }
+          }
+          text
         }
         text
         reactions {

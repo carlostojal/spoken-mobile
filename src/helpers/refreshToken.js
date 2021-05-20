@@ -14,7 +14,7 @@ export default function refreshToken(retryFunction, retryVariables) {
       })
     };
 
-    fetch(`http://${Constants.manifest.extra.APOLLO_ADDRESS}:${Constants.manifest.extra.APOLLO_PORT}/graphql`, options)
+    fetch(`http://${Constants.manifest.extra.API_ADDRESS}:${Constants.manifest.extra.API_PORT}/${Constants.manifest.extra.API_ENDPOINT}`, options)
     .then((res) => {
       res.json().then(async (res) => {
         const token = res.data && res.data.refreshToken ? res.data.refreshToken : null;

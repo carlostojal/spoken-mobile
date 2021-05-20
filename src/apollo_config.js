@@ -15,7 +15,7 @@ export default async () => {
     token = "";*/
 
   const httpLink = new HttpLink({
-    uri: `${Constants.manifest.extra.APOLLO_ADDRESS}:${Constants.manifest.extra.APOLLO_PORT}${Constants.manifest.extra.APOLLO_ENDPOINT}`,
+    uri: `${Constants.manifest.extra.API_ADDRESS}:${Constants.manifest.extra.API_PORT}${Constants.manifest.extra.API_ENDPOINT}`,
     credentials: "include",
     onError: ({ graphQLErrors, networkError, operation, forward }) => {
       console.log("================")
@@ -34,7 +34,7 @@ export default async () => {
   });
 
   const wsLink = new WebSocketLink({
-    uri: `ws://${Constants.manifest.extra.APOLLO_ADDRESS}:${Constants.manifest.extra.APOLLO_PORT}`,
+    uri: `ws://${Constants.manifest.extra.API_ADDRESS}:${Constants.manifest.extra.API_PORT}/${Constants.manifest.extra.API_ENDPOINT}`,
     credentials: "include",
     options: {
       reconnect: true,

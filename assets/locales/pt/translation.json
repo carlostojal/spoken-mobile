@@ -64,6 +64,7 @@
         "title": "Criar publicação",
         "labels": {
           "text": "Escreve aqui a tua publicação.",
+          "replying_to": "A responder a...",
           "post_btn": "Publicar",
           "upload_btn": "Carregar imagem",
           "change_upload": "Alterar imagem",

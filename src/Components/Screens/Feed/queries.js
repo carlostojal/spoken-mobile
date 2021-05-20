@@ -11,11 +11,28 @@ export default queries = {
           name
           surname
           username
+          profile_pic {
+            _id
+          }
         }
         media {
           _id
           is_nsfw
           type
+        }
+        original_post {
+          _id
+          time
+          poster {
+            _id
+            name
+            surname
+            username
+            profile_pic {
+              _id
+            }
+          }
+          text
         }
         text
         reactions {
@@ -38,7 +55,11 @@ export default queries = {
   GET_USER_DATA: gql`
     query getUserData {
       getUserData {
+        _id
         name
+        profile_pic {
+          _id
+        }
       }
     }
   `
