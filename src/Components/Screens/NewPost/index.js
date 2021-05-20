@@ -11,11 +11,13 @@ import { Audio } from "expo-av";
 import Header from "../../Misc/Header";
 import CustomTextField from "../../Misc/CustomTextField";
 import CustomButton from "../../Misc/CustomButton";
+import Post from "../../Misc/Post";
 
 import queries from "./queries";
 import styles from "./styles";
 import colors from "../../../colors";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import CustomText from "../../Misc/CustomText";
 
 export default function NewPost(props) {
 
@@ -147,9 +149,6 @@ export default function NewPost(props) {
 
     let filename = uri.split('/').pop();
 
-    // let match = /\.(\w+)$/.exec(filename);
-    // let type = match ? `image/${match[1]}` : `image`;
-
     let form = new FormData();
     form.append("media", { uri, name: filename, type: "audio/3gpp" });
 
@@ -224,6 +223,14 @@ export default function NewPost(props) {
               </>
             }
           </TouchableWithoutFeedback>
+        }
+        { props.route.params.original_post &&
+          <View style={{marginBottom: 20}}>
+            <CustomText style={{fontSize: 20, marginBottom: 10}}>
+              { t("screens.new_post.labels.replying_to") }
+            </CustomText>
+            <Post data={JSON.parse(props.route.params.original_post)} renderFooter={false} />
+          </View>
         }
         <CustomTextField
           multiline={true}

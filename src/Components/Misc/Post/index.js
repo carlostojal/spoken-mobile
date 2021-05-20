@@ -70,6 +70,11 @@ export default function Post(props) {
   }, []);
 
   useEffect(() => {
+    if(props.data)
+      setPost(props.data);
+  }, [props.data]);
+
+  useEffect(() => {
     if(post && currentUser && post.reactions && post.reactions.length > 0) {
       if(post.reactions.some(item => item._id == currentUser._id))
         setUserReacted(true);
@@ -127,6 +132,14 @@ export default function Post(props) {
         variables: vars
       });
       
+    }
+
+    const onComment = () => {
+
+      props.navigation.navigate("New", {
+        original_post: JSON.stringify(post)
+      });
+
     }
 
     const goToProfile = (id) => {
@@ -194,10 +207,7 @@ export default function Post(props) {
 
     return (
       <InViewPort onChange={(isVisible) => onVisibleChange(post._id, isVisible)}>
-        <View style={[{ backgroundColor: colors.card }, styles.container]}>
-          {
-            // image
-          }
+        <View style={[{ backgroundColor: colors.card , borderRadius: 20, overflow: "hidden"}, props.containerStyle]}>
           { post.media &&
             <>
               { post.media.type == "image" &&
@@ -282,7 +292,7 @@ export default function Post(props) {
             </>
           }
           { post.original_post &&
-            <TouchableOpacity style={{borderWidth: 1, borderColor: "#474747", borderRadius: 20, marginBottom: 10}}>
+            <TouchableOpacity style={{borderWidth: 1, borderColor: "#474747", borderRadius: 20, margin: 10}}>
               <Post data={post.original_post} renderFooter={false} navigation={props.navigation} />
             </TouchableOpacity>
           }
@@ -304,7 +314,7 @@ export default function Post(props) {
                       <Icon name="heart-o" size={25} color="#FFFFFF" />
                     }
                   </TouchableOpacity>
-                  <TouchableOpacity style={{marginLeft: 10}} style={{flex: 1, alignItems: "center"}}>
+                  <TouchableOpacity onPress={onComment} style={{marginLeft: 10}} style={{flex: 1, alignItems: "center"}}>
                     <Icon name="comment-o" size={25} color="#FFFFFF" />
                   </TouchableOpacity>
                 </>

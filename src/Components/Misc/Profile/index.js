@@ -86,7 +86,7 @@ export default function Profile(props) {
 
   const renderItem = ({ item }) => {
     return (
-      <Post data={item} navigation={props.navigation} profileType={props.profileType} />
+      <Post containerStyle={{marginLeft: 15, marginRight: 15}} data={item} navigation={props.navigation} profileType={props.profileType} />
     );
   }
 

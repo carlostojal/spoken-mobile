@@ -64,6 +64,7 @@
         "title": "Create post",
         "labels": {
           "text": "Write your post here",
+          "replying_to": "Replying to...",
           "post_btn": "Post",
           "upload_btn": "Upload image",
           "change_upload": "Change image",
