@@ -22,6 +22,7 @@ import ProfileScreen from "./src/Components/Screens/Profile";
 import DynamicProfile from "./src/Components/Screens/DynamicProfile";
 import Settings from "./src/Components/Screens/Settings";
 import Promote from "./src/Components/Screens/Promote";
+import PostAnalytics from "./src/Components/Screens/PostAnalytics";
 
 import CustomTheme from "./src/Components/CustomTheme";
 import queries from "./src/queries";
@@ -51,14 +52,16 @@ export default function App() {
         const user_data = await saveUserData();
 
         if(user_data.permissions.collect_usage_data) {
-          const { status } = await Location.requestPermissionsAsync();
+          if(await Location.hasServicesEnabledAsync()) {
+            const { status } = await Location.requestPermissionsAsync();
 
-          if(status == "granted" && await Location.hasServicesEnabledAsync()) {
-            const location = await Location.getCurrentPositionAsync({
-              accuracy: Location.Accuracy.High
-            });
-            user_lat = location.coords.latitude;
-            user_long = location.coords.longitude;
+            if(status == "granted") {
+              const location = await Location.getCurrentPositionAsync({
+                accuracy: Location.Accuracy.High
+              });
+              user_lat = location.coords.latitude;
+              user_long = location.coords.longitude;
+            }
           }
         }
 
@@ -123,9 +126,10 @@ export default function App() {
 
   const Profile = () => {
     return (
-      <ProfileStack.Navigator screenOptions={{headerShown: false}}>
+      <ProfileStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Profile  ">
         <ProfileStack.Screen name="Profile" component={ProfileScreen} />
         <ProfileStack.Screen name="Promote" component={Promote} />
+        <ProfileStack.Screen name="PostAnalytics" component={PostAnalytics} />
         <ProfileStack.Screen name="Settings" component={Settings} />
       </ProfileStack.Navigator>
     );

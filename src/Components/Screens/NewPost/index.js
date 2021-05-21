@@ -142,7 +142,6 @@ export default function NewPost(props) {
     await recordingObject.stopAndUnloadAsync();
     setRecordingAudio(false);
     const uri = recordingObject.getURI();
-    console.log(uri);
     setAudio(uri);
 
     setUploadLoading(true);
@@ -224,7 +223,7 @@ export default function NewPost(props) {
             }
           </TouchableWithoutFeedback>
         }
-        { props.route.params.original_post &&
+        { props.route.params && props.route.params.original_post &&
           <View style={{marginBottom: 20}}>
             <CustomText style={{fontSize: 20, marginBottom: 10}}>
               { t("screens.new_post.labels.replying_to") }

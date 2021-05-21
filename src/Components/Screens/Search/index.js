@@ -92,7 +92,7 @@ export default function Search(props) {
 
   const renderSeparator = () => {
     return (
-      <View style={{height: 2, backgroundColor: "#404040", marginLeft: 15, marginRight: 15}} />
+      <View style={{height: 10}} />
     );
   };
 

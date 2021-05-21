@@ -37,7 +37,6 @@ export default function Login({ navigation }) {
   useEffect(() => {
     async function doStuff() {
       if(data) {
-        console.log(data);
         if(data.getToken) {
           try {
             await AsyncStorage.setItem("access_token", data.getToken);
@@ -59,7 +58,6 @@ export default function Login({ navigation }) {
 
   useEffect(() => {
     if(error) {
-      console.log(error);
       Vibration.vibrate(100);
 
       let details;

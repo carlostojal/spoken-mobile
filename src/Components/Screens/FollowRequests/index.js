@@ -11,7 +11,9 @@ export default function FollowRequests(props) {
 
   const { t } = useTranslation();
 
-  const { data, loading, error } = useQuery(queries.GET_FOLLOW_REQUEST);
+  const { data, loading, error, refetch } = useQuery(queries.GET_FOLLOW_REQUEST, {
+    fetchPolicy: "network-only"
+  });
 
   const [requests, setRequests] = useState();
 
@@ -35,9 +37,14 @@ export default function FollowRequests(props) {
         ListFooterComponent={
           loading && <ActivityIndicator />
         }
-        keyExtractor={item => item.user.id}
+        keyExtractor={item => item.user._id}
         data={requests}
         renderItem={renderItem}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={() => {
+            refetch();
+          }}/>
+        }
       />
     </>
   );

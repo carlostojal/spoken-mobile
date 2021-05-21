@@ -270,7 +270,7 @@ export default function Post(props) {
             </TouchableOpacity>
             <View style={styles.time_options}>
               <CustomText style={styles.time}>{dateFormatResult.value + dateFormatResult.unit}</CustomText>
-              { currentUser && currentUser._id == post.poster._id &&
+              { currentUser && currentUser._id == post.poster._id && props.renderOptions &&
                 <TouchableWithoutFeedback onPress={() => bottomSheetRef.current.open()}>
                   <Icon name="navicon" size={20} style={{marginLeft: 10}} color="white" />
                 </TouchableWithoutFeedback>
@@ -344,6 +344,16 @@ export default function Post(props) {
             })}>
               <CustomText style={styles.options_option}>
                 { t("misc.post.promote") }
+              </CustomText>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigation.navigate("Profile", {
+              screen: "PostAnalytics",
+              params: {
+                post: JSON.stringify(post)
+              }
+            })}>
+              <CustomText style={styles.options_option}>
+                { t("misc.post.analytics") }
               </CustomText>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {
