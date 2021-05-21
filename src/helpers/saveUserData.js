@@ -18,6 +18,12 @@ export default function saveUserData () {
           permissions {
             collect_usage_data
           }
+          followers {
+            _id
+          }
+          following {
+            _id
+          }
         }
       }
     `;

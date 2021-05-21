@@ -15,21 +15,21 @@ export default function FollowRequest({ user }) {
 
   const [acceptRequest, {data: acceptData, loading: acceptLoading, error: acceptError}] = useMutation(queries.ACCEPT_REQUEST, {
     variables: {
-      user_id: parseInt(user.id)
+      user_id: user._id
     }
   });
 
   const [ignoreRequest, {data: ignoreData, loading: ignoreLoading, error: ignoreError}] = useMutation(queries.IGNORE_REQUEST, {
     variables: {
-      user_id: parseInt(user.id)
+      user_id: user._id
     }
   });
 
-  const onAccept = (user_id) => {
+  const onAccept = () => {
     acceptRequest();
   };
 
-  const onIgnore = (user_id) => {
+  const onIgnore = () => {
     ignoreRequest();
   };
 

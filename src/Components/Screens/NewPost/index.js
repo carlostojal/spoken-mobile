@@ -142,7 +142,6 @@ export default function NewPost(props) {
     await recordingObject.stopAndUnloadAsync();
     setRecordingAudio(false);
     const uri = recordingObject.getURI();
-    console.log(uri);
     setAudio(uri);
 
     setUploadLoading(true);

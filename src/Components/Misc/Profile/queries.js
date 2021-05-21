@@ -12,6 +12,12 @@ export default queries = {
         profile_pic {
           _id
         }
+        followers {
+          _id
+        }
+        following {
+          _id
+        }
       }
     }
   `,

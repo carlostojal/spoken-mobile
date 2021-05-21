@@ -19,7 +19,7 @@ export default function Profile(props) {
 
   const [isAllowed, setIsAllowed] = useState(true);
 
-  const [isFollowed, setIsFollowed] = useState(user && user.is_followed || false);
+  const [isFollowed, setIsFollowed] = useState(false);
 
   const [user, setUser] = useState(null);
 
@@ -35,7 +35,10 @@ export default function Profile(props) {
   });
 
   const { data: feedData, loading: feedLoading, error: feedError, refetch: feedRefetch } = useQuery(queries.GET_USER_POSTS, {
-    fetchPolicy: "network-only"
+    fetchPolicy: "network-only",
+    variables: {
+      user_id: props.user_id
+    }
   });
 
   const [follow, { data: followData, loading: followLoading, error: followError }] = useMutation(queries.FOLLOW, {
@@ -55,18 +58,19 @@ export default function Profile(props) {
   useEffect(() => {
     if(userData && userData.getUserData) {
       setUser(userData.getUserData);
-      setIsFollowed(userData.getUserData.is_followed);
     }
   }, [userData, user]);
 
   useEffect(() => {
-    if(followData && followData.followUser)
-      setIsFollowed(!isFollowed);
-  }, [followData]);
+    if(currentUser && user)
+      setIsFollowed(user.followers.some(item => item._id == currentUser._id));
+  }, [currentUser, user]);
 
   useEffect(() => {
-    if(followError)
+    if(followError) {
       Alert.alert(t("strings.error"), t("errors.unexpected") + "\n\n" + followError.message);
+      setIsFollowed(!isFollowed);
+    }
   }, [followError]);
 
   useEffect(() => {
@@ -117,9 +121,9 @@ export default function Profile(props) {
           <CustomText>{t("screens.profile.labels.settings")}</CustomText>
         </TouchableOpacity>
         */}
-        { user && currentUser && !user._id == currentUser._id &&
+        { user && currentUser && user._id != currentUser._id &&
           <CustomButton style={{marginTop: 25, padding: 10}} loading={followLoading || userLoading} onPress={onFollow}>
-            { user && currentUser && currentUser.following.some(item => item._id == user._id) ? 
+            { isFollowed ? 
               t("screens.profile.labels.unfollow") :
               t("screens.profile.labels.follow")
             }
@@ -150,7 +154,8 @@ export default function Profile(props) {
   }
 
   const onFollow = () => {
-    follow({variables: { user_id: parseInt(props.user_id) }});
+    setIsFollowed(!isFollowed);
+    follow({variables: { user_id: props.user_id }});
   }
 
   return (
@@ -166,11 +171,15 @@ export default function Profile(props) {
         keyExtractor={item => item._id}
         refreshControl={
           <RefreshControl refreshing={feedLoading} onRefresh={() => {
-            setFeed([]);
             userRefetch();
             feedRefetch();
           }}/>
         }
+        onRefresh={() => {
+          userRefetch();
+          feedRefetch();
+        }}
+        refreshing={feedLoading || userLoading}
       />
     </View>
   );
