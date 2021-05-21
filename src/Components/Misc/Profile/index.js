@@ -86,7 +86,7 @@ export default function Profile(props) {
 
   const renderItem = ({ item }) => {
     return (
-      <Post containerStyle={{marginLeft: 15, marginRight: 15}} data={item} navigation={props.navigation} profileType={props.profileType} />
+      <Post containerStyle={{marginLeft: 15, marginRight: 15}} data={item} navigation={props.navigation} profileType={props.profileType} renderOptions={props.profileType == "personal"} />
     );
   }
 
@@ -117,7 +117,7 @@ export default function Profile(props) {
           <CustomText>{t("screens.profile.labels.settings")}</CustomText>
         </TouchableOpacity>
         */}
-        { user && !user._id == currentUser._id &&
+        { user && currentUser && !user._id == currentUser._id &&
           <CustomButton style={{marginTop: 25, padding: 10}} loading={followLoading || userLoading} onPress={onFollow}>
             { user && currentUser && currentUser.following.some(item => item._id == user._id) ? 
               t("screens.profile.labels.unfollow") :

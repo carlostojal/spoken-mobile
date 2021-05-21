@@ -224,7 +224,7 @@ export default function NewPost(props) {
             }
           </TouchableWithoutFeedback>
         }
-        { props.route.params.original_post &&
+        { props.route.params && props.route.params.original_post &&
           <View style={{marginBottom: 20}}>
             <CustomText style={{fontSize: 20, marginBottom: 10}}>
               { t("screens.new_post.labels.replying_to") }

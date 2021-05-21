@@ -94,6 +94,15 @@
         "labels": {
           "confirm": "Confirmar"
         }
+      },
+      "analytics": {
+        "title": "Estatísticas",
+        "labels": {
+          "views_by_hour": "Visualizações por hora do dia",
+          "views_by_age_range": "Visualizações por faixa etária",
+          "views_by_platform": "Visualizações por plataforma",
+          "views_by_os": "Visualizações por sistema operativo"
+        }
       }
     },
     "misc": {
@@ -112,6 +121,7 @@
       "post": {
         "edit": "Editar",
         "promote": "Promover",
+        "analytics": "Estatísticas",
         "delete": "Eliminar",
         "confirm_delete": "Tem a certeza?",
         "delete_successful": "Publicação eliminada com sucesso"
