@@ -22,8 +22,15 @@ export default function FollowRequests(props) {
       setRequests(data.getFollowRequests);
   }, [data]);
 
+  const onEvent = (type, user_id) => {
+    setRequests(requests.filter((request) => {
+      return request.user._id != user_id
+    }));
+    refetch();
+  }
+
   const renderItem = ({ item }) => {
-    return <FollowRequest user={item.user} />
+    return <FollowRequest user={item.user} onEvent={onEvent} />
   };
 
   return (

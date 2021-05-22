@@ -259,7 +259,7 @@ export default function Post(props) {
             // header
           }
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => goToProfile(post.poster.id)} style={{flexDirection: "row"}}>
+            <TouchableOpacity onPress={() => goToProfile(post.poster._id)} style={{flexDirection: "row"}}>
               { post.poster.profile_pic &&
                 <Image style={{width: 40, height: 40, borderRadius: 50}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.poster.profile_pic._id}`}} />
               }
