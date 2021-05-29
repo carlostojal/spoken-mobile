@@ -74,6 +74,11 @@
           "success": "Post created successfully."
         }
       },
+      "post_view": {
+        "labels": {
+          "comments": "Comments"
+        }
+      },
       "profile": {
         "labels": {
           "follow": "Follow",

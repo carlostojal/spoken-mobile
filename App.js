@@ -19,6 +19,7 @@ import SearchScreen from "./src/Components/Screens/Search";
 import NewPost from "./src/Components/Screens/NewPost";
 import FollowRequests from "./src/Components/Screens/FollowRequests";
 import ProfileScreen from "./src/Components/Screens/Profile";
+import PostView from "./src/Components/Screens/PostView";
 import DynamicProfile from "./src/Components/Screens/DynamicProfile";
 import Settings from "./src/Components/Screens/Settings";
 import Promote from "./src/Components/Screens/Promote";
@@ -74,7 +75,6 @@ export default function App() {
               user_long
             }
           });
-          console.log(data);
         } catch(e) {
           console.error(e);
           Alert.alert(
@@ -107,6 +107,7 @@ export default function App() {
       <HomeStack.Navigator screenOptions={{headerShown: false}}>
         <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
         <HomeStack.Screen name="DynamicProfile" component={DynamicProfile} />
+        <HomeStack.Screen name="PostView" component={PostView} />
       </HomeStack.Navigator>
     );
   }
@@ -118,6 +119,7 @@ export default function App() {
       <SearchStack.Navigator screenOptions={{headerShown: false}}>
         <SearchStack.Screen name="SearchScreen" component={SearchScreen} />
         <SearchStack.Screen name="SearchProfile" component={DynamicProfile} />
+        <SearchStack.Screen name="PostView" component={PostView} />
       </SearchStack.Navigator>
     );
   }
@@ -131,6 +133,7 @@ export default function App() {
         <ProfileStack.Screen name="Promote" component={Promote} />
         <ProfileStack.Screen name="PostAnalytics" component={PostAnalytics} />
         <ProfileStack.Screen name="Settings" component={Settings} />
+        <ProfileStack.Screen name="PostView" component={PostView} />
       </ProfileStack.Navigator>
     );
   }
