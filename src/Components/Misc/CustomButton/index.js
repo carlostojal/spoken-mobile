@@ -6,7 +6,10 @@ import styles from "./styles";
 export default function CustomButton(props) {
 
   return (
-    <TouchableHighlight style={[styles.container, props.style]} onPress={props.onPress}>
+    <TouchableHighlight style={[styles.container, props.style]} onPress={() => {
+      if(!props.loading)
+        props.onPress();
+     }}>
       <View>
         { !props.loading &&
           <Text style={[styles.text, props.textStyle]}>{props.children}</Text>

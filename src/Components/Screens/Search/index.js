@@ -46,8 +46,8 @@ export default function Search(props) {
 
   useEffect(() => {
 
-    async function getNearby() {
-      
+    async function getLocation() {
+
       const { status } = await Location.requestPermissionsAsync();
 
       if(status == "granted" && await Location.hasServicesEnabledAsync()) {
@@ -56,18 +56,23 @@ export default function Search(props) {
 
         setUserLat(location.coords.latitude);
         setUserLong(location.coords.longitude);
-        
-        getNearbyUsers({
-          variables: {
-            current_lat: userLat,
-            current_long: userLong,
-            max_distance: 500
-          }
-        });
       }
     }
 
-    getNearby();
+    getLocation();
+
+  }, []);
+
+  useEffect(() => {
+
+    getNearbyUsers({
+      variables: {
+        current_lat: userLat,
+        current_long: userLong,
+        max_distance: 500
+      }
+    });
+
   }, [userLat, userLong]);
 
   const renderHeader = () => {

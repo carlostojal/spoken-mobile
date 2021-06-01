@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList, RefreshControl, ActivityIndicator, Alert, Image } from "react-native";
-import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
+import { View, FlatList, RefreshControl, ActivityIndicator, Alert, Image, TouchableOpacity } from "react-native";
+import { useQuery, useMutation } from "@apollo/client";
 import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 
@@ -90,7 +90,9 @@ export default function Profile(props) {
 
   const renderItem = ({ item }) => {
     return (
-      <Post containerStyle={{marginLeft: 15, marginRight: 15}} data={item} navigation={props.navigation} profileType={props.profileType} renderOptions={props.profileType == "personal"} />
+      <TouchableOpacity onPress={() => props.navigation.navigate("PostView", {post: JSON.stringify(item)})}>
+        <Post containerStyle={{marginLeft: 15, marginRight: 15}} data={item} navigation={props.navigation} profileType={props.profileType} renderOptions={props.profileType == "personal"} />
+      </TouchableOpacity>
     );
   }
 

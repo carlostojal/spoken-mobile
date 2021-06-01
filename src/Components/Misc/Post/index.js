@@ -25,8 +25,6 @@ export default function Post(props) {
 
   const [post, setPost] = useState(props.data);
 
-  const [imageLoaded, setImageLoaded] = useState(false);
-
   const [imageHeight, setImageHeight] = useState(null);
 
   const [shouldBlur, setShouldBlur] = useState(post && post.media && post.media.is_nsfw);
@@ -211,16 +209,15 @@ export default function Post(props) {
           { post.media &&
             <>
               { post.media.type == "image" &&
-                <Image source={{uri: `post.media.id`}} style={{ width: imageDimensions.width, height: imageDimensions.height }} onLoadEnd={() => setImageLoaded(true)} />
+                <Image source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.media._id}`}} style={{ flex: 1, aspectRatio: 1/1 }} />
               }
               { post.media.type == "audio" &&
               <>
                 <TouchableOpacity style={{justifyContent: "center", alignItems: "center"}} onPress={async () => {
                   if(audioButtonLabel == "Play") {
                     const audio = new Audio.Sound();
-                    const access_token = await AsyncStorage.getItem("access_token");
                     await audio.loadAsync({
-                      uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.media._id}/${access_token}`
+                      uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.media._id}`
                     });
                     audio.setOnPlaybackStatusUpdate(async (status) => {
                       // console.log(status);
@@ -242,7 +239,7 @@ export default function Post(props) {
                     // setAudioPlaying(false);
                   }
                 }} >
-                  <Image style={{width: 360, height: 200}} blurRadius={(1 - audioPlayPercentage) * 5} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.poster.profile_pic._id}`}} />
+                  <Image style={{ flex: 1, aspectRatio: 1 / 1, resizeMode: "contain" }} blurRadius={5} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.poster.profile_pic._id}`}} />
                   { audioPlayPercentage != 0 &&
                     <ActivityIndicator color={colors.primary} size="large" style={{position: "absolute"}} />
                   }

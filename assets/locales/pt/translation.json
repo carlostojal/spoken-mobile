@@ -74,6 +74,11 @@
           "success": "Publicação criada com sucesso"
         }
       },
+      "post_view": {
+        "labels": {
+          "comments": "Comentários"
+        }
+      },
       "profile": {
         "labels": {
           "follow": "Seguir",

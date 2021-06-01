@@ -65,7 +65,9 @@ export default function Feed(props) {
 
   const renderItem = ({ item }) => {
     return (
-      <Post containerStyle={{marginLeft: 15, marginRight: 15}} data={item} navigation={props.navigation} profileType="dynamic" renderFooter={true} />
+      <TouchableOpacity onPress={() => props.navigation.navigate("PostView", {post: JSON.stringify(item)})}>
+        <Post containerStyle={{marginLeft: 15, marginRight: 15}} data={item} navigation={props.navigation} profileType="dynamic" renderFooter={true} />
+      </TouchableOpacity>
     );
   }
 
