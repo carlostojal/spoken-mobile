@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, View, Alert, Vibration, Image, ActivityIndicator } from "react-native";
+import { ScrollView, View, Alert, Vibration, Image, ActivityIndicator, TouchableWithoutFeedback } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@apollo/client";
@@ -16,7 +16,6 @@ import Post from "../../Misc/Post";
 import queries from "./queries";
 import styles from "./styles";
 import colors from "../../../colors";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import CustomText from "../../Misc/CustomText";
 
 export default function NewPost(props) {
@@ -36,6 +35,7 @@ export default function NewPost(props) {
   const [audio, setAudio] = useState(null);
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [mediaId, setMediaId] = useState(null);
+  const [mediaForm, setMediaForm] = useState(null);
 
   useEffect(() => {
     if(createPostError) {
@@ -70,7 +70,8 @@ export default function NewPost(props) {
     try {
       img = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true
+        allowsEditing: true,
+        aspect: [1, 1]
       });
     } catch(e) {
       Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
@@ -92,37 +93,9 @@ export default function NewPost(props) {
       let form = new FormData();
       form.append("media", { uri: localUri, name: filename, type });
 
-      let uploadResult = null;
+      setMediaForm(form);
+      setUploadLoading(false);
 
-      try {
-        const url = `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_ADDRESS_PORT}/upload`;
-        uploadResult = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "Authorization": await AsyncStorage.getItem("access_token")
-          },
-          body: form
-        });
-
-        setUploadLoading(false);
-
-      } catch(e) {
-        Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
-        setUploadLoading(false);
-      }
-
-      uploadResult = await uploadResult.json();
-
-      switch(uploadResult.result) {
-        case "FILE_UPLOADED":
-          setUploadDone(true);
-          setMediaId(uploadResult.media_id);
-          break;
-        default:
-          Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
-          break;
-      }
     }
   };
 
@@ -144,45 +117,13 @@ export default function NewPost(props) {
     const uri = recordingObject.getURI();
     setAudio(uri);
 
-    setUploadLoading(true);
-
     let filename = uri.split('/').pop();
 
     let form = new FormData();
     form.append("media", { uri, name: filename, type: "audio/3gpp" });
 
-    let uploadResult = null;
-
-    try {
-      const url = `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/upload`;
-      uploadResult = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "Authorization": await AsyncStorage.getItem("access_token")
-        },
-        body: form
-      });
-
-      setUploadLoading(false);
-
-    } catch(e) {
-      console.error(e);
-      Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
-      setUploadLoading(false);
-    }
-
-    uploadResult = await uploadResult.json();
-
-    switch(uploadResult.result) {
-      case "FILE_UPLOADED":
-        setUploadDone(true);
-        setMediaId(uploadResult.media_id);
-        break;
-      default:
-        Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
-        break;
-    }
+    setMediaForm(form);
+    setUploadLoading(false);
   };
 
   return (
@@ -191,7 +132,7 @@ export default function NewPost(props) {
         { t("screens.new_post.title") }
       </Header>
       <View style={styles.container}>
-        { image || audio &&
+        { /* image &&
           <TouchableWithoutFeedback style={{width: 50, height: 50, marginBottom: 10, borderRadius: 5, backgroundColor: colors.card, justifyContent: "center", alignItems: "center"}} onPress={async () => {
             if(audio && !audioPlaying) {
               const sound = new Audio.Sound();
@@ -222,7 +163,7 @@ export default function NewPost(props) {
               </>
             }
           </TouchableWithoutFeedback>
-        }
+          */ }
         { props.route.params && props.route.params.original_post &&
           <View style={{marginBottom: 20}}>
             <CustomText style={{fontSize: 20, marginBottom: 10}}>
@@ -246,7 +187,7 @@ export default function NewPost(props) {
             <CustomButton style={{backgroundColor: colors.secondary, marginBottom: 5}} textStyle={{color: "black"}} loading={uploadLoading} onPress={() => {
               onUpload();
             }}>
-              { uploadDone ? t("screens.new_post.labels.change_upload") : t("screens.new_post.labels.upload_btn") }
+              { image ? t("screens.new_post.labels.change_upload") : t("screens.new_post.labels.upload_btn") }
             </CustomButton>
           }
           { !image &&
@@ -260,9 +201,53 @@ export default function NewPost(props) {
             </CustomButton>
           }
           <CustomButton 
-            loading={createPostLoading}
-            onPress={() => {
-              createPost({ variables: { text, media_id: mediaId } })
+            loading={createPostLoading || uploadLoading}
+            onPress={async () => {
+
+              setUploadLoading(true);
+
+              let uploadResult = null;
+
+              try {
+                const url = `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/upload`;
+                uploadResult = await fetch(url, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Authorization": await AsyncStorage.getItem("access_token")
+                  },
+                  body: mediaForm
+                });
+          
+                setUploadLoading(false);
+          
+              } catch(e) {
+                console.error(e);
+                Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
+                setUploadLoading(false);
+              }
+          
+              uploadResult = await uploadResult.json();
+
+              console.log(uploadResult);
+          
+              switch(uploadResult.result) {
+                case "FILE_UPLOADED":
+                  setUploadDone(true);
+                  console.log(uploadResult.media_id);
+                  break;
+                default:
+                  Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
+                  break;
+              }
+
+              createPost({
+                variables: {
+                  text,
+                  media_id: uploadResult.media_id,
+                  original_post_id: props.route.params && props.route.params.original_post ? JSON.parse(props.route.params.original_post)._id : null 
+                } 
+              });
             }}
           >
             { t("screens.new_post.labels.post_btn") }

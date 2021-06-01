@@ -50,20 +50,25 @@ export default function App() {
 
         let user_lat = null, user_long = null;
 
-        const user_data = await saveUserData();
+        try {
 
-        if(user_data.permissions.collect_usage_data) {
-          if(await Location.hasServicesEnabledAsync()) {
-            const { status } = await Location.requestPermissionsAsync();
+          const user_data = await saveUserData();
 
-            if(status == "granted") {
-              const location = await Location.getCurrentPositionAsync({
-                accuracy: Location.Accuracy.High
-              });
-              user_lat = location.coords.latitude;
-              user_long = location.coords.longitude;
+          if(user_data && user_data.permissions.collect_usage_data) {
+            if(await Location.hasServicesEnabledAsync()) {
+              const { status } = await Location.requestPermissionsAsync();
+
+              if(status == "granted") {
+                const location = await Location.getCurrentPositionAsync({
+                  accuracy: Location.Accuracy.High
+                });
+                user_lat = location.coords.latitude;
+                user_long = location.coords.longitude;
+              }
             }
           }
+        } catch(e) {
+
         }
 
         // try to use refresh token to get new access token

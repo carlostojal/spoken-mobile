@@ -118,14 +118,19 @@ export default function Login({ navigation }) {
 
               let user_lat = null, user_long = null;
 
-              let { status } = await Location.requestPermissionsAsync();
+              try {
+                let { status } = await Location.requestPermissionsAsync();
 
-              if(status == "granted" && await Location.hasServicesEnabledAsync()) {
-                const location = await Location.getCurrentPositionAsync({
-                  accuracy: Location.Accuracy.Balanced
-                });
-                user_lat = location.coords.latitude;
-                user_long = location.coords.longitude;
+                if(status == "granted" && await Location.hasServicesEnabledAsync()) {
+                  const location = await Location.getCurrentPositionAsync({
+                    accuracy: Location.Accuracy.Balanced
+                  });
+                  user_lat = location.coords.latitude;
+                  user_long = location.coords.longitude;
+                }
+
+              } catch(e) {
+
               }
 
               doLogin({variables: {
