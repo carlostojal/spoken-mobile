@@ -24,11 +24,12 @@ export default async () => {
   });
 
   const authLink = setContext(async (_, { headers }) => {
-    const token = await AsyncStorage.getItem("access_token");
+    const tokens = JSON.parse(await AsyncStorage.getItem("tokens"));
     return {
       headers: {
         ...headers,
-        authorization: token ? token : ""
+        authorization: tokens && tokens.access ? tokens.access : "",
+        session: tokens && tokens.refresh ? tokens.refresh : ""
       }
     }
   });

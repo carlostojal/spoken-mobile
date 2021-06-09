@@ -39,7 +39,7 @@ export default function Login({ navigation }) {
       if(data) {
         if(data.getToken) {
           try {
-            await AsyncStorage.setItem("access_token", data.getToken);
+            await AsyncStorage.setItem("tokens", JSON.stringify(data.getToken));
           } catch(e) {
             console.error(e);
           }
