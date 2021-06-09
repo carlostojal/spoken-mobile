@@ -66,9 +66,7 @@ export default queries = {
 
   FOLLOW: gql`
     mutation follow($user_id: ID!) {
-      followUser(id: $user_id) {
-        _id
-      }
+      followUser(id: $user_id)
     }
   `
 }
