@@ -264,9 +264,9 @@ export default function Post(props) {
           <View style={styles.header}>
             <TouchableOpacity onPress={() => goToProfile(post.poster._id)} style={{flexDirection: "row"}}>
               { post.poster.profile_pic &&
-                <Image style={{width: 40, height: 40, borderRadius: 50}} source={{uri: `${getFullBackendAddress("media")}/media/${post.poster.profile_pic._id}`}} />
+                <Image style={{width: 40, height: 40, borderRadius: 50, marginRight: 10}} source={{uri: `${getFullBackendAddress("media")}/media/${post.poster.profile_pic._id}`}} />
               }
-              <View style={{marginLeft: 10}}>
+              <View>
                 <CustomText style={styles.username}>{post.poster.username}</CustomText>
                 <CustomText style={styles.name}>{`${post.poster.name} ${post.poster.surname}`}</CustomText>
               </View>
