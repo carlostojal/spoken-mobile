@@ -9,6 +9,7 @@ import NoPosts from "../../Misc/NoPosts";
 
 import queries from "./queries";
 import styles from "./styles";
+import getFullBackendAddress from "../../../helpers/getFullBackendAddress";
 
 export default function Feed(props) {
 
@@ -79,7 +80,7 @@ export default function Feed(props) {
       >
         { userData && userData.getUserData && userData.getUserData.profile_pic &&
           <>
-            <Image style={{flex: 1, aspectRatio: 1/1, borderRadius: 50}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${userData.getUserData.profile_pic._id}`}} />
+            <Image style={{flex: 1, aspectRatio: 1/1, borderRadius: 50}} source={{uri: `${getFullBackendAddress("media")}/media/${userData.getUserData.profile_pic._id}`}} />
             <View style={{width: 10}} />
           </>
         }

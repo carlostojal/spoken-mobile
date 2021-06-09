@@ -12,6 +12,7 @@ import CustomButton from "../CustomButton";
 import styles from "./styles";
 import queries from "./queries";
 import AsyncStorage from "@react-native-community/async-storage";
+import getFullBackendAddress from "../../../helpers/getFullBackendAddress";
 
 export default function Profile(props) {
 
@@ -101,7 +102,7 @@ export default function Profile(props) {
       <View style={styles.container}>
         <View style={{flexDirection: "row"}}>
           { user && user.profile_pic &&
-            <Image style={{width: 80, height: 80, borderRadius: 50}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${user.profile_pic._id}`}} />
+            <Image style={{width: 80, height: 80, borderRadius: 50}} source={{uri: `${getFullBackendAddress("media")}/media/${user.profile_pic._id}`}} />
           }
           <View style={{marginLeft: 15}}>
             <CustomText style={styles.username}>

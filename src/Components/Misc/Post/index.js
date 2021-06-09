@@ -18,6 +18,7 @@ import refreshToken from "../../../helpers/refreshToken";
 import styles from "./styles";
 import queries from "./queries";
 import colors from "../../../colors";
+import getFullBackendAddress from "../../../helpers/getFullBackendAddress";
 
 export default function Post(props) {
 
@@ -209,7 +210,7 @@ export default function Post(props) {
           { post.media &&
             <>
               { post.media.type == "image" &&
-                <Image source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.media._id}`}} style={{ flex: 1, aspectRatio: 1/1 }} />
+                <Image source={{uri: `${getFullBackendAddress("media")}/media/${post.media._id}`}} style={{ flex: 1, aspectRatio: 1/1 }} />
               }
               { post.media.type == "audio" &&
               <>
@@ -217,7 +218,7 @@ export default function Post(props) {
                   if(audioButtonLabel == "Play") {
                     const audio = new Audio.Sound();
                     await audio.loadAsync({
-                      uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.media._id}`
+                      uri: `${getFullBackendAddress("media")}/media/${post.media._id}`
                     });
                     audio.setOnPlaybackStatusUpdate(async (status) => {
                       // console.log(status);
@@ -239,7 +240,7 @@ export default function Post(props) {
                     // setAudioPlaying(false);
                   }
                 }} >
-                  <Image style={{ flex: 1, aspectRatio: 1 / 1, resizeMode: "contain" }} blurRadius={5} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.poster.profile_pic._id}`}} />
+                  <Image style={{ flex: 1, aspectRatio: 1 / 1, resizeMode: "contain" }} blurRadius={5} source={{uri: `${getFullBackendAddress("media")}/media/${post.poster.profile_pic._id}`}} />
                   { audioPlayPercentage != 0 &&
                     <ActivityIndicator color={colors.primary} size="large" style={{position: "absolute"}} />
                   }
@@ -258,7 +259,7 @@ export default function Post(props) {
           <View style={styles.header}>
             <TouchableOpacity onPress={() => goToProfile(post.poster._id)} style={{flexDirection: "row"}}>
               { post.poster.profile_pic &&
-                <Image style={{width: 40, height: 40, borderRadius: 50}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${post.poster.profile_pic._id}`}} />
+                <Image style={{width: 40, height: 40, borderRadius: 50}} source={{uri: `${getFullBackendAddress("media")}/media/${post.poster.profile_pic._id}`}} />
               }
               <View style={{marginLeft: 10}}>
                 <CustomText style={styles.username}>{post.poster.username}</CustomText>

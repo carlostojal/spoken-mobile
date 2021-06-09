@@ -1,5 +1,5 @@
-import Constants from 'expo-constants';
 import AsyncStorage from "@react-native-community/async-storage";
+import getFullBackendAddress from './getFullBackendAddress';
 
 export default function refreshToken(retryFunction, retryVariables) {
   return new Promise((resolve, reject) => {
@@ -14,7 +14,7 @@ export default function refreshToken(retryFunction, retryVariables) {
       })
     };
 
-    fetch(`http://${Constants.manifest.extra.API_ADDRESS}:${Constants.manifest.extra.API_PORT}/${Constants.manifest.extra.API_ENDPOINT}`, options)
+    fetch(getFullBackendAddress("api"), options)
     .then((res) => {
       res.json().then(async (res) => {
         const token = res.data && res.data.refreshToken ? res.data.refreshToken : null;
