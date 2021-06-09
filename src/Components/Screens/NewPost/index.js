@@ -17,6 +17,7 @@ import queries from "./queries";
 import styles from "./styles";
 import colors from "../../../colors";
 import CustomText from "../../Misc/CustomText";
+import getFullBackendAddress from "../../../helpers/getFullBackendAddress";
 
 export default function NewPost(props) {
 
@@ -209,7 +210,7 @@ export default function NewPost(props) {
               let uploadResult = null;
 
               try {
-                const url = `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/upload`;
+                const url = `${getFullBackendAddress("media")}/upload`;
                 uploadResult = await fetch(url, {
                   method: "POST",
                   headers: {

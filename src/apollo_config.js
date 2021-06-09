@@ -1,10 +1,10 @@
-import { ApolloClient, InMemoryCache, ApolloLink, HttpLink, split } from '@apollo/client';
+import { ApolloClient, InMemoryCache, HttpLink, split } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/link-error';
 import AsyncStorage from '@react-native-community/async-storage'; 
-import Constants from 'expo-constants';
+import getFullBackendAddress from './helpers/getFullBackendAddress';
 
 export default async () => {
 
@@ -15,7 +15,7 @@ export default async () => {
     token = "";*/
 
   const httpLink = new HttpLink({
-    uri: `${Constants.manifest.extra.API_ADDRESS}:${Constants.manifest.extra.API_PORT}${Constants.manifest.extra.API_ENDPOINT}`,
+    uri: getFullBackendAddress("api"),
     credentials: "include",
     onError: ({ graphQLErrors, networkError, operation, forward }) => {
       console.log("================")
@@ -35,7 +35,7 @@ export default async () => {
   });
 
   const wsLink = new WebSocketLink({
-    uri: `ws://${Constants.manifest.extra.API_ADDRESS}:${Constants.manifest.extra.API_PORT}/${Constants.manifest.extra.API_ENDPOINT}`,
+    uri: `ws://${getFullBackendAddress("api")}`,
     credentials: "include",
     options: {
       reconnect: true,

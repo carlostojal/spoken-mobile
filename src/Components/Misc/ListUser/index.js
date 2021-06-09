@@ -8,6 +8,7 @@ import CustomText from "../CustomText";
 import queries from "./queries";
 import styles from "./styles";
 import colors from "../../../colors";
+import getFullBackendAddress from "../../../helpers/getFullBackendAddress";
 
 export default function ListUser(props) {
 
@@ -35,7 +36,7 @@ export default function ListUser(props) {
     <TouchableOpacity style={[styles.container, {backgroundColor: colors.card, borderRadius: 10}]} onPress={() => onPress(props.user._id)} >
       <View style={{flexDirection: "row"}}>
         { props.user.profile_pic &&
-          <Image style={{flex: 1, aspectRatio: 1/1, borderRadius: 50}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${props.user.profile_pic._id}`}} />
+          <Image style={{flex: 1, aspectRatio: 1/1, borderRadius: 50}} source={{uri: `${getFullBackendAddress("media")}/media/${props.user.profile_pic._id}`}} />
         }
         <View style={{marginLeft: 10, flex: 6}}>
           <CustomText style={styles.username}>
@@ -50,7 +51,7 @@ export default function ListUser(props) {
         <View style={{marginTop: 5, flexDirection: "row"}}>
           { media.map((item) => (
               (item.type == "image" && 
-                <Image key={item._id} style={{flex: 1, aspectRatio: 1/1}} source={{uri: `${Constants.manifest.extra.MEDIA_SERVER_ADDRESS}:${Constants.manifest.extra.MEDIA_SERVER_PORT}/media/${item._id}`}} />
+                <Image key={item._id} style={{flex: 1, aspectRatio: 1/1}} source={{uri: `${getFullBackendAddress("media")}/media/${item._id}`}} />
               )
             ))
           }
