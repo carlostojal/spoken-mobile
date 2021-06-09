@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useMutation } from "@apollo/client";
 import Constants from "expo-constants";
 import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Audio } from "expo-av";
 
@@ -31,10 +32,8 @@ export default function NewPost(props) {
   const [uploadDone, setUploadDone] = useState(false);
   const [recordingAudio, setRecordingAudio] = useState(false);
   const [recordingObject, setRecordingObject] = useState(null);
-  const [mediaUploadType, setMediaUploadType] = useState(null);
   const [image, setImage] = useState(null);
   const [audio, setAudio] = useState(null);
-  const [audioPlaying, setAudioPlaying] = useState(false);
   const [mediaId, setMediaId] = useState(null);
   const [mediaForm, setMediaForm] = useState(null);
 
@@ -83,9 +82,14 @@ export default function NewPost(props) {
       setUploadLoading(false);
     } else {
 
-      setImage(img);
+      const manipResult = await ImageManipulator.manipulateAsync(img.uri, [], {
+        compress: Constants.manifest.extra.IMAGE_COMPRESSION_LEVEL,
+        format: ImageManipulator.SaveFormat.JPEG
+      });
 
-      let localUri = img.uri;
+      setImage(manipResult);
+
+      let localUri = manipResult.uri;
       let filename = localUri.split('/').pop();
 
       let match = /\.(\w+)$/.exec(filename);
