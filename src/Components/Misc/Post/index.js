@@ -240,7 +240,12 @@ export default function Post(props) {
                     // setAudioPlaying(false);
                   }
                 }} >
-                  <Image style={{ flex: 1, aspectRatio: 1 / 1, resizeMode: "contain" }} blurRadius={5} source={{uri: `${getFullBackendAddress("media")}/media/${post.poster.profile_pic._id}`}} />
+                  { post.poster.profile_pic && 
+                    <Image style={{ flex: 1, aspectRatio: 1 / 1, resizeMode: "contain" }} blurRadius={5} source={{uri: `${getFullBackendAddress("media")}/media/${post.poster.profile_pic._id}`}} />
+                  }
+                  { !post.poster.profile_pic &&
+                    <View style={{flex: 1, flexDirection: "row", aspectRatio: 1/1, width: "100%"}} />
+                  }
                   { audioPlayPercentage != 0 &&
                     <ActivityIndicator color={colors.primary} size="large" style={{position: "absolute"}} />
                   }
