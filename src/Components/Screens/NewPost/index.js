@@ -215,11 +215,12 @@ export default function NewPost(props) {
 
               try {
                 const url = `${getFullBackendAddress("media")}/upload`;
+                const tokens = JSON.parse(await AsyncStorage.getItem("tokens"));
                 uploadResult = await fetch(url, {
                   method: "POST",
                   headers: {
                     "Content-Type": "multipart/form-data",
-                    "Authorization": await AsyncStorage.getItem("access_token")
+                    "Authorization": tokens && tokens.access ? tokens.access : ""
                   },
                   body: mediaForm
                 });
