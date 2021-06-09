@@ -19,7 +19,6 @@ export default function Search(props) {
   const [results, setResults] = useState([]);
   const [userLat, setUserLat] = useState(null);
   const [userLong, setUserLong] = useState(null);
-  const [nearbyUsers, setNearbyUsers] = useState([]);
 
   const [doSearch, {data: searchData, loading: searchLoading, error: searchError}] = useLazyQuery(queries.SEARCH);
 
@@ -31,18 +30,17 @@ export default function Search(props) {
 
   useEffect(() => {
     if(searchData && searchData.userSearch) {
-      setResults(searchData.userSearch);
-    } else {
-      setResults([]);
+      if(query != "")
+        setResults(searchData.userSearch);
     }
-  }, [searchData]);
+  }, [searchData, query]);
 
   useEffect(() => {
     if(nearbyData && nearbyData.getNearbyUsers) {
-      setNearbyUsers(nearbyData.getNearbyUsers);
-      setResults(nearbyUsers);
+      if(query == "")
+        setResults(nearbyData.getNearbyUsers);
     }
-  });
+  }, [nearbyData, query]);
 
   useEffect(() => {
 

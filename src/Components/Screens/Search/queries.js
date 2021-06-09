@@ -9,6 +9,9 @@ export default queries = {
         username
         name
         surname
+        profile_pic {
+          _id
+        }
       } 
     }
   `,
