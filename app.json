@@ -54,7 +54,8 @@
       "MEDIA_ENDPOINT": "media",
       "UPLOAD_ENDPOINT": "/upload",
       "POSTS_PER_PAGE": 10,
-      "IMAGE_COMPRESSION_LEVEL": 0.7
+      "IMAGE_COMPRESSION_LEVEL": 0.7,
+      "POST_PROMOTION_ENABLED": false
     },
     "description": ""
   }

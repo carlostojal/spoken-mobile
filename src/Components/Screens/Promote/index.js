@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import { View, Linking, ScrollView, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
+import Constants from "expo-constants";
 
 import Header from "../../Misc/Header";
 import CustomText from "../../Misc/CustomText";
@@ -38,9 +39,16 @@ export default function Promote(props) {
         <CustomText style={{marginBottom: 20}}>
           { t("screens.promote.description") }
         </CustomText>
-        <CustomButton loading={promoteLoading} onPress={() => promotePost()}>
-          { t("screens.promote.labels.confirm") }
-        </CustomButton>
+        { Constants.manifest.extra.POST_PROMOTION_ENABLED &&
+          <CustomButton loading={promoteLoading} onPress={() => promotePost()}>
+            { t("screens.promote.labels.confirm") }
+          </CustomButton>
+        }
+        { !Constants.manifest.extra.POST_PROMOTION_ENABLED &&
+          <CustomText>
+            { t("screens.promote.labels.not_enabled") }
+          </CustomText>
+        }
       </View>
     </ScrollView>
   );

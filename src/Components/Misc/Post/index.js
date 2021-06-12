@@ -334,27 +334,19 @@ export default function Post(props) {
               }
             }}
           >
-            <TouchableOpacity>
-              <CustomText style={styles.options_option}>
-                { t("misc.post.edit") }
-              </CustomText>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate("Profile", {
-              screen: "Promote",
-              params: {
+            <TouchableOpacity onPress={() => props.navigation.navigate("Promote", {
                 post_id: post._id
-              }
             })}>
               <CustomText style={styles.options_option}>
                 { t("misc.post.promote") }
               </CustomText>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate("Profile", {
-              screen: "PostAnalytics",
-              params: {
+            <TouchableOpacity onPress={() => {
+              props.navigation.navigate("PostAnalytics", {
                 post: JSON.stringify(post)
-              }
-            })}>
+              });
+            }
+            }>
               <CustomText style={styles.options_option}>
                 { t("misc.post.analytics") }
               </CustomText>

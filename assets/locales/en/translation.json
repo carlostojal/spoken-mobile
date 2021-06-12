@@ -97,7 +97,8 @@
         "title": "Promote Post",
         "description": "Promoted posts have a wider audience.\nPost promotion is a paid feature.\nAfter clicking the button bellow you will be redirected for payment (PayPal checkout).",
         "labels": {
-          "confirm": "Confirm"
+          "confirm": "Confirm",
+          "not_enabled": "Promoted posts are not enabled right now."
         }
       },
       "analytics": {

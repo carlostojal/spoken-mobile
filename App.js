@@ -68,7 +68,7 @@ export default function App() {
             }
           }
         } catch(e) {
-
+           console.error(e);
         }
 
         // try to use refresh token to get new access token

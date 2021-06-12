@@ -97,7 +97,8 @@
         "title": "Promover publicação",
         "description": "Publicações promovidas têm uma maior audiência.\nApós clicar o botão abaixo será redirecionado para pagamento (PayPal checkout).",
         "labels": {
-          "confirm": "Confirmar"
+          "confirm": "Confirmar",
+          "not_enabled": "As publicações promovidas não estão ativas de momento."
         }
       },
       "analytics": {

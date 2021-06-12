@@ -69,7 +69,7 @@ export default function NewPost(props) {
     let img;
     try {
       img = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1]
       });

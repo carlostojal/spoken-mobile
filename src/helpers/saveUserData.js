@@ -3,53 +3,55 @@ import getClient from "../apollo_config";
 import AsyncStorage from "@react-native-community/async-storage";
 
 
-export default function saveUserData () {
-  return new Promise(async (resolve, reject) => {
+export default async function saveUserData () {
 
-    const GET_DATA = gql`
-      {
-        getUserData {
+  const GET_DATA = gql`
+    {
+      getUserData {
+        _id
+        name
+        surname
+        username
+        profile_type
+        profile_privacy_type
+        permissions {
+          collect_usage_data
+        }
+        followers {
           _id
-          name
-          surname
-          username
-          profile_type
-          profile_privacy_type
-          permissions {
-            collect_usage_data
-          }
-          followers {
-            _id
-          }
-          following {
-            _id
-          }
+        }
+        following {
+          _id
         }
       }
-    `;
-
-    let client = null;
-    try {
-      client = await getClient();
-    } catch(e) {
-      return reject(e);
     }
+  `;
 
-    let data = null;
-    try {
-      data = await client.query({
-        query: GET_DATA
-      });
-    } catch(e) {
-      return reject(e);
-    }
+  let client = null;
+  try {
+    client = await getClient();
+  } catch(e) {
+    console.error(e);
+    throw e;
+  }
 
-    try {
-      await AsyncStorage.setItem("user_data", JSON.stringify(data.data.getUserData));
-    } catch(e) {
-      return reject(e);
-    }
+  let data = null;
+  try {
+    data = await client.query({
+      query: GET_DATA
+    });
+  } catch(e) {
+    console.error(e);
+    throw e;
+  }
 
-    return resolve(data.data.getUserData);
-  });
+  try {
+    await AsyncStorage.setItem("user_data", JSON.stringify(data.data.getUserData));
+  } catch(e) {
+    console.error(e);
+    throw e;
+  }
+
+  return data.data.getUserData;
+
 }
