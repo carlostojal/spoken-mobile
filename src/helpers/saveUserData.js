@@ -45,11 +45,13 @@ export default async function saveUserData () {
     throw e;
   }
 
-  try {
-    await AsyncStorage.setItem("user_data", JSON.stringify(data.data.getUserData));
-  } catch(e) {
-    console.error(e);
-    throw e;
+  if(data && data.data) {
+    try {
+      await AsyncStorage.setItem("user_data", JSON.stringify(data.data.getUserData));
+    } catch(e) {
+      console.error(e);
+      throw e;
+    }
   }
 
   return data.data.getUserData;
