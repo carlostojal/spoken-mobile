@@ -109,6 +109,27 @@
           "views_by_platform": "Visualizações por plataforma",
           "views_by_os": "Visualizações por sistema operativo"
         }
+      },
+      "settings": {
+        "title": "Definições",
+        "labels": {
+          "name": "Nome",
+          "surname": "Apelido",
+          "email": "Email",
+          "username": "Nome de utilizador",
+          "password": "Palavra-passe",
+          "profile_pic": "Foto de perfil",
+          "pick_image": "Selecionar foto",
+          "profile_privacy_type": "Privacidade do Perfil",
+          "allow_data_collection": "Permitir recolha de dados",
+          "save": "Guardar",
+          "sessions": "Sessões",
+          "platform": "Plataforma",
+          "location": "Localização",
+          "created_at": "Criada em",
+          "last_active": "Última atividade",
+          "end_session": "Terminar sessão"
+        }
       }
     },
     "misc": {
@@ -140,6 +161,7 @@
       "cancel": "Cancelar"
     },
     "errors": {
+      "generic": "Ocorreu um erro.",
       "user_not_found": "O utilizador não existe.",
       "wrong_password": "Password errada.",
       "email_not_confirmed": "O email não foi verificado.",

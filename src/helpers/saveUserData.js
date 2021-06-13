@@ -45,7 +45,7 @@ export default async function saveUserData () {
     throw e;
   }
 
-  if(data && data.data) {
+  if(data && data.data && data.data.getUserData) {
     try {
       await AsyncStorage.setItem("user_data", JSON.stringify(data.data.getUserData));
     } catch(e) {

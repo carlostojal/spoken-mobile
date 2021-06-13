@@ -60,7 +60,7 @@ export default function App() {
 
               if(status == "granted") {
                 const location = await Location.getCurrentPositionAsync({
-                  accuracy: Location.Accuracy.High
+                  accuracy: Location.Accuracy.Lowest
                 });
                 user_lat = location.coords.latitude;
                 user_long = location.coords.longitude;

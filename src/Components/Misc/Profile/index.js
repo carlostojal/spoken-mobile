@@ -102,9 +102,9 @@ export default function Profile(props) {
       <View style={styles.container}>
         <View style={{flexDirection: "row"}}>
           { user && user.profile_pic &&
-            <Image style={{width: 80, height: 80, borderRadius: 50}} source={{uri: `${getFullBackendAddress("media")}/media/${user.profile_pic._id}`}} />
+            <Image style={{width: 80, height: 80, borderRadius: 50, marginRight: 15}} source={{uri: `${getFullBackendAddress("media")}/media/${user.profile_pic._id}`}} />
           }
-          <View style={{marginLeft: 15}}>
+          <View>
             <CustomText style={styles.username}>
               { user ? 
                 user.username :
@@ -131,6 +131,13 @@ export default function Profile(props) {
               t("screens.profile.labels.follow")
             }
           </CustomButton>
+        }
+        { user && currentUser && user._id == currentUser._id &&
+					<TouchableOpacity onPress={() => props.navigation.navigate("Settings")}>
+						<CustomText>
+							{ t("screens.profile.labels.settings") }
+						</CustomText>
+					</TouchableOpacity>
         }
       </View>
     );
