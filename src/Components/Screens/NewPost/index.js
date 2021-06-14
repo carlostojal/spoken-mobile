@@ -36,6 +36,9 @@ export default function NewPost(props) {
   const [audio, setAudio] = useState(null);
   const [mediaId, setMediaId] = useState(null);
   const [mediaForm, setMediaForm] = useState(null);
+  const [originalPost, setOriginalPost] = useState(props.route.params && props.route.params.original_post ? JSON.parse(props.route.params.original_post) : null);
+
+  // console.log(props.route.params && props.route.params.original_post);
 
   useEffect(() => {
     if(createPostError) {
@@ -54,13 +57,21 @@ export default function NewPost(props) {
   useEffect(() => {
     if(createPostData && createPostData.createPost) {
       Vibration.vibrate([0, 70, 100, 70]);
-      setText(""); // clear text box
-      setMediaId(null);
-      setUploadDone(false);
+      clear();
       Alert.alert(t("strings.success"), t("screens.new_post.labels.success")); // show success alert
       props.navigation.navigate("Home"); // navigate home
     }
   }, [createPostData]);
+
+  const clear = () => {
+    setText(""); // clear text box
+    setMediaId(null);
+    setUploadDone(false);
+    setImage(null);
+    setAudio(null);
+    setMediaForm(null);
+    setOriginalPost(null);
+  }
 
   const onUpload = async () => {
 
@@ -169,12 +180,12 @@ export default function NewPost(props) {
             }
           </TouchableWithoutFeedback>
           */ }
-        { props.route.params && props.route.params.original_post &&
+        { originalPost &&
           <View style={{marginBottom: 20}}>
             <CustomText style={{fontSize: 20, marginBottom: 10}}>
               { t("screens.new_post.labels.replying_to") }
             </CustomText>
-            <Post data={JSON.parse(props.route.params.original_post)} renderFooter={false} />
+            <Post data={originalPost} renderFooter={false} />
           </View>
         }
         <CustomTextField
@@ -205,54 +216,66 @@ export default function NewPost(props) {
               { !recordingAudio ? t("screens.new_post.labels.record_audio") : t("screens.new_post.labels.stop_recording") }
             </CustomButton>
           }
+          <CustomButton style={{backgroundColor: colors.secondary, marginBottom: 5}} textStyle={{color: "black"}} loading={uploadLoading} onPress={() => clear()}>
+            { t("screens.new_post.labels.clear_btn") }
+          </CustomButton>
           <CustomButton 
             loading={createPostLoading || uploadLoading}
             onPress={async () => {
 
-              setUploadLoading(true);
-
               let uploadResult = null;
 
-              try {
-                const url = `${getFullBackendAddress("media")}/upload`;
-                const tokens = JSON.parse(await AsyncStorage.getItem("tokens"));
-                uploadResult = await fetch(url, {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                    "Authorization": tokens && tokens.access ? tokens.access : ""
-                  },
-                  body: mediaForm
-                });
-          
-                setUploadLoading(false);
-          
-              } catch(e) {
-                console.error(e);
-                Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
-                setUploadLoading(false);
-              }
-          
-              uploadResult = await uploadResult.json();
+              if(mediaForm) {
 
-              console.log(uploadResult);
-          
-              switch(uploadResult.result) {
-                case "FILE_UPLOADED":
-                  setUploadDone(true);
-                  console.log(uploadResult.media_id);
-                  break;
-                default:
+                setUploadLoading(true);
+
+                try {
+                  const url = `${getFullBackendAddress("media")}/upload`;
+                  const tokens = JSON.parse(await AsyncStorage.getItem("tokens"));
+                  uploadResult = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                      "Authorization": tokens && tokens.access ? tokens.access : ""
+                    },
+                    body: mediaForm
+                  });
+            
+                  setUploadLoading(false);
+            
+                } catch(e) {
+                  console.error(e);
                   Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
-                  break;
+                  setUploadLoading(false);
+                }
+            
+                uploadResult = await uploadResult.json();
+
+                console.log(uploadResult);
+            
+                switch(uploadResult.result) {
+                  case "FILE_UPLOADED":
+                    setUploadDone(true);
+                    console.log(uploadResult.media_id);
+                    break;
+                  default:
+                    Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
+                    break;
+                }
               }
 
-              createPost({
-                variables: {
-                  text,
-                  media_id: uploadResult.media_id,
-                  original_post_id: props.route.params && props.route.params.original_post ? JSON.parse(props.route.params.original_post)._id : null 
-                } 
+              console.log("test");
+
+              const vars = {
+                text,
+                media_id: uploadResult && uploadResult.media_id ? uploadResult.media_id : null,
+                original_post_id: props.route.params && props.route.params.original_post ? JSON.parse(props.route.params.original_post)._id : null
+              }
+
+              console.log(vars);
+
+              await createPost({
+                variables: vars
               });
             }}
           >

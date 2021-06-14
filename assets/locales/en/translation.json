@@ -66,6 +66,7 @@
           "text": "Write your post here",
           "replying_to": "Replying to...",
           "post_btn": "Post",
+          "clear_btn": "Clear",
           "upload_btn": "Upload image",
           "change_upload": "Change image",
           "image_uploaded": "Image uploaded.",

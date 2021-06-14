@@ -11,6 +11,7 @@ export default queries = {
 				email
 				username
 				profile_type
+				profile_privacy_type
 				profile_pic {
 					_id
 				}
@@ -30,6 +31,10 @@ export default queries = {
 				email
 				username
 				profile_type
+				profile_privacy_type
+				profile_pic {
+					_id
+				}
 				permissions {
 					collect_usage_data
 				}

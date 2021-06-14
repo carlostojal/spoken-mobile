@@ -46,6 +46,7 @@ export default async function saveUserData () {
   }
 
   if(data && data.data && data.data.getUserData) {
+    console.log(data);
     try {
       await AsyncStorage.setItem("user_data", JSON.stringify(data.data.getUserData));
     } catch(e) {

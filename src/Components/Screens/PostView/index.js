@@ -26,7 +26,7 @@ export default function PostView(props) {
       setComments(commentsData.getPostComments);
   }, [commentsData]);
 
-  console.log(comments);
+  console.log(commentsData);
 
   return (
     <>
@@ -37,10 +37,7 @@ export default function PostView(props) {
             ListHeaderComponent={ () => {
               return (
                 <View style={{margin: 15}}>
-                  <Post data={post} />
-                  <CustomText>
-                    { t("screens.post_view.labels.comments") }
-                  </CustomText>
+                  <Post data={post} renderFooter={false} />
                 </View>
               );
             }}
@@ -51,7 +48,7 @@ export default function PostView(props) {
             renderItem={({ item }) => {
               return (
                 <View style={{margin: 15}}>
-                  <Post data={item} />
+                  <Post data={item} renderFooter={false} />
                 </View>
               );
             }}

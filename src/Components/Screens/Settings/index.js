@@ -29,6 +29,7 @@ export default function Settings() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [profilePicId, setProfilePicId] = useState(null);
+	const [profilePrivacyType, setProfilePrivacyType] = useState("public");
 	const [allowDataCollection, setAllowDataCollection] = useState(true);
 
 	const [image, setImage] = useState(null);
@@ -43,10 +44,19 @@ export default function Settings() {
 			setSurname(userData.getUserData.surname);
 			setEmail(userData.getUserData.email);
 			setUsername(userData.getUserData.username);
-			setProfilePicId(userData.getUserData.profile_pic._id);
+			if(userData.getUserData.profile_pic)
+				setProfilePicId(userData.getUserData.profile_pic._id);
+			setProfilePrivacyType(userData.getUserData.profile_privacy_type);
 			setAllowDataCollection(userData.getUserData.permissions.collect_usage_data);
 		}
 	}, [userData]);
+
+	useEffect(() => {
+		if(userDataError) {
+			console.log(userDataError);
+			Alert.alert(t("strings.error"), t("errors.generic"));
+		}
+	}, [userDataError]);
 
 	useEffect(() => {
 
@@ -68,13 +78,15 @@ export default function Settings() {
 	useEffect(() => {
 		
 		if(editUserData && editUserData.editUser)
-			Alert.alert(t("string.success"));
+			Alert.alert(t("strings.success"));
 
 	}, [editUserData]);
 
 	const onSave = async () => {
 
 		setImgUploadLoading(true);
+
+		let pic_id = profilePicId;
 
 		let uploadResult = null;
 
@@ -104,6 +116,7 @@ export default function Settings() {
 		switch(uploadResult.result) {
 			case "FILE_UPLOADED":
 				setImgUploadLoading(false);
+				pic_id = uploadResult.media_id;
 				setProfilePicId(uploadResult.media_id);
 				break;
 			default:
@@ -111,16 +124,19 @@ export default function Settings() {
 				return;
 		}
 
+		const vars = {
+			name,
+			surname,
+			email,
+			username,
+			password,
+			profile_pic: pic_id,
+			profile_privacy_type: profilePrivacyType,
+			collect_usage_data: allowDataCollection
+		};
+
 		await editUser({
-			variables: {
-				name,
-				surname,
-				email,
-				username,
-				password,
-				profile_pic: profilePicId,
-				collect_usage_data: allowDataCollection
-			}
+			variables: vars
 		});
 	};
 
@@ -170,40 +186,35 @@ export default function Settings() {
 				<CustomText>
 					{ t("screens.settings.labels.name") }
 				</CustomText>
-				<CustomTextField onChangeText={(text) => setName(text)}>
-					{ name }
+				<CustomTextField onChangeText={(text) => setName(text)} value={name}>
 				</CustomTextField>
 			</View>
 			<View style={styles.area}>
 				<CustomText>
 					{ t("screens.settings.labels.surname") }
 				</CustomText>
-				<CustomTextField onChangeText={(text) => setSurname(text)}>
-					{ surname }
+				<CustomTextField onChangeText={(text) => setSurname(text)} value={surname}>
 				</CustomTextField>
 			</View>
 			<View style={styles.area}>
 				<CustomText>
 					{ t("screens.settings.labels.email") }
 				</CustomText>
-				<CustomTextField onChangeText={(text) => setEmail(text)}>
-					{ email }
+				<CustomTextField onChangeText={(text) => setEmail(text)} value={email}>
 				</CustomTextField>
 			</View>
 			<View style={styles.area}>
 				<CustomText>
 					{ t("screens.settings.labels.username") }
 				</CustomText>
-				<CustomTextField onChangeText={(text) => setUsername(text)}>
-					{ username }
+				<CustomTextField onChangeText={(text) => setUsername(text)} value={username}>
 				</CustomTextField>
 			</View>
 			<View style={styles.area}>
 				<CustomText>
 					{ t("screens.settings.labels.password") }
 				</CustomText>
-				<CustomTextField onChangeText={(text) => setPassword(text)}>
-					{ password }
+				<CustomTextField onChangeText={(text) => setPassword(text)} value={password}>
 				</CustomTextField>
 			</View>
 			<View style={styles.area}>
@@ -250,6 +261,14 @@ export default function Settings() {
 						</View>
 					);
 				})}
+			</View>
+			<View style={styles.area}>
+				<CustomButton onPress={async () => {
+					await AsyncStorage.removeItem("user_data");
+					await AsyncStorage.removeItem("tokens");
+				}}>
+					{ t("screens.settings.labels.end_session") }
+				</CustomButton>
 			</View>
     </ScrollView>
   );
