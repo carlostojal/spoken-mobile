@@ -113,17 +113,22 @@ export default function Post(props) {
       const allowed = currentUser.permissions.collect_usage_data;
 
       if(allowed) {
+
+        vars.user_platform = `${Device.manufacturer} ${Device.modelName}`;
+        vars.user_os = Device.osName;
         
-        const { status } = await Location.getPermissionsAsync();
+        try {
+          const { status } = await Location.getPermissionsAsync();
 
-        if(status == "granted") {
+          if(status == "granted") {
 
-          const location = await Location.getCurrentPositionAsync();
+            const location = await Location.getCurrentPositionAsync();
 
-          vars.user_lat = location.coords.latitude;
-          vars.user_long = location.coords.longitude;
-          vars.user_platform = `${Device.manufacturer} ${Device.modelName}`;
-          vars.user_os = Device.osName;
+            vars.user_lat = location.coords.latitude;
+            vars.user_long = location.coords.longitude;
+          }
+        } catch(e) {
+
         }
       }
 
@@ -187,11 +192,15 @@ export default function Post(props) {
             data.user_os = Device.osName;
             data.view_time = (Date.now() - viewStartTime) / 1000;
 
-            const { status } = await Location.requestPermissionsAsync();
-            if(status == "granted") {
-              const location = await Location.getCurrentPositionAsync();
-              data.user_lat = location.coords.latitude;
-              data.user_long = location.coords.longitude;
+            try {
+              const { status } = await Location.requestPermissionsAsync();
+              if(status == "granted") {
+                const location = await Location.getCurrentPositionAsync();
+                data.user_lat = location.coords.latitude;
+                data.user_long = location.coords.longitude;
+              }
+            } catch(e) {
+
             }
           }
 
