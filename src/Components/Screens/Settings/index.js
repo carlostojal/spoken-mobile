@@ -3,6 +3,7 @@ import { ScrollView, View, Switch, Alert } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { useQuery, useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
+import { Picker } from "@react-native-picker/picker";
 import Header from "../../Misc/Header";
 import CustomText from "../../Misc/CustomText";
 import CustomTextField from "../../Misc/CustomTextField";
@@ -84,44 +85,47 @@ export default function Settings() {
 
 	const onSave = async () => {
 
-		setImgUploadLoading(true);
-
 		let pic_id = profilePicId;
 
 		let uploadResult = null;
 
-		try {
-			const url = `${getFullBackendAddress("media")}/upload`;
-			const tokens = JSON.parse(await AsyncStorage.getItem("tokens"));
-			uploadResult = await fetch(url, {
-				method: "POST",
-				headers: {
-					"Content-Type": "multipart/form-data",
-					"Authorization": tokens && tokens.access ? tokens.access : ""
-				},
-				body: imageForm
-			});
+		if(imageForm) {
 
-			setImgUploadLoading(false);
+			setImgUploadLoading(true);
 
-		} catch(e) {
-			console.error(e);
-			Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
-			setImgUploadLoading(false);
-			return;
-		}
+			try {
+				const url = `${getFullBackendAddress("media")}/upload`;
+				const tokens = JSON.parse(await AsyncStorage.getItem("tokens"));
+				uploadResult = await fetch(url, {
+					method: "POST",
+					headers: {
+						"Content-Type": "multipart/form-data",
+						"Authorization": tokens && tokens.access ? tokens.access : ""
+					},
+					body: imageForm
+				});
 
-		uploadResult = await uploadResult.json();
-
-		switch(uploadResult.result) {
-			case "FILE_UPLOADED":
 				setImgUploadLoading(false);
-				pic_id = uploadResult.media_id;
-				setProfilePicId(uploadResult.media_id);
-				break;
-			default:
+
+			} catch(e) {
+				console.error(e);
 				Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
+				setImgUploadLoading(false);
 				return;
+			}
+
+			uploadResult = await uploadResult.json();
+
+			switch(uploadResult.result) {
+				case "FILE_UPLOADED":
+					setImgUploadLoading(false);
+					pic_id = uploadResult.media_id;
+					setProfilePicId(uploadResult.media_id);
+					break;
+				default:
+					Alert.alert(t("strings.error"), t("errors.error_uploading_media"));
+					return;
+			}
 		}
 
 		const vars = {
@@ -216,6 +220,18 @@ export default function Settings() {
 				</CustomText>
 				<CustomTextField onChangeText={(text) => setPassword(text)} value={password}>
 				</CustomTextField>
+			</View>
+			<View style={styles.area}>
+				<Picker
+					selectedValue={profilePrivacyType}
+					onValueChange={(value, index) => {
+						setProfilePrivacyType(value);
+					}}
+					style={{color: "white"}}
+				>
+					<Picker.Item label={t("screens.settings.labels.public")} value="public" />
+					<Picker.Item label={t("screens.settings.labels.private")} value="private" />
+				</Picker>
 			</View>
 			<View style={styles.area}>
 				<CustomText>

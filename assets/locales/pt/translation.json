@@ -122,6 +122,8 @@
           "profile_pic": "Foto de perfil",
           "pick_image": "Selecionar foto",
           "profile_privacy_type": "Privacidade do Perfil",
+          "public": "Público",
+          "private": "Privado",
           "allow_data_collection": "Permitir recolha de dados",
           "save": "Guardar",
           "sessions": "Sessões",
